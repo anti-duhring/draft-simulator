@@ -1,12 +1,12 @@
 import './App.css';
 import Body from './components/Body'
-import DraftOrder from './components/DraftOrder';
+import DraftOrderContainer from './components/DraftOrder/DraftOrderContainer';
 
 function App() {
   return (
     <div className="App">
       <Body>
-        <DraftOrder />
+        <DraftOrderContainer />
       </Body>
     </div>
   );
