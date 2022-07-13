@@ -4,6 +4,7 @@ import {CSS} from '@dnd-kit/utilities';
 import './style.css'
 import teams from '../../../data/NFL_teams.json'
 import styled from 'styled-components';
+import { isMobile } from 'react-device-detect';
 
 const SortableItem = (props) => {
   const logo = teams.filter(team => team.team_abbr == props.team.abbreviation)[0]?.team_logo_espn;
@@ -22,7 +23,9 @@ const SortableItem = (props) => {
     transition,
     zIndex: isDragging ? "100" : "auto",
     boxShadow: (props.selectedTeams.indexOf(props.id)!=-1) ? '0 0 0 1px #9d4f0c' : 'none',
-    border: (props.selectedTeams.indexOf(props.id)!=-1) ?'1px solid #f65e1b' : '1px solid #dce0e5'
+    border: (props.selectedTeams.indexOf(props.id)!=-1) ?'1px solid #f65e1b' : '1px solid #dce0e5',
+    width: isMobile ? 'auto' : '200px',
+    height: isMobile ? 'auto' : '50px',
   };
   
   const selectThisTeam = () => {
@@ -31,6 +34,7 @@ const SortableItem = (props) => {
       array.push(props.id)
     } else {
       array = array.filter(item => item != props.id);
+      props.setCheckbox(false);
     }
     setPressadle(pressadle + 1);
     props.setSelectedTeams(array);
@@ -43,12 +47,13 @@ const SortableItem = (props) => {
           {props.index + 1}
         </NumberPick>
         <NameTeam>
-          {props.team.nickname}
+          {isMobile ? /*props.team.abbreviation*/ null : props.team.nickname}
+          {isMobile ? <Logo src={logo} style={{width:'1rem',height:'1rem'}} /> : null}
         </NameTeam>
       </FlexDiv>
       
     <DragHandler>
-      <Logo src={logo} />
+      {!isMobile && <Logo src={logo} />}
       <button className='btt-drag-handler' style={{cursor: isDragging ? 'grabbing' : "grab"}} {...listeners} {...attributes}>
       <svg viewBox="0 0 20 20" className='svg-drag-handler' width="20">
         <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path></svg>
@@ -77,17 +82,18 @@ const FlexDiv = styled.div`
 `
 
 const Logo = styled.img`
-    width: 2rem;
-    height: 2rem;
+  width: 2rem;
+  height: 2rem;
 `
 
 const NameTeam = styled.div`
   font-size: .75rem;
   color:#7b8187;
+  display: flex;
 `
 
 const NumberPick = styled.div`
-  font-size: 1.25rem;
+  font-size: ${isMobile ? '1rem' : '1.25rem'};
   color:#393c40;
   font-weight: bold;
 `

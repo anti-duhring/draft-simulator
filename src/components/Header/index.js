@@ -5,7 +5,7 @@ const Header = () => {
     return (
         <HeaderWrap className="header">
             <Logo src="https://ontheclock.com.br/novo/wp-content/uploads/2019/08/LOGO-ON-THE-CLOCK.png" alt="On The Clock" />
-            <Navbar>
+            <Navbar className="navbar">
             <div class="mobile-toggle-holder">
                         <div class="mobile-toggle">
                             <span></span>
@@ -68,4 +68,5 @@ const Navbar = styled.div`
     align-items: center;
     padding-top: 5px;
     padding-bottom: 5px;
+    margin-bottom: 10px;
 `
