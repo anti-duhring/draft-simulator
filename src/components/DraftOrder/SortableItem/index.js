@@ -3,7 +3,7 @@ import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import './style.css'
 import teams from '../../../data/NFL_teams.json'
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { isMobile } from 'react-device-detect';
 
 const SortableItem = (props) => {
@@ -41,7 +41,7 @@ const SortableItem = (props) => {
   }
 
   return (
-    <Sortable ref={setNodeRef} className='team-item' style={style} onClick={selectThisTeam}>
+    <Sortable ref={setNodeRef} className='team-item' style={style} onClick={selectThisTeam} isMobile={isMobile}>
       <FlexDiv>
         <NumberPick>
           {props.index + 1}
@@ -99,11 +99,17 @@ const NumberPick = styled.div`
   font-weight: bold;
 `
 
-const Sortable = styled.div`
-  &:hover {
-    border: 1px solid ${isMobile ? '#dce0e5' : '#f65e1b'}!important;
-  }
+const Sortable = styled.div((props) => css`
   &:hover .btt-drag-handler svg {
     fill: #f65e1b;
   }
-`
+  &:hover {
+    ${!props.isMobile &&
+      css`
+        
+          border: 1px solid #f65e1b!important;
+        
+      `
+    }
+  }
+`)
