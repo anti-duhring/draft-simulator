@@ -7,9 +7,9 @@
     cursor: pointer;
 }
 
-.team-item:hover {
+/*.team-item:hover {
     border: 1px solid #f65e1b!important;
-}
+}*/
 .svg-drag-handler {
     flex: 0 0 auto;
     margin: auto;
