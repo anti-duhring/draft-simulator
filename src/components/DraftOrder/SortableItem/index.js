@@ -8,7 +8,7 @@ import { isMobile } from 'react-device-detect';
 
 const SortableItem = (props) => {
   const logo = teams.filter(team => team.team_abbr == props.team.abbreviation)[0]?.team_logo_espn;
-  const [pressadle, setPressadle] = useState(0)
+  const [pressadle, setPressadle] = useState(0);
   const {
     attributes,
     listeners,
@@ -31,13 +31,14 @@ const SortableItem = (props) => {
   const selectThisTeam = () => {
     let array = props.selectedTeams;
     if(array.indexOf(props.id)==-1) {
-      array.push(props.id)
+      props.setSelectedTeams(prevTeams => ([...prevTeams,props.id]));
     } else {
       array = array.filter(item => item != props.id);
       props.setCheckbox(false);
+      props.setSelectedTeams(array);
     }
     setPressadle(pressadle + 1);
-    props.setSelectedTeams(array);
+    //props.setSelectedTeams(array);
   }
 
   return (

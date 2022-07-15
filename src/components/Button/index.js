@@ -1,14 +1,15 @@
-import styled from "styled-components"
+import styled, {css} from "styled-components"
+import {BORDER_GRAY} from '../../constants/Colors'
 
 const Button = (props) => {
     return (
-        <Btn onClick={props.onClick}>{props.children}</Btn>
+        <Btn onClick={props.disabled ? null : props.onClick} style={props.style} disabled={props.disabled}>{props.children}</Btn>
     )
 }
 
 export default Button
 
-const Btn = styled.button`
+const Btn = styled.button((props) => css`
     display: inline-block;
     align-items: center;
     justify-content: center;
@@ -16,7 +17,7 @@ const Btn = styled.button`
     text-transform: uppercase;
     height: 40px;
     line-height: 40px;
-    background: #0a0a0a;
+    background: ${props.disabled ? BORDER_GRAY : `#0a0a0a` };
     color: #fff;
     padding: 0 25px;
     max-width: 100%;
@@ -32,6 +33,6 @@ const Btn = styled.button`
     -webkit-appearance: none;
     transition: .3s;
     &:hover {
-      background-color: #f65e1b;
+      background-color: ${props.disabled ? BORDER_GRAY : `#f65e1b` } ;
     }
-`
+`)

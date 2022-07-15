@@ -1,25 +1,27 @@
-import { useState } from "react"
+import { createRef, useState, useRef } from "react"
 import styled, { css } from "styled-components"
 import { BLACK, BORDER_GRAY, GRAY, ORANGE } from "../../../constants/Colors"
 import teams from '../../../data/NFL_teams.json'
 import './style.css'
 
 const DraftList = (props) => {
-    const [currentPick, setCurrentPick] = useState(1);
+    
 
     const PickItem = ({team, pick}) => {
         const currentTeam = teams.filter(item => item.team_abbr == team.abbreviation)[0];
 
         return (
-            <PickItemContainer otc={currentPick==pick}>
+            <PickItemContainer className={`pick-${pick}`} otc={props.currentPick==pick}>
                 <Pick>
                     <span className="pick-legend">Pick</span>
                     <span className="pick-number">{pick}</span>
                 </Pick>
                 <Team>
                     <Logo src={currentTeam.team_logo_espn} />
-                    <Status className="pick-status" otc={currentPick==pick}>
-                    {currentPick==pick ? 'On the clock' : 'Aguardando'}
+                    <Status className="pick-status" otc={props.currentPick==pick}>
+                    {props.currentPick==pick ? 'On the clock' : 'Aguardando'}
+                    {props.myTeams.indexOf(team.id) != -1 && '(Sua pick!)'}
+                    {props.currentPick > pick && 'Pick feita'}
                     </Status>
                 </Team>
             </PickItemContainer>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   DndContext, 
   closestCenter,
@@ -79,14 +79,22 @@ const DraftOrderContainer = (props) => {
       {
         teams.map((team,index) => {
           return (
-            <SortableItem key={team.franchise_id} id={team.franchise_id} team={team} index={index} selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} setCheckbox={setCheckbox} />
+            <SortableItem 
+              key={team.franchise_id} 
+              id={team.franchise_id} 
+              team={team} 
+              index={index} 
+              selectedTeams={selectedTeams} 
+              setSelectedTeams={setSelectedTeams} 
+              setCheckbox={setCheckbox} 
+            />
           )
         })
       }
       </Grid>
     </SortableContext>
   </DndContext>
-      <FormFooter handleSubmit={handleDraftOrder} />
+      <FormFooter myTeams={selectedTeams} handleSubmit={handleDraftOrder} />
   </Container>
 )}
 

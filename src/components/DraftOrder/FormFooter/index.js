@@ -1,7 +1,9 @@
+import { useState, useEffect } from "react"
 import styled from "styled-components"
 import Button from "../../Button"
 
 const FormFooter = (props) => {
+
     return (
         <Container>
         <LegendFooter>
@@ -11,7 +13,7 @@ const FormFooter = (props) => {
           </SVG>
           para arrastar
         </LegendFooter>
-        <Button onClick={props.handleSubmit}>Começar Draft</Button>
+        <Button onClick={props.handleSubmit} disabled={props.myTeams.length > 0 ? false : true}>Começar Draft</Button>
       </Container>
     )
 }
