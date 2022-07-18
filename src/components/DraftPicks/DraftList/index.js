@@ -3,6 +3,7 @@ import styled, { css } from "styled-components"
 import { BLACK, BORDER_GRAY, GRAY, ORANGE } from "../../../constants/Colors"
 import teams from '../../../data/NFL_teams.json'
 import './style.css'
+import { isMobile } from "react-device-detect"
 
 const DraftList = (props) => {
     
@@ -44,7 +45,9 @@ const DraftList = (props) => {
 export default DraftList;
 
 const Container = styled.div`
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 const PickItemContainer = styled.div((props) => css`
@@ -59,6 +62,7 @@ const PickItemContainer = styled.div((props) => css`
     margin-bottom: .5rem;
     margin-left: .5rem;
     margin-right: .5rem;
+    width: ${isMobile ? '95%' : '50rem'};
 `)
 const Status = styled.span((props) => css`
     margin-left: .5rem;

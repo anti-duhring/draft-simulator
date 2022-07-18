@@ -28,6 +28,12 @@ const DraftMenu = (props) => {
               });
 
         }
+        else if(!MyNextPick) {
+            props.setCurrentPick(32);
+            document.querySelector(`.pick-32`).scrollIntoView({
+                behavior: 'smooth'
+              });
+        }
     }
 
     return (
@@ -54,7 +60,13 @@ const Container = styled.div`
     flex-direction: column;
     row-gap: .5rem;
 `
-const styleButton = {width:'3rem',height:'3rem',borderRadius:'3rem',padding:0,display: 'flex',
-alignContent: 'center',
-justifyContent: 'center',
-alignItems: 'center'}
+const styleButton = {
+    width:'3rem',
+    height:'3rem',
+    borderRadius:'3rem',
+    padding:0,
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+}

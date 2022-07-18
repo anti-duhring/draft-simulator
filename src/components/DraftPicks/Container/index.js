@@ -3,6 +3,7 @@ import Button from "../../Button"
 import styled from "styled-components";
 import DraftList from "../DraftList";
 import DraftMenu from "../DraftMenu";
+import TradePickScreenMobile from "../TradePickScreen";
 
 const DraftPicksContainer = (props) => {
     const [currentPick, setCurrentPick] = useState(1);
@@ -30,6 +31,12 @@ const DraftPicksContainer = (props) => {
                     setCurrentPick={setCurrentPick} 
                 />
             </Sticky>
+            <TradePickScreenMobile
+                currentPick={currentPick} 
+                setCurrentPick={setCurrentPick} 
+                draftOrder={props.draftOrder}
+                myTeams={props.myTeams} 
+            />
         </Container>
     )
 }
@@ -38,9 +45,10 @@ export default DraftPicksContainer;
 
 const Container = styled.div`
     width: 100%;
+    padding-bottom: 4rem;
 `
 const Sticky = styled.div`
     position: fixed;
-    bottom: .5rem;
+    bottom: 3rem;
     right: 1rem;
 `
