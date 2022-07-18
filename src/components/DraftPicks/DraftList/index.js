@@ -2,14 +2,16 @@ import { createRef, useState, useRef } from "react"
 import styled, { css } from "styled-components"
 import { BLACK, BORDER_GRAY, GRAY, ORANGE } from "../../../constants/Colors"
 import teams from '../../../data/NFL_teams.json'
+import data from '../../../data/players.json'
 import './style.css'
 import { isMobile } from "react-device-detect"
 
 const DraftList = (props) => {
     
 
-    const PickItem = ({team, pick}) => {
+    const PickItem = ({team, pick, index}) => {
         const currentTeam = teams.filter(item => item.team_abbr == team.abbreviation)[0];
+        const playerPick = props.currentPick > pick ? data.players.filter(item => item.id == props.picksPlayers[index])[0] : null;
 
         return (
             <PickItemContainer className={`pick-${pick}`} otc={props.currentPick==pick}>
@@ -22,7 +24,7 @@ const DraftList = (props) => {
                     <Status className="pick-status" otc={props.currentPick==pick}>
                     {props.currentPick==pick ? 'On the clock' : 'Aguardando'}
                     {props.myTeams.indexOf(team.id) != -1 && '(Sua pick!)'}
-                    {props.currentPick > pick && 'Pick feita'}
+                    {props.currentPick > pick && playerPick?.name}
                     </Status>
                 </Team>
             </PickItemContainer>
@@ -34,7 +36,7 @@ const DraftList = (props) => {
             {props.draftOrder &&
                 props.draftOrder.map((team, index) => {
                     return (
-                        <PickItem key={index} team={team} pick={index+1} />
+                        <PickItem key={index} team={team} pick={index+1} index={index} />
                     )
                 })
             }

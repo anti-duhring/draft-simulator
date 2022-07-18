@@ -42,10 +42,10 @@ const DraftMenu = (props) => {
             <Button style={styleButton}>
                 <GoSync />
             </Button>
-            <Button onClick={handleNextPick} style={styleButton}>
+            <Button onClick={props.handleNextPick} style={styleButton}>
                 <GoChevronRight />
             </Button>
-            <Button onClick={handleMyNextPick} style={styleButton}>
+            <Button onClick={props.handleMyNextPick} style={styleButton}>
                 <GoChevronDown />
             </Button>
             </IconContext.Provider>

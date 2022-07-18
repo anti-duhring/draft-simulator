@@ -2,9 +2,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import { IconContext } from "react-icons/lib";
 import { GoChevronUp, GoChevronDown } from 'react-icons/go'
+import PicksTab from "../PicksTab";
 
 const TradePickScreenMobile = (props) => {
-    const [showScreen, setShowScreen] = useState(false);
     const MyPicks = props.draftOrder.map((team, index) => { 
         if(props.myTeams.indexOf(team.id) != -1) {
             return index + 1
@@ -12,6 +12,9 @@ const TradePickScreenMobile = (props) => {
         return null
     }).filter(team => team != null);
     const isMyPick = MyPicks.indexOf(props.currentPick)!= -1;
+
+    const [showScreen, setShowScreen] = useState(false);
+    const [tab, setTab] = useState(isMyPick ? 'pick' : 'trade')
 
     const toggleShowScreen = () => {
         setShowScreen(showScreen ? false : true);
@@ -25,7 +28,7 @@ const TradePickScreenMobile = (props) => {
                 </IconContext.Provider>   
             </TitleTab>
             <ContentTab style={{display:showScreen ? 'flex' : 'none'}}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pretium, felis sed commodo pellentesque, felis purus congue justo, in mattis nulla enim nec ante. Nunc volutpat, sapien vel molestie varius, massa ipsum congue nunc, at fermentum libero elit quis metus. Donec cursus scelerisque elit, rhoncus facilisis purus mattis in. Mauris et viverra erat, non condimentum felis. Aliquam venenatis accumsan libero, eu rutrum ex molestie in. Donec tempus, est eget malesuada condimentum, enim odio iaculis ipsum, id accumsan dui tellus a nisl. Nullam vitae augue aliquet, mattis lorem eget, vulputate eros.
+                <PicksTab />
             </ContentTab>
         </Container>
      );
