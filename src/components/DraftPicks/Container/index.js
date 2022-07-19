@@ -9,8 +9,16 @@ import data from '../../../data/players.json'
 //console.log(data.players.map(item => item.id));
 
 const DraftPicksContainer = (props) => {
+    data.players.sort((a, b) => a.pff_rank - b.pff_rank);
     const [currentPick, setCurrentPick] = useState(1);
-    const [picksPlayers, setPicksPlayers] = useState(null)
+    const [picksPlayers, setPicksPlayers] = useState(null);
+    const MyPicks = props.draftOrder.map((team, index) => { 
+        if(props.myTeams.indexOf(team.id) != -1) {
+            return index + 1
+        }
+        return null
+    }).filter(team => team != null);
+
     const backToDraftOrder = () => {
         props.setStep('order');
     }
@@ -49,10 +57,10 @@ const DraftPicksContainer = (props) => {
             }
             setPicksPlayers(prevPicks => ([...prevPicks,...newPlayers]));
 
-            setCurrentPick(MyNextPick);
             document.querySelector(`.pick-${MyNextPick}`).scrollIntoView({
                 behavior: 'smooth'
             });
+            setCurrentPick(MyNextPick);
 
         }
         else if(!MyNextPick) {
@@ -65,10 +73,11 @@ const DraftPicksContainer = (props) => {
             }
             setPicksPlayers(prevPicks => ([...prevPicks,...newPlayers]));
 
-            setCurrentPick(33);
             document.querySelector(`.pick-32`).scrollIntoView({
                 behavior: 'smooth'
-              });
+            });
+            setCurrentPick(33);
+
         }
     }
 
@@ -91,7 +100,8 @@ const DraftPicksContainer = (props) => {
                    /* myTeams={props.myTeams} 
                     draftOrder={props.draftOrder} 
                     currentPick={currentPick} 
-                    setCurrentPick={setCurrentPick}*/ 
+                    setCurrentPick={setCurrentPick}*/
+                    disabled={MyPicks.indexOf(currentPick)!= -1}
                     handleNextPick={handleNextPick}
                     handleMyNextPick={handleMyNextPick}
                 />

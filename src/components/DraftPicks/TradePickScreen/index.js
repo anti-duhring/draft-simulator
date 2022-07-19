@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { IconContext } from "react-icons/lib";
 import { GoChevronUp, GoChevronDown } from 'react-icons/go'
-import PicksTab from "../PicksTab";
+import PicksAvaliable from "../PicksAvaliable";
 
 const TradePickScreenMobile = (props) => {
     const MyPicks = props.draftOrder.map((team, index) => { 
@@ -28,9 +28,12 @@ const TradePickScreenMobile = (props) => {
             </TitleTab>
             <ContentTab style={{display:showScreen ? 'flex' : 'none'}}>
                 {isMyPick ? 
-                    <PicksTab 
+                    <PicksAvaliable 
                         picksPlayers={props.picksPlayers}
                         setPicksPlayers={props.setPicksPlayers}
+                        currentPick={props.currentPick} 
+                        setCurrentPick={props.setCurrentPick} 
+                        setShowScreen={setShowScreen}
                     /> 
                 : 'trade'}
             </ContentTab>
@@ -57,4 +60,6 @@ const TitleTab = styled.div`
 const ContentTab = styled.div`
     background-color: white;
     height: 90vh;
+    padding: .2rem;
+    overflow: auto;
 `

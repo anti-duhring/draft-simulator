@@ -8,13 +8,10 @@ const DraftMenu = (props) => {
     return (
         <Container>
             <IconContext.Provider value={{color: 'white',size:'2rem',style: { verticalAlign: 'middle' }}}>
-            <Button style={styleButton}>
-                <GoSync />
-            </Button>
-            <Button onClick={props.handleNextPick} style={styleButton}>
+            <Button disabled={props.disabled} onClick={props.handleNextPick} style={styleButton}>
                 <GoChevronRight />
             </Button>
-            <Button onClick={props.handleMyNextPick} style={styleButton}>
+            <Button disabled={props.disabled} onClick={props.handleMyNextPick} style={styleButton}>
                 <GoChevronDown />
             </Button>
             </IconContext.Provider>
@@ -37,5 +34,5 @@ const styleButton = {
     display: 'flex',
     alignContent: 'center',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
 }

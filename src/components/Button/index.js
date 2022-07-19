@@ -3,7 +3,7 @@ import {BORDER_GRAY} from '../../constants/Colors'
 
 const Button = (props) => {
     return (
-        <Btn onClick={props.disabled ? null : props.onClick} style={props.style} disabled={props.disabled}>{props.children}</Btn>
+        <Btn onClick={props.disabled ? null : props.onClick} style={props.style} dsabled={props.disabled}>{props.children}</Btn>
     )
 }
 
@@ -17,7 +17,7 @@ const Btn = styled.button((props) => css`
     text-transform: uppercase;
     height: 40px;
     line-height: 40px;
-    background: ${props.disabled ? BORDER_GRAY : `#0a0a0a` };
+    background: #0a0a0a;
     color: #fff;
     padding: 0 25px;
     max-width: 100%;
@@ -32,7 +32,8 @@ const Btn = styled.button((props) => css`
     -moz-appearance: none;
     -webkit-appearance: none;
     transition: .3s;
+    opacity: ${props.dsabled ? 0.2 : 1};
     &:hover {
-      background-color: ${props.disabled ? BORDER_GRAY : `#f65e1b` } ;
+      background-color: ${props.dsabled ? `#0a0a0a` : `#f65e1b` } ;
     }
 `)
