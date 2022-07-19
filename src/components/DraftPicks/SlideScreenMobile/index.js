@@ -65,6 +65,7 @@ const TitleTab = styled.div`
     justify-content: center;
     align-items: center;
     z-index: 999;
+    cursor: pointer;
 `
 const ContentTab = styled.div`
     background-color: white;
