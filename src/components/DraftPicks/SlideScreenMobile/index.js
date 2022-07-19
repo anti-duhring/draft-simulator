@@ -4,7 +4,7 @@ import { IconContext } from "react-icons/lib";
 import { GoChevronUp, GoChevronDown } from 'react-icons/go'
 import PicksAvaliable from "../PicksAvaliable";
 
-const TradePickScreenMobile = (props) => {
+const SlideScreenMobile = (props) => {
     const MyPicks = props.draftOrder.map((team, index) => { 
         if(props.myTeams.indexOf(team.id) != -1) {
             return index + 1
@@ -30,10 +30,11 @@ const TradePickScreenMobile = (props) => {
                 {isMyPick ? 
                     <PicksAvaliable 
                         picksPlayers={props.picksPlayers}
-                        setPicksPlayers={props.setPicksPlayers}
-                        currentPick={props.currentPick} 
-                        setCurrentPick={props.setCurrentPick} 
-                        setShowScreen={setShowScreen}
+                        //setPicksPlayers={props.setPicksPlayers}
+                        //currentPick={props.currentPick} 
+                        //setCurrentPick={props.setCurrentPick} 
+                        toggleShowScreen={toggleShowScreen}
+                        handleDraftPlayer={props.handleDraftPlayer}
                     /> 
                 : 'trade'}
             </ContentTab>
@@ -41,7 +42,7 @@ const TradePickScreenMobile = (props) => {
      );
 }
  
-export default TradePickScreenMobile;
+export default SlideScreenMobile;
 
 const Container = styled.div`
     position: fixed;
@@ -56,10 +57,11 @@ const TitleTab = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 999;
 `
 const ContentTab = styled.div`
     background-color: white;
-    height: 90vh;
-    padding: .2rem;
-    overflow: auto;
+    height: 80vh;
+    padding: .5rem;
+    /*overflow: auto;*/
 `

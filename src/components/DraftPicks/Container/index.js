@@ -3,7 +3,7 @@ import Button from "../../Button"
 import styled from "styled-components";
 import DraftList from "../DraftList";
 import DraftMenu from "../DraftMenu";
-import TradePickScreenMobile from "../TradePickScreen";
+import SlideScreenMobile from "../SlideScreenMobile";
 import data from '../../../data/players.json'
 
 //console.log(data.players.map(item => item.id));
@@ -11,7 +11,7 @@ import data from '../../../data/players.json'
 const DraftPicksContainer = (props) => {
     data.players.sort((a, b) => a.pff_rank - b.pff_rank);
     const [currentPick, setCurrentPick] = useState(1);
-    const [picksPlayers, setPicksPlayers] = useState(null);
+    const [picksPlayers, setPicksPlayers] = useState([]);
     const MyPicks = props.draftOrder.map((team, index) => { 
         if(props.myTeams.indexOf(team.id) != -1) {
             return index + 1
@@ -23,12 +23,17 @@ const DraftPicksContainer = (props) => {
         props.setStep('order');
     }
 
+    const handleDraftPlayer = (player) => {
+        setCurrentPick(currentPick + 1);
+        setPicksPlayers(prevPicks => prevPicks ? ([...prevPicks,player.id]) : ([player.id]));
+    }
+
     const handleNextPick = () => {
         if(currentPick > props.draftOrder.length) return
 
         setCurrentPick(currentPick + 1)
 
-        if(!picksPlayers) {
+        if(picksPlayers.length <= 0) {
             setPicksPlayers([data.players[0].id])
         } else {
             const playersAvaliable = data.players.filter(item => picksPlayers.indexOf(item.id)==-1);
@@ -97,22 +102,17 @@ const DraftPicksContainer = (props) => {
             </div>
             <Sticky>
                 <DraftMenu 
-                   /* myTeams={props.myTeams} 
-                    draftOrder={props.draftOrder} 
-                    currentPick={currentPick} 
-                    setCurrentPick={setCurrentPick}*/
                     disabled={MyPicks.indexOf(currentPick)!= -1}
                     handleNextPick={handleNextPick}
                     handleMyNextPick={handleMyNextPick}
                 />
             </Sticky>
-            <TradePickScreenMobile
+            <SlideScreenMobile
                 currentPick={currentPick} 
-                setCurrentPick={setCurrentPick} 
                 draftOrder={props.draftOrder}
                 myTeams={props.myTeams} 
                 picksPlayers={picksPlayers}
-                setPicksPlayers={setPicksPlayers}
+                handleDraftPlayer={handleDraftPlayer}
             />
         </Container>
     )
