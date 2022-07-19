@@ -14,7 +14,7 @@ const DraftList = (props) => {
         const playerPick = props.currentPick > pick ? data.players.filter(item => item.id == props.picksPlayers[index])[0] : null;
 
         return (
-            <PickItemContainer className={`pick-${pick}`} otc={props.currentPick==pick}>
+            <PickItemContainer className={`pick-${pick}`} otc={props.currentPick==pick} isMyPick={props.myTeams.indexOf(team.id) != -1}>
                 <Pick>
                     <span className="pick-legend">Pick</span>
                     <span className="pick-number">{pick}</span>
@@ -22,8 +22,7 @@ const DraftList = (props) => {
                 <Team>
                     <Logo src={currentTeam.team_logo_espn} />
                     <Status className="pick-status" otc={props.currentPick==pick}>
-                    {props.currentPick==pick ? 'On the clock' : 'Aguardando'}
-                    {props.myTeams.indexOf(team.id) != -1 && '(Sua pick!)'}
+                    {props.currentPick==pick ? 'On the clock' : props.currentPick > pick ? null : 'Aguardando'}
                     {props.currentPick > pick && playerPick?.name}
                     </Status>
                 </Team>
@@ -56,6 +55,7 @@ const PickItemContainer = styled.div((props) => css`
     display: flex;
     background-color: white;
     border: 1px solid ${props.otc ? ORANGE : BORDER_GRAY};
+    border-right: ${props.isMyPick ? `7px solid ${ORANGE}` : ''};
     box-shadow: 0 1px 3px rgb(22 24 26 / 10%), 0 5px 10px -3px rgb(22 24 26 / 5%);
     border-radius: 5px;
     height: 3rem;

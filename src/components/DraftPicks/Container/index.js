@@ -16,7 +16,7 @@ const DraftPicksContainer = (props) => {
     }
 
     const handleNextPick = () => {
-        if(currentPick == props.draftOrder.length) return
+        if(currentPick > props.draftOrder.length) return
 
         setCurrentPick(currentPick + 1)
 
@@ -88,10 +88,10 @@ const DraftPicksContainer = (props) => {
             </div>
             <Sticky>
                 <DraftMenu 
-                    myTeams={props.myTeams} 
+                   /* myTeams={props.myTeams} 
                     draftOrder={props.draftOrder} 
                     currentPick={currentPick} 
-                    setCurrentPick={setCurrentPick} 
+                    setCurrentPick={setCurrentPick}*/ 
                     handleNextPick={handleNextPick}
                     handleMyNextPick={handleMyNextPick}
                 />

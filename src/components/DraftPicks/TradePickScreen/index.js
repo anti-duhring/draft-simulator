@@ -14,7 +14,6 @@ const TradePickScreenMobile = (props) => {
     const isMyPick = MyPicks.indexOf(props.currentPick)!= -1;
 
     const [showScreen, setShowScreen] = useState(false);
-    const [tab, setTab] = useState(isMyPick ? 'pick' : 'trade')
 
     const toggleShowScreen = () => {
         setShowScreen(showScreen ? false : true);
@@ -28,7 +27,12 @@ const TradePickScreenMobile = (props) => {
                 </IconContext.Provider>   
             </TitleTab>
             <ContentTab style={{display:showScreen ? 'flex' : 'none'}}>
-                <PicksTab />
+                {isMyPick ? 
+                    <PicksTab 
+                        picksPlayers={props.picksPlayers}
+                        setPicksPlayers={props.setPicksPlayers}
+                    /> 
+                : 'trade'}
             </ContentTab>
         </Container>
      );
