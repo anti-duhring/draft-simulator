@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Select from 'react-select'
 import data from '../../../data/players.json'
 import styled from "styled-components";
@@ -22,19 +22,53 @@ const PicksAvaliable = (props) => {
     data.players.sort((a, b) => a.pff_rank - b.pff_rank);
     const [playersAvaliable, setPlayersAvaliable] = useState(data.players.filter(item => props.picksPlayers.indexOf(item.id)==-1));
     const [searchName, setSearchName] = useState('')
+    const [searchPositions, setSearchPositions] = useState([]);
+    const [render, setRender] = useState(1);
+
+    useEffect(() => {
+        setRender(render + 1)
+    },[props.picksPlayers])
 
     const handleSearchName = (e) => {
         setSearchName(e.target.value);
-        console.log(e.target.value);
+        console.log(searchPositions, searchPositions.length);
 
         if(e.target.value && e.target.value != '') {
             setPlayersAvaliable(data.players.filter(item => {
-                return props.picksPlayers.indexOf(item.id)==-1 && item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1
+                if(searchPositions.length > 0) {
+                    return props.picksPlayers.indexOf(item.id)==-1 && item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 && searchPositions.indexOf(item.position) != -1
+                } else {
+                    return props.picksPlayers.indexOf(item.id)==-1 && item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1
+                }
             }));
         }
         else {
+            setPlayersAvaliable(data.players.filter(item => {
+                if(searchPositions.length > 0) {
+                    return props.picksPlayers.indexOf(item.id)==-1 && searchPositions.indexOf(item.position) != -1
+                } else {
+                    return props.picksPlayers.indexOf(item.id)==-1
+                }
+
+            }));
+        } 
+    }
+
+    const handleSelect = (newValue, actionMeta) => {
+        const selected = [];
+        newValue.map(item => {
+            selected.push(item.value)
+        })
+        setSearchPositions(selected);
+        if(newValue.length > 0) {
+            setPlayersAvaliable(data.players.filter(item => {
+                return props.picksPlayers.indexOf(item.id)==-1 && selected.indexOf(item.position) != -1
+            }));
+        } else {
             setPlayersAvaliable(data.players.filter(item => props.picksPlayers.indexOf(item.id)==-1));
         }
+        console.log(newValue);
+        console.log(actionMeta);
     }
 
     const PlayerItem = ({player}) => {
@@ -47,7 +81,7 @@ const PicksAvaliable = (props) => {
                    Rank <Mark>{player.pff_rank}</Mark>
                 </Rank>
                 <PlayerName>
-                    <Mark>{player.name}</Mark> [{player.position}] - {player.college}
+                    <Mark>{player.name}</Mark> {player.position} - {player.college}
                 </PlayerName>
             </PlayerContainer>
         )
@@ -57,14 +91,11 @@ const PicksAvaliable = (props) => {
         <Container>
             <SearchContainer>
                 <SearchBox>
-                    <label>Posições
-                    <Select isMulti={true} options={options} />
-                    </label>
+
+                    <Select isMulti={true} options={options} onChange={handleSelect} placeholder='Posições' />
                 </SearchBox>
                 <SearchBox>
-                    <label>Pesquisar
-                    <input type="text" onChange={(e) => handleSearchName(e)} value={searchName} name="search" />
-                    </label>
+                    <SearchInput type="text" onChange={(e) => handleSearchName(e)} value={searchName} name="search" placeholder={'Pesquisar'} />
                 </SearchBox>
             </SearchContainer>
             <PlayersList>
@@ -94,7 +125,7 @@ const PlayerContainer = styled.div`
     display: flex;
     background-color: white;
     border: 1px solid ${BORDER_GRAY};
-    box-shadow: 0 1px 3px rgb(22 24 26 / 10%), 0 5px 10px -3px rgb(22 24 26 / 5%);
+    //box-shadow: 0 1px 3px rgb(22 24 26 / 10%), 0 5px 10px -3px rgb(22 24 26 / 5%);
     border-radius: 5px;
     height: 3rem;
     align-items: center;
@@ -103,9 +134,12 @@ const PlayerContainer = styled.div`
 `
 const Rank = styled.div`
     flex: 1;
+    border-right: 1px solid hsl(0, 0%, 80%);
 `
 const PlayerName = styled.div`
-    flex: 3;
+    flex: 4;
+    text-align: left;
+    padding-left: .5rem;
 `
 const Mark = styled.span`
     font-weight: bold;
@@ -114,7 +148,17 @@ const Mark = styled.span`
 const SearchContainer = styled.div`
     margin-bottom: .5rem;
     display: flex;
+    flex-direction: row;
 `
 const SearchBox = styled.div`
     flex: 1;
+`
+const SearchInput = styled.input`
+    border: 1px solid hsl(0, 0%, 80%);
+    border-radius: 4px;
+    outline: none;
+    height: 38px;
+    &::placeholder {
+        text-align: center;
+    }
 `
