@@ -27,6 +27,7 @@ const PicksAvaliable = (props) => {
 
     useEffect(() => {
         setRender(render + 1)
+        setPlayersAvaliable(data.players.filter(item => props.picksPlayers.indexOf(item.id)==-1))
     },[props.picksPlayers])
 
     const handleSearchName = (e) => {
@@ -100,7 +101,6 @@ const PicksAvaliable = (props) => {
             </SearchContainer>
             <PlayersList>
            {
-            playersAvaliable && 
             playersAvaliable.map((player, index) => {
                 return (
                     <PlayerItem player={player} key={index} />
@@ -116,6 +116,7 @@ export default PicksAvaliable;
 
 const Container = styled.div`
     width: 100%;
+    padding: .5rem;
 `
 const PlayersList = styled.div`
     overflow: auto;
