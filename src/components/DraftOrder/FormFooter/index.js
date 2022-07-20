@@ -1,8 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
 import Button from "../../Button"
+import {DraftContext} from '../../../Context/DraftContext'
 
 const FormFooter = (props) => {
+  const { 
+    handleDraftOrder,
+    myTeams,
+    draftOrder
+  } = useContext(DraftContext);
 
     return (
         <Container>
@@ -13,7 +19,7 @@ const FormFooter = (props) => {
           </SVG>
           para arrastar
         </LegendFooter>
-        <Button onClick={props.handleSubmit} disabled={props.myTeams.length > 0 ? false : true}>Começar Draft</Button>
+        <Button onClick={() => handleDraftOrder(draftOrder, myTeams)} disabled={myTeams.length > 0 ? false : true}>Começar Draft</Button>
       </Container>
     )
 }

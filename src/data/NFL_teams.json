@@ -2,7 +2,7 @@
   {
     "team_abbr": "ARI",
     "team_name": "Arizona Cardinals",
-    "team_id": 3800,
+    "team_id": 1,
     "id": 1,
     "team_nick": "Cardinals",
     "team_conf": "NFC",
@@ -20,7 +20,7 @@
   {
     "team_abbr": "ATL",
     "team_name": "Atlanta Falcons",
-    "team_id": "0200",
+    "team_id": 2,
     "id": 2,
     "team_nick": "Falcons",
     "team_conf": "NFC",
@@ -38,7 +38,7 @@
   {
     "team_abbr": "BAL",
     "team_name": "Baltimore Ravens",
-    "team_id": "0325",
+    "team_id": 3,
     "id": 3,
     "team_nick": "Ravens",
     "team_conf": "AFC",
@@ -56,7 +56,7 @@
   {
     "team_abbr": "BUF",
     "team_name": "Buffalo Bills",
-    "team_id": "0610",
+    "team_id": 4,
     "id": 4,
     "team_nick": "Bills",
     "team_conf": "AFC",
@@ -74,7 +74,7 @@
   {
     "team_abbr": "CAR",
     "team_name": "Carolina Panthers",
-    "team_id": "0750",
+    "team_id": 5,
     "id": 5,
     "team_nick": "Panthers",
     "team_conf": "NFC",
@@ -92,7 +92,7 @@
   {
     "team_abbr": "CHI",
     "team_name": "Chicago Bears",
-    "team_id": "0810",
+    "team_id": 6,
     "id": 6,
     "team_nick": "Bears",
     "team_conf": "NFC",
@@ -110,7 +110,7 @@
   {
     "team_abbr": "CIN",
     "team_name": "Cincinnati Bengals",
-    "team_id": "0920",
+    "team_id": 7,
     "id": 7,
     "team_nick": "Bengals",
     "team_conf": "AFC",
@@ -128,7 +128,7 @@
   {
     "team_abbr": "CLE",
     "team_name": "Cleveland Browns",
-    "team_id": 1050,
+    "team_id": 8,
     "id": 8,
     "team_nick": "Browns",
     "team_conf": "AFC",
@@ -146,7 +146,7 @@
   {
     "team_abbr": "DAL",
     "team_name": "Dallas Cowboys",
-    "team_id": 1200,
+    "team_id": 9,
     "id": 9,
     "team_nick": "Cowboys",
     "team_conf": "NFC",
@@ -164,7 +164,7 @@
   {
     "team_abbr": "DEN",
     "team_name": "Denver Broncos",
-    "team_id": 1400,
+    "team_id": 10,
     "id": 10,
     "team_nick": "Broncos",
     "team_conf": "AFC",
@@ -182,7 +182,7 @@
   {
     "team_abbr": "DET",
     "team_name": "Detroit Lions",
-    "team_id": 1540,
+    "team_id": 11,
     "id": 11,
     "team_nick": "Lions",
     "team_conf": "NFC",
@@ -200,7 +200,7 @@
   {
     "team_abbr": "GB",
     "team_name": "Green Bay Packers",
-    "team_id": 1800,
+    "team_id": 12,
     "id": 12,
     "team_nick": "Packers",
     "team_conf": "NFC",
@@ -218,7 +218,7 @@
   {
     "team_abbr": "HOU",
     "team_name": "Houston Texans",
-    "team_id": 2120,
+    "team_id": 13,
     "id": 13,
     "team_nick": "Texans",
     "team_conf": "AFC",
@@ -236,7 +236,7 @@
   {
     "team_abbr": "IND",
     "team_name": "Indianapolis Colts",
-    "team_id": 2200,
+    "team_id": 14,
     "id": 14,
     "team_nick": "Colts",
     "team_conf": "AFC",
@@ -254,7 +254,7 @@
   {
     "team_abbr": "JAX",
     "team_name": "Jacksonville Jaguars",
-    "team_id": 2250,
+    "team_id": 15,
     "id": 15,
     "team_nick": "Jaguars",
     "team_conf": "AFC",
@@ -272,7 +272,7 @@
   {
     "team_abbr": "KC",
     "team_name": "Kansas City Chiefs",
-    "team_id": 2310,
+    "team_id": 16,
     "id": 16,
     "team_nick": "Chiefs",
     "team_conf": "AFC",
@@ -290,7 +290,7 @@
   {
     "team_abbr": "LA",
     "team_name": "Los Angeles Rams",
-    "team_id": 2510,
+    "team_id": 26,
     "id": 17,
     "team_nick": "Rams",
     "team_conf": "NFC",
@@ -308,7 +308,7 @@
   {
     "team_abbr": "LAC",
     "team_name": "Los Angeles Chargers",
-    "team_id": 4400,
+    "team_id": 27,
     "id": 18,
     "team_nick": "Chargers",
     "team_conf": "AFC",
@@ -326,7 +326,7 @@
   {
     "team_abbr": "LV",
     "team_name": "Las Vegas Raiders",
-    "team_id": 2520,
+    "team_id": 23,
     "id": 20,
     "team_nick": "Raiders",
     "team_conf": "AFC",
@@ -344,7 +344,7 @@
   {
     "team_abbr": "MIA",
     "team_name": "Miami Dolphins",
-    "team_id": 2700,
+    "team_id": 17,
     "id": 21,
     "team_nick": "Dolphins",
     "team_conf": "AFC",
@@ -362,7 +362,7 @@
   {
     "team_abbr": "MIN",
     "team_name": "Minnesota Vikings",
-    "team_id": 3000,
+    "team_id": 18,
     "id": 22,
     "team_nick": "Vikings",
     "team_conf": "NFC",
@@ -380,7 +380,7 @@
   {
     "team_abbr": "NE",
     "team_name": "New England Patriots",
-    "team_id": 3200,
+    "team_id": 19,
     "id": 23,
     "team_nick": "Patriots",
     "team_conf": "AFC",
@@ -398,7 +398,7 @@
   {
     "team_abbr": "NO",
     "team_name": "New Orleans Saints",
-    "team_id": 3300,
+    "team_id": 20,
     "id": 24,
     "team_nick": "Saints",
     "team_conf": "NFC",
@@ -416,7 +416,7 @@
   {
     "team_abbr": "NYG",
     "team_name": "New York Giants",
-    "team_id": 3410,
+    "team_id": 21,
     "id": 25,
     "team_nick": "Giants",
     "team_conf": "NFC",
@@ -434,7 +434,7 @@
   {
     "team_abbr": "NYJ",
     "team_name": "New York Jets",
-    "team_id": 3430,
+    "team_id": 22,
     "id": 26,
     "team_nick": "Jets",
     "team_conf": "AFC",
@@ -452,7 +452,7 @@
   {
     "team_abbr": "PHI",
     "team_name": "Philadelphia Eagles",
-    "team_id": 3700,
+    "team_id": 24,
     "id": 28,
     "team_nick": "Eagles",
     "team_conf": "NFC",
@@ -470,7 +470,7 @@
   {
     "team_abbr": "PIT",
     "team_name": "Pittsburgh Steelers",
-    "team_id": 3900,
+    "team_id": 25,
     "id": 29,
     "team_nick": "Steelers",
     "team_conf": "AFC",
@@ -488,7 +488,7 @@
   {
     "team_abbr": "SEA",
     "team_name": "Seattle Seahawks",
-    "team_id": 4600,
+    "team_id": 29,
     "id": 31,
     "team_nick": "Seahawks",
     "team_conf": "NFC",
@@ -506,7 +506,7 @@
   {
     "team_abbr": "SF",
     "team_name": "San Francisco 49ers",
-    "team_id": 4500,
+    "team_id": 28,
     "id": 32,
     "team_nick": "49ers",
     "team_conf": "NFC",
@@ -524,7 +524,7 @@
   {
     "team_abbr": "TB",
     "team_name": "Tampa Bay Buccaneers",
-    "team_id": 4900,
+    "team_id": 30,
     "id": 34,
     "team_nick": "Buccaneers",
     "team_conf": "NFC",
@@ -542,7 +542,7 @@
   {
     "team_abbr": "TEN",
     "team_name": "Tennessee Titans",
-    "team_id": 2100,
+    "team_id": 31,
     "id": 35,
     "team_nick": "Titans",
     "team_conf": "AFC",
@@ -560,7 +560,7 @@
   {
     "team_abbr": "WAS",
     "team_name": "Washington Commanders",
-    "team_id": 5110,
+    "team_id": 32,
     "id": 36,
     "team_nick": "Commanders",
     "team_conf": "NFC",

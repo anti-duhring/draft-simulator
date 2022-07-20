@@ -1,18 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import { IconContext } from "react-icons/lib";
 import { GoChevronUp, GoChevronDown } from 'react-icons/go'
 import PicksAvaliable from "../PicksAvaliable";
 import TradeScreen from '../TradeScreen'
+import { DraftContext } from "../../../Context/DraftContext";
 
 const SlideScreenMobile = (props) => {
-    const MyPicks = props.draftOrder.map((team, index) => { 
-        if(props.myTeams.indexOf(team.id) != -1) {
-            return index + 1
-        }
-        return null
-    }).filter(team => team != null);
-    const isMyPick = MyPicks.indexOf(props.currentPick)!= -1;
+    const {MyPicks, currentPick} = useContext(DraftContext)
+    const isMyPick = MyPicks.indexOf(currentPick)!= -1;
 
     const [showScreen, setShowScreen] = useState(false);
 
@@ -30,19 +26,19 @@ const SlideScreenMobile = (props) => {
             <ContentTab style={{display:'flex',height:showScreen ? '80vh' : '0'}}>
                 {isMyPick ? 
                     <PicksAvaliable 
-                        picksPlayers={props.picksPlayers}
+                        //picksPlayers={props.picksPlayers}
                         //setPicksPlayers={props.setPicksPlayers}
                         //currentPick={props.currentPick} 
                         //setCurrentPick={props.setCurrentPick} 
                         toggleShowScreen={toggleShowScreen}
-                        handleDraftPlayer={props.handleDraftPlayer}
+                       //handleDraftPlayer={props.handleDraftPlayer}
                     /> 
                 : 
                 <TradeScreen
-                    currentPick={props.currentPick} 
+                   /* currentPick={props.currentPick} 
                     draftOrder={props.draftOrder}
                     myTeams={props.myTeams} 
-                    picksPlayers={props.picksPlayers}
+                    picksPlayers={props.picksPlayers}*/
                 />}
             </ContentTab>
         </Container>

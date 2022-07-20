@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   DndContext, 
   closestCenter,
@@ -22,10 +22,15 @@ import styled from 'styled-components';
 import { isMobile } from 'react-device-detect';
 import FormHeader from '../FormHeader';
 import FormFooter from '../FormFooter';
+import { DraftContext } from '../../../Context/DraftContext';
 
 const DraftOrderContainer = (props) => {
-  const [teams,setTeams] = useState(data.teams);
-  const [selectedTeams, setSelectedTeams] = useState([]);
+  const {
+    myTeams,
+    setMyTeams,
+    draftOrder,
+    setDraftOrder
+  } = useContext(DraftContext);
   const [checkbox, setCheckbox] = useState(false);
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -39,7 +44,7 @@ const DraftOrderContainer = (props) => {
     if(!active || !over) return
     
     if (active.id !== over.id) {
-      setTeams((items) => {
+      setDraftOrder((items) => {
         const oldIndex = items.map(e => e.franchise_id).indexOf(active.id);
         const newIndex = items.map(e => e.franchise_id).indexOf(over.id);
         
@@ -50,17 +55,17 @@ const DraftOrderContainer = (props) => {
 
   const checkAll = () => {
     setCheckbox(checkbox ? false : true);
-    setSelectedTeams(checkbox ? [] : teams.map(e => e.franchise_id))
+    setMyTeams(checkbox ? [] : draftOrder.map(e => e.franchise_id))
   }
 
-  const handleDraftOrder = () => {
+  /*const handleDraftOrder = () => {
     console.log(teams, selectedTeams);
     props.setStep('picks');
     props.setDraftOrder(teams);
     props.setMyTeams(selectedTeams);
 
     return teams + selectedTeams
-  }
+  }*/
 
   return (
   <Container>
@@ -72,20 +77,18 @@ const DraftOrderContainer = (props) => {
   >
 
     <SortableContext 
-        items={teams}
+        items={draftOrder}
         strategy={rectSortingStrategy}
     >
       <Grid>
       {
-        teams.map((team,index) => {
+        draftOrder.map((team,index) => {
           return (
             <SortableItem 
               key={team.franchise_id} 
               id={team.franchise_id} 
               team={team} 
               index={index} 
-              selectedTeams={selectedTeams} 
-              setSelectedTeams={setSelectedTeams} 
               setCheckbox={setCheckbox} 
             />
           )
@@ -94,7 +97,7 @@ const DraftOrderContainer = (props) => {
       </Grid>
     </SortableContext>
   </DndContext>
-      <FormFooter myTeams={selectedTeams} handleSubmit={handleDraftOrder} />
+      <FormFooter />
   </Container>
 )}
 

@@ -1,12 +1,14 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, useContext} from 'react';
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import './style.css'
 import teams from '../../../data/NFL_teams.json'
 import styled, { css } from 'styled-components';
 import { isMobile } from 'react-device-detect';
+import {DraftContext} from '../../../Context/DraftContext';
 
 const SortableItem = (props) => {
+  const { myTeams, setMyTeams } = useContext(DraftContext)
   const logo = teams.filter(team => team.team_abbr == props.team.abbreviation)[0]?.team_logo_espn;
   const [pressadle, setPressadle] = useState(0);
   const {
@@ -22,20 +24,20 @@ const SortableItem = (props) => {
     transform: CSS.Transform.toString(transform),
     transition,
     zIndex: isDragging ? "100" : "auto",
-    boxShadow: (props.selectedTeams.indexOf(props.id)!=-1) ? '0 0 0 1px #9d4f0c' : 'none',
-    border: (props.selectedTeams.indexOf(props.id)!=-1) ?'1px solid #f65e1b' : '1px solid #dce0e5',
+    boxShadow: (myTeams.indexOf(props.id)!=-1) ? '0 0 0 1px #9d4f0c' : 'none',
+    border: (myTeams.indexOf(props.id)!=-1) ?'1px solid #f65e1b' : '1px solid #dce0e5',
     width: isMobile ? 'auto' : '200px',
     height: isMobile ? 'auto' : '50px',
   };
   
   const selectThisTeam = () => {
-    let array = props.selectedTeams;
+    let array = myTeams;
     if(array.indexOf(props.id)==-1) {
-      props.setSelectedTeams(prevTeams => ([...prevTeams,props.id]));
+      setMyTeams(prevTeams => ([...prevTeams,props.id]));
     } else {
       array = array.filter(item => item != props.id);
       props.setCheckbox(false);
-      props.setSelectedTeams(array);
+      setMyTeams(array);
     }
     setPressadle(pressadle + 1);
     //props.setSelectedTeams(array);

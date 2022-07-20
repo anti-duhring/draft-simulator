@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Select from 'react-select'
 import data from '../../../data/players.json'
 import styled from "styled-components";
 import { BLACK, BORDER_GRAY, GRAY } from '../../../constants/Colors';
+import { DraftContext } from '../../../Context/DraftContext';
 
 const options = [
     { value: 'QB', label: 'QB' },
@@ -19,16 +20,22 @@ const options = [
   ]
 
 const PicksAvaliable = (props) => {
+    const {
+        picksPlayers,
+        handleDraftPlayer
+
+    } = useContext(DraftContext)
+
     data.players.sort((a, b) => a.pff_rank - b.pff_rank);
-    const [playersAvaliable, setPlayersAvaliable] = useState(data.players.filter(item => props.picksPlayers.indexOf(item.id)==-1));
+    const [playersAvaliable, setPlayersAvaliable] = useState(data.players.filter(item => picksPlayers.indexOf(item.id)==-1));
     const [searchName, setSearchName] = useState('')
     const [searchPositions, setSearchPositions] = useState([]);
     const [render, setRender] = useState(1);
 
     useEffect(() => {
         setRender(render + 1)
-        setPlayersAvaliable(data.players.filter(item => props.picksPlayers.indexOf(item.id)==-1))
-    },[props.picksPlayers])
+        setPlayersAvaliable(data.players.filter(item => picksPlayers.indexOf(item.id)==-1))
+    },[picksPlayers])
 
     const handleSearchName = (e) => {
         setSearchName(e.target.value);
@@ -36,18 +43,18 @@ const PicksAvaliable = (props) => {
         if(e.target.value && e.target.value != '') {
             setPlayersAvaliable(data.players.filter(item => {
                 if(searchPositions.length > 0) {
-                    return props.picksPlayers.indexOf(item.id)==-1 && item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 && searchPositions.indexOf(item.position) != -1
+                    return picksPlayers.indexOf(item.id)==-1 && item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 && searchPositions.indexOf(item.position) != -1
                 } else {
-                    return props.picksPlayers.indexOf(item.id)==-1 && item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1
+                    return picksPlayers.indexOf(item.id)==-1 && item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1
                 }
             }));
         }
         else {
             setPlayersAvaliable(data.players.filter(item => {
                 if(searchPositions.length > 0) {
-                    return props.picksPlayers.indexOf(item.id)==-1 && searchPositions.indexOf(item.position) != -1
+                    return picksPlayers.indexOf(item.id)==-1 && searchPositions.indexOf(item.position) != -1
                 } else {
-                    return props.picksPlayers.indexOf(item.id)==-1
+                    return picksPlayers.indexOf(item.id)==-1
                 }
 
             }));
@@ -62,10 +69,10 @@ const PicksAvaliable = (props) => {
         setSearchPositions(selected);
         if(newValue.length > 0) {
             setPlayersAvaliable(data.players.filter(item => {
-                return props.picksPlayers.indexOf(item.id)==-1 && selected.indexOf(item.position) != -1
+                return picksPlayers.indexOf(item.id)==-1 && selected.indexOf(item.position) != -1
             }));
         } else {
-            setPlayersAvaliable(data.players.filter(item => props.picksPlayers.indexOf(item.id)==-1));
+            setPlayersAvaliable(data.players.filter(item => picksPlayers.indexOf(item.id)==-1));
         }
     }
 
@@ -73,7 +80,7 @@ const PicksAvaliable = (props) => {
         return (
             <PlayerContainer onClick={() => {
                 props.toggleShowScreen();
-                props.handleDraftPlayer(player)
+                handleDraftPlayer(player)
             }}>
                 <Rank>
                    Rank <Mark>{player.pff_rank}</Mark>

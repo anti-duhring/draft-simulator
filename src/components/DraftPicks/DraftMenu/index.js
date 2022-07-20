@@ -1,17 +1,33 @@
+import {useContext} from 'react'
 import styled, {css} from "styled-components"
 import Button from "../../Button";
 import { IconContext } from "react-icons";
 import { GoChevronRight, GoChevronDown, GoSync } from 'react-icons/go'
+import { DraftContext } from '../../../Context/DraftContext'
 
 const DraftMenu = (props) => {
+    const {
+        MyPicks,
+        currentPick,
+        handleNextPick,
+        handleMyNextPick
+    } = useContext(DraftContext);
 
     return (
         <Container>
             <IconContext.Provider value={{color: 'white',size:'2rem',style: { verticalAlign: 'middle' }}}>
-            <Button disabled={props.disabled} onClick={props.handleNextPick} style={styleButton}>
+            <Button 
+                disabled={MyPicks.indexOf(currentPick)!= -1} 
+                onClick={handleNextPick} 
+                style={styleButton}
+            >
                 <GoChevronRight />
             </Button>
-            <Button disabled={props.disabled} onClick={props.handleMyNextPick} style={styleButton}>
+            <Button 
+                disabled={MyPicks.indexOf(currentPick)!= -1} 
+                onClick={handleMyNextPick} 
+                style={styleButton}
+            >
                 <GoChevronDown />
             </Button>
             </IconContext.Provider>

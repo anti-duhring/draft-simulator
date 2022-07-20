@@ -1,27 +1,44 @@
+import {useState, useContext} from 'react'
 import Select from 'react-select'
 import styled from "styled-components";
 import data from '../../../data/draft_picks.json'
 import teamsData from '../../../data/NFL_teams.json'
+import {DraftContext} from '../../../Context/DraftContext'
 
 const TradeScreen = (props) => {
-    const myTeams = data.teams.filter(team => props.myTeams.indexOf(team.franchise_id)!=-1);
+    const {
+        myTeams,
+        draftOrder,
+        allPicks,
+        currentPick
+    } = useContext(DraftContext)
+    const [otherTeamPicks, setOtherTeamPicks] = useState(null);
 
-    const options = myTeams.map(team => {
+    const myTeamsData = data.teams.filter(team => myTeams.indexOf(team.franchise_id)!=-1);
+
+    const options = myTeamsData.map(team => {
         const teamData = teamsData.find(item => item.team_abbr==team.abbreviation)
-        const teamNextPick = props.draftOrder.findIndex(item => item.id == team.id)
+        const teamNextPick = draftOrder.findIndex(item => item.id == team.id) + 1
 
         return {value: team.id, label:(
         <Option>
             <OptionLogo src={teamData.team_logo_espn} /> <OptionName>{team.nickname}</OptionName>
-            <OptionPick>Próxima pick: {teamNextPick + 1}</OptionPick>
+            <OptionPick>Próxima pick: {teamNextPick}</OptionPick>
         </Option>
         ) }
     });
 
     const handleSelect = (newValue, actionMeta) => {
-        const picks = data.draft_picks.filter(pick => pick.draft_franchise_id == newValue.value && pick.round > 1)
+        const myPicks = [];
+        //const myPicks = allPicks.filter(pick => pick.current_team_id == newValue.value)
+        Object.entries(allPicks).map(item => {
+            const picksFromThisRound = item[1].filter(pick => pick.current_team_id == newValue.value);
 
-        console.log(picks);
+            myPicks.push(...picksFromThisRound)
+        })
+
+        setOtherTeamPicks(myPicks);
+        console.log(myPicks);
         
     }
 
@@ -35,8 +52,35 @@ const TradeScreen = (props) => {
                     defaultValue={options[0]} 
                     onChange={handleSelect}
                 />
-                
+                <div>
+                    {otherTeamPicks &&
+                        otherTeamPicks.map(pick => {
+                            return (
+                                <div>
+                                    Pick {pick.pick} de {pick.season}
+                                </div>
+                            )
+                        })
+                    }
+                </div>
             </OtherTeam>
+            <CurrentTeam>
+                <Select 
+                    isDisabled={true}
+                    defaultValue={{value: 0, label: data.teams.find(item => item.id==allPicks.round1[currentPick - 1].current_team_id).nickname}} 
+                />
+                <div>
+                    {otherTeamPicks &&
+                        otherTeamPicks.map(pick => {
+                            return (
+                                <div>
+                                    Pick {pick.pick} de {pick.season}
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </CurrentTeam>
         </Container>
      );
 }
@@ -47,6 +91,9 @@ const Container = styled.div`
     padding: 0.5rem;
 `
 const OtherTeam = styled.div`
+
+`
+const CurrentTeam = styled.div`
 
 `
 const OptionLogo = styled.img`

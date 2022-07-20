@@ -1,29 +1,35 @@
-import { createRef, useState, useRef } from "react"
+import { createRef, useState, useRef, useContext } from "react"
 import styled, { css } from "styled-components"
 import { BLACK, BORDER_GRAY, GRAY, ORANGE } from "../../../constants/Colors"
 import teams from '../../../data/NFL_teams.json'
 import data from '../../../data/players.json'
 import './style.css'
 import { isMobile } from "react-device-detect"
+import {DraftContext} from '../../../Context/DraftContext'
 
 const DraftList = (props) => {
-    
+    const {
+        currentPick,
+        picksPlayers,
+        myTeams,
+        allPicks
+    } = useContext(DraftContext);
 
     const PickItem = ({team, pick, index}) => {
-        const currentTeam = teams.filter(item => item.team_abbr == team.abbreviation)[0];
-        const playerPick = props.currentPick > pick ? data.players.filter(item => item.id == props.picksPlayers[index])[0] : null;
+        const currentTeam = teams.find(item => item.team_id == team);
+        const playerPick = currentPick > pick ? data.players.find(item => item.id == picksPlayers[index]) : null;
 
         return (
-            <PickItemContainer className={`pick-${pick}`} otc={props.currentPick==pick} isMyPick={props.myTeams.indexOf(team.id) != -1}>
+            <PickItemContainer className={`pick-${pick}`} otc={currentPick==pick} isMyPick={myTeams.indexOf(team) != -1}>
                 <Pick>
                     <span className="pick-legend">Pick</span>
                     <span className="pick-number">{pick}</span>
                 </Pick>
                 <Team>
                     <Logo src={currentTeam.team_logo_espn} />
-                    <Status className="pick-status" otc={props.currentPick==pick}>
-                    {props.currentPick==pick ? 'On the clock' : props.currentPick > pick ? null : 'Aguardando'}
-                    {props.currentPick > pick && playerPick?.name}
+                    <Status className="pick-status" otc={currentPick==pick}>
+                    {currentPick==pick ? 'On the clock' : currentPick > pick ? null : 'Aguardando'}
+                    {currentPick > pick && playerPick?.name}
                     </Status>
                 </Team>
             </PickItemContainer>
@@ -32,10 +38,10 @@ const DraftList = (props) => {
 
     return (
         <Container>
-            {props.draftOrder &&
-                props.draftOrder.map((team, index) => {
+            {
+                allPicks.round1.map((pick, index) => {
                     return (
-                        <PickItem key={index} team={team} pick={index+1} index={index} />
+                        <PickItem key={index} team={pick.current_team_id} pick={pick.pick} index={index} />
                     )
                 })
             }
