@@ -25,7 +25,6 @@ const DraftPicksContainer = (props) => {
 
     const handleDraftPlayer = (player) => {
         setCurrentPick(currentPick + 1);
-        console.log(picksPlayers)
         setPicksPlayers(prevPicks => prevPicks ? ([...prevPicks,player.id]) : ([player.id]));
     }
 

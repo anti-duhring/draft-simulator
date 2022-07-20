@@ -32,7 +32,6 @@ const PicksAvaliable = (props) => {
 
     const handleSearchName = (e) => {
         setSearchName(e.target.value);
-        console.log(searchPositions, searchPositions.length);
 
         if(e.target.value && e.target.value != '') {
             setPlayersAvaliable(data.players.filter(item => {
@@ -68,8 +67,6 @@ const PicksAvaliable = (props) => {
         } else {
             setPlayersAvaliable(data.players.filter(item => props.picksPlayers.indexOf(item.id)==-1));
         }
-        console.log(newValue);
-        console.log(actionMeta);
     }
 
     const PlayerItem = ({player}) => {
