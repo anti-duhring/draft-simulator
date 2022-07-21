@@ -35,6 +35,18 @@ export const DraftContextProvider = ({children}) => {
         return arr;
     }
 
+    const getPicksFromTeam = (id) => {
+        const myPicks = [];
+        //const myPicks = allPicks.filter(pick => pick.current_team_id == newValue.value)
+        Object.entries(allPicks).map(item => {
+            const picksFromThisRound = item[1].filter(pick => pick.current_team_id == id);
+
+            myPicks.push(...picksFromThisRound)
+        })
+
+        return myPicks
+    }
+
     const handleDraftOrder = (order, myTeams) => {
         //console.log(order, myTeams);
         setStep('picks');
@@ -138,7 +150,8 @@ export const DraftContextProvider = ({children}) => {
             handleDraftOrder,
             handleDraftPlayer,
             handleNextPick,
-            handleMyNextPick
+            handleMyNextPick,
+            getPicksFromTeam
             }}>
             {children}
         </DraftContext.Provider>

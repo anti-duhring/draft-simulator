@@ -7,28 +7,18 @@ import {DraftContext} from '../../../Context/DraftContext'
 import { BLACK, BORDER_GRAY, GRAY, ORANGE } from '../../../constants/Colors';
 import { IconContext } from "react-icons";
 import { GoSync, GoArrowBoth } from 'react-icons/go'
+import ProgressBar from '../../ProgressBar';
 
 const TradeScreen = (props) => {
     const {
         myTeams,
         draftOrder,
         allPicks,
-        currentPick
+        currentPick,
+        getPicksFromTeam
     } = useContext(DraftContext)
 
     const myTeamsData = data.teams.filter(team => myTeams.indexOf(team.franchise_id)!=-1);
-
-    const getPicksFromTeam = (id) => {
-        const myPicks = [];
-        //const myPicks = allPicks.filter(pick => pick.current_team_id == newValue.value)
-        Object.entries(allPicks).map(item => {
-            const picksFromThisRound = item[1].filter(pick => pick.current_team_id == id);
-
-            myPicks.push(...picksFromThisRound)
-        })
-
-        return myPicks
-    }
 
     const options = myTeamsData.map(team => {
         const teamData = teamsData.find(item => item.team_abbr==team.abbreviation)
@@ -42,19 +32,48 @@ const TradeScreen = (props) => {
         ) }
     });
 
+    const getOption = (team) => {
+        const teamData = teamsData.find(item => item.team_id == team.id);
+        const teamNextPick = getPicksFromTeam(team.id).find(item => item.pick >= currentPick);
+
+        return {value: team.id, label:(
+            <Option>
+                <OptionLogo src={teamData.team_logo_espn} /> <OptionName>{team.nickname}</OptionName>
+                <OptionPick>- Próxima pick {teamNextPick.pick}</OptionPick>
+            </Option>
+            ) }
+    }
+
     const [otherTeamPicks, setOtherTeamPicks] = useState(getPicksFromTeam(options[0].value));
     const [otherTeamOffer, setOtherTeamOffer] = useState([]);
+    const [
+        otherTeamOfferValue, 
+        setOtherTeamOfferValue
+    ] = useState(0);
+
     const currentTeam = data.teams.find(item => item.id==allPicks.round1[currentPick - 1].current_team_id);
     const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
+    const [currentTeamOfferValue, setCurrentTeamOfferValue] = useState(0);
     
 
     const handleSelect = (newValue, actionMeta) => {
         setOtherTeamPicks(getPicksFromTeam(newValue.value));
     }
 
+    const getValueFromOffer = (offer) => {
+        let value = 0;
+        offer.map(item => {
+            const val = data.pick_trade_values.find(i => i.pick == item.pick);
+            value += val.chart_value
+        })
+
+        return value
+    }
+
     const addPickToOffer = (team, pick) => {
         if(team=='otherTeam') {
             setOtherTeamOffer(prevOffer => prevOffer.map(item => item.pick).indexOf(pick.pick)!=-1 ? ([...prevOffer.filter(item => item.pick != pick.pick)]) : ([...prevOffer, pick]));
+
             //([...prevOffer, pick])
 
         } else {
@@ -67,7 +86,7 @@ const TradeScreen = (props) => {
             <PickItemContainer 
                 isAvaliable={isAvaliable} 
                 selected={[...otherTeamOffer,...currentTeamOffer].map(item => item.pick).indexOf(pick.pick)!=-1}
-                onClick={() => addPickToOffer(team, pick)}
+                onClick={() => isAvaliable ? addPickToOffer(team, pick) : null}
             >
                 <PickItemPick>{pick.pick}</PickItemPick>
                 <PickItemLegend>pick</PickItemLegend>
@@ -100,13 +119,13 @@ const TradeScreen = (props) => {
                         })
                     }
                     </Grid>
-                    <div>
-                        {otherTeamOffer.map(item => item.pick+', ')}
-                    </div>
                 </TeamPicks>
+                <div>
+                    {getValueFromOffer(otherTeamOffer)} 
+                </div>
             </OtherTeam>
             <Slice>
-                <IconContext.Provider value={{color: BORDER_GRAY,size:'1.7rem',style: { verticalAlign: 'middle', transform: 'rotate(90deg)', backgroundColor:'white' }}}>
+                <IconContext.Provider value={{color: BORDER_GRAY,size:'1.3rem',style: { verticalAlign: 'middle', transform: 'rotate(90deg)', backgroundColor:'white' }}}>
                     <Line />
                     <GoArrowBoth />
                 </IconContext.Provider>
@@ -114,7 +133,7 @@ const TradeScreen = (props) => {
             <CurrentTeam>
                 <Select 
                     isDisabled={true}
-                    defaultValue={{value: 0, label: currentTeam.nickname}} 
+                    defaultValue={getOption(currentTeam)} 
                 />
                 <TeamPicks>
                     <Title>2023</Title>
@@ -132,10 +151,23 @@ const TradeScreen = (props) => {
                         })
                     }
                     </Grid>
-                    <div>
-                        {currentTeamOffer.map(item => item.pick+', ')}
-                    </div>
                 </TeamPicks>
+                <div>
+                    {getValueFromOffer(currentTeamOffer)}
+                </div>
+                <TradeProgress>
+                    <ProgressBar
+                        //style={{flex:1}}
+                        progress={
+                            (getValueFromOffer(otherTeamOffer) > 0 && getValueFromOffer(currentTeamOffer) > 0) ?
+
+                            (100 * getValueFromOffer(otherTeamOffer)) / (getValueFromOffer(currentTeamOffer) / 1.5) : 0
+                        }
+                    />
+                    <TradeProgressLegend>
+                        Chance da troca ser aceita
+                    </TradeProgressLegend>
+                </TradeProgress>
             </CurrentTeam>
         </Container>
      );
@@ -145,6 +177,7 @@ export default TradeScreen;
 
 const Container = styled.div`
     padding: 0.5rem;
+    width: 100%;
 `
 const OtherTeam = styled.div`
 
@@ -220,7 +253,15 @@ const Slice = styled.div`
 const Line = styled.div`
     width: 100%;
     background-color: ${BORDER_GRAY};
-    height: 1px;
+    height: 2px;
     position: absolute;
     top: 50%;
+`
+const TradeProgress = styled.div`
+    display: flex;
+    align-items: center;
+`
+const TradeProgressLegend = styled.div`
+   margin-left: .5rem;
+   color: ${GRAY}
 `
