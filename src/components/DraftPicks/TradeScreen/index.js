@@ -15,7 +15,8 @@ const TradeScreen = (props) => {
         draftOrder,
         allPicks,
         currentPick,
-        getPicksFromTeam
+        getPicksFromTeam,
+        getValueFromFuturePicks
     } = useContext(DraftContext)
 
     const myTeamsData = data.teams.filter(team => myTeams.indexOf(team.franchise_id)!=-1);
@@ -108,10 +109,31 @@ const TradeScreen = (props) => {
                     <Grid>
                     {otherTeamPicks &&
                         otherTeamPicks.map(pick => {
+                            if(pick.season != 2023) return
+
                             return (
                                 <PickItem 
                                     key={pick.pick} 
                                     isAvaliable={currentPick < pick.pick} 
+                                    pick={pick} 
+                                    team='otherTeam'
+                                />
+                            )
+                        })
+                    }
+                    </Grid>
+                </TeamPicks>
+                <TeamPicks>
+                    <Title>2024</Title>
+                    <Grid>
+                    {otherTeamPicks &&
+                        otherTeamPicks.map(pick => {
+                            if(pick.season != 2024) return
+                            
+                            return (
+                                <PickItem 
+                                    key={pick.pick} 
+                                    isAvaliable={true} 
                                     pick={pick} 
                                     team='otherTeam'
                                 />
@@ -140,6 +162,7 @@ const TradeScreen = (props) => {
                     <Grid>
                     {
                     getPicksFromTeam(currentTeam.id).map(pick => {
+                        if(pick.season != 2023) return
                             return (
                                 <PickItem 
                                     key={pick.pick} 
