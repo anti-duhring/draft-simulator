@@ -31,6 +31,7 @@ export const DraftContextProvider = ({children}) => {
                 season: season,
                 original_team_id: team.id,
                 current_team_id: team.id,
+                pick_id: index,
             })
         })
         return arr;
@@ -54,6 +55,7 @@ export const DraftContextProvider = ({children}) => {
                     season: season,
                     original_team_id: team.id,
                     current_team_id: team.id,
+                    pick_id: index,
                 })
             }
         })
@@ -92,7 +94,7 @@ export const DraftContextProvider = ({children}) => {
             i[r].value += item.chart_value;
             i[r].count++
         })
-        return (i[round].value / i[round].count).toFixed(0)
+        return i[round].value / i[round].count
         
     }
 

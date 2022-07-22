@@ -47,14 +47,8 @@ const TradeScreen = (props) => {
 
     const [otherTeamPicks, setOtherTeamPicks] = useState(getPicksFromTeam(options[0].value));
     const [otherTeamOffer, setOtherTeamOffer] = useState([]);
-    const [
-        otherTeamOfferValue, 
-        setOtherTeamOfferValue
-    ] = useState(0);
-
     const currentTeam = data.teams.find(item => item.id==allPicks.round1[currentPick - 1].current_team_id);
     const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
-    const [currentTeamOfferValue, setCurrentTeamOfferValue] = useState(0);
     
 
     const handleSelect = (newValue, actionMeta) => {
@@ -64,8 +58,12 @@ const TradeScreen = (props) => {
     const getValueFromOffer = (offer) => {
         let value = 0;
         offer.map(item => {
-            const val = data.pick_trade_values.find(i => i.pick == item.pick);
-            value += val.chart_value
+            if(item.pick==0) {
+                value += getValueFromFuturePicks(item.round)
+            } else {
+                const val = data.pick_trade_values.find(i => i.pick == item.pick);
+                value += val.chart_value
+            }
         })
 
         return value
@@ -73,13 +71,29 @@ const TradeScreen = (props) => {
 
     const addPickToOffer = (team, pick) => {
         if(team=='otherTeam') {
-            setOtherTeamOffer(prevOffer => prevOffer.map(item => item.pick).indexOf(pick.pick)!=-1 ? ([...prevOffer.filter(item => item.pick != pick.pick)]) : ([...prevOffer, pick]));
+            setOtherTeamOffer(prevOffer => prevOffer.findIndex(item => item == pick) !=-1 ?
 
-            //([...prevOffer, pick])
+            ([...prevOffer.filter(item => item != pick)]) : 
+            ([...prevOffer, pick])
+            );
 
         } else {
-            setCurrentTeamOffer(prevOffer => prevOffer.map(item => item.pick).indexOf(pick.pick)!=-1 ? ([...prevOffer.filter(item => item.pick != pick.pick)]) : ([...prevOffer, pick]));
+            setCurrentTeamOffer(prevOffer => prevOffer.findIndex(item => item == pick) !=-1 ? 
+            
+            ([...prevOffer.filter(item => item != pick)]) :
+            ([...prevOffer, pick]));
         }
+    }
+
+    const Slice = () => {
+        return (
+            <SliceContainer>
+            <IconContext.Provider value={{color: BORDER_GRAY,size:'1.3rem',style: { verticalAlign: 'middle', transform: 'rotate(90deg)', backgroundColor:'white' }}}>
+                <Line />
+                <GoArrowBoth />
+            </IconContext.Provider>
+        </SliceContainer>
+        )
     }
 
     const PickItem = ({pick, isAvaliable, team}) => {
@@ -95,6 +109,55 @@ const TradeScreen = (props) => {
         )
     }
 
+    const FuturePickItem = ({pick, team}) => {
+        return (
+            <PickItemContainer 
+                isAvaliable
+                selected={[...otherTeamOffer,...currentTeamOffer].findIndex(item => item==pick)!=-1}
+                onClick={() => addPickToOffer(team, pick)}
+            >
+                <PickItemPick>{pick.round}</PickItemPick>
+                <PickItemLegend futurePick={true}>round</PickItemLegend>
+            </PickItemContainer>
+        )
+    }
+
+    const TeamPicks = ({season, team, typePicks}) => {
+        return (
+            <TeamPicksContainer>
+            <Title>{season}</Title>
+            <Grid>
+            { 
+                [...otherTeamPicks,...getPicksFromTeam(currentTeam.id)].map((pick, index) => {
+                    if(pick.season != season) return
+                    if(team == 'otherTeam' && pick.current_team_id == currentTeam.id || team =='currentTeam' && pick.current_team_id != currentTeam.id) return
+
+                    if(typePicks=='futurePick') {
+                        return (
+                            <FuturePickItem 
+                                key={index}
+                                pick={pick}
+                                team={team}
+                            />
+                        )
+
+                    } else {
+                        return (
+                            <PickItem 
+                                key={pick.pick} 
+                                isAvaliable={currentPick <= pick.pick} 
+                                pick={pick} 
+                                team={team}
+                            />
+                        )
+                    }
+                })
+            }
+            </Grid>
+        </TeamPicksContainer>
+        )
+    }
+
     return ( 
         <Container>
             <OtherTeam>
@@ -104,77 +167,44 @@ const TradeScreen = (props) => {
                     defaultValue={options[0]} 
                     onChange={handleSelect}
                 />
-                <TeamPicks>
-                    <Title>2023</Title>
-                    <Grid>
-                    {otherTeamPicks &&
-                        otherTeamPicks.map(pick => {
-                            if(pick.season != 2023) return
-
-                            return (
-                                <PickItem 
-                                    key={pick.pick} 
-                                    isAvaliable={currentPick < pick.pick} 
-                                    pick={pick} 
-                                    team='otherTeam'
-                                />
-                            )
-                        })
-                    }
-                    </Grid>
-                </TeamPicks>
-                <TeamPicks>
-                    <Title>2024</Title>
-                    <Grid>
-                    {otherTeamPicks &&
-                        otherTeamPicks.map(pick => {
-                            if(pick.season != 2024) return
-                            
-                            return (
-                                <PickItem 
-                                    key={pick.pick} 
-                                    isAvaliable={true} 
-                                    pick={pick} 
-                                    team='otherTeam'
-                                />
-                            )
-                        })
-                    }
-                    </Grid>
-                </TeamPicks>
+                <TeamPicks 
+                    team="otherTeam" 
+                    season={2023} 
+                />
+                <TeamPicks 
+                    team="otherTeam" 
+                    typePicks='futurePick' 
+                    season={2024} 
+                />
+                <TeamPicks 
+                    team="otherTeam" 
+                    typePicks='futurePick' 
+                    season={2025} 
+                />
                 <div>
                     {getValueFromOffer(otherTeamOffer)} 
                 </div>
             </OtherTeam>
-            <Slice>
-                <IconContext.Provider value={{color: BORDER_GRAY,size:'1.3rem',style: { verticalAlign: 'middle', transform: 'rotate(90deg)', backgroundColor:'white' }}}>
-                    <Line />
-                    <GoArrowBoth />
-                </IconContext.Provider>
-            </Slice>
+            <Slice />
             <CurrentTeam>
                 <Select 
                     isDisabled={true}
                     defaultValue={getOption(currentTeam)} 
                 />
-                <TeamPicks>
-                    <Title>2023</Title>
-                    <Grid>
-                    {
-                    getPicksFromTeam(currentTeam.id).map(pick => {
-                        if(pick.season != 2023) return
-                            return (
-                                <PickItem 
-                                    key={pick.pick} 
-                                    isAvaliable={currentPick <= pick.pick} 
-                                    pick={pick} 
-                                    team='currentTeam'
-                                />
-                            )
-                        })
-                    }
-                    </Grid>
-                </TeamPicks>
+                <TeamPicks 
+                    team="currentTeam" 
+                    season={2023} 
+                />
+                <TeamPicks 
+                    team="currentTeam" 
+                    typePicks='futurePick' 
+                    season={2024} 
+                />
+                <TeamPicks 
+                    team="currentTeam" 
+                    typePicks='futurePick'
+                    season={2025}
+                />
                 <div>
                     {getValueFromOffer(currentTeamOffer)}
                 </div>
@@ -184,7 +214,7 @@ const TradeScreen = (props) => {
                         progress={
                             (getValueFromOffer(otherTeamOffer) > 0 && getValueFromOffer(currentTeamOffer) > 0) ?
 
-                            (100 * getValueFromOffer(otherTeamOffer)) / (getValueFromOffer(currentTeamOffer) / 1.5) : 0
+                            (100 * getValueFromOffer(otherTeamOffer)) / (getValueFromOffer(currentTeamOffer) / 1.8) : 0
                         }
                     />
                     <TradeProgressLegend>
@@ -201,6 +231,7 @@ export default TradeScreen;
 const Container = styled.div`
     padding: 0.5rem;
     width: 100%;
+    overflow: auto;
 `
 const OtherTeam = styled.div`
 
@@ -224,7 +255,7 @@ const OptionName = styled.span`
 const OptionPick = styled.span`
     margin-left: .5rem;
 `
-const TeamPicks = styled.div`
+const TeamPicksContainer = styled.div`
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -240,7 +271,7 @@ const TeamPicks = styled.div`
 const Grid = styled.div`
     flex: 1;
     display: grid;
-    grid-template: auto / repeat(auto-fill, 40px);
+    grid-template: auto / repeat(auto-fill, 50px);
     grid-gap: .5rem;
     width: 100%;
     justify-content: center;
@@ -264,11 +295,12 @@ const PickItemPick = styled.div`
     flex: 1;
     font-weight: bold;
 `
-const PickItemLegend = styled.div`
+const PickItemLegend = styled.div((props) => css`
     color: ${GRAY}; 
     flex: 1;
-`
-const Slice = styled.div`
+    font-size: .8rem;
+`)
+const SliceContainer = styled.div`
     position: relative;
     margin-top: 1rem;
     margin-bottom: 1rem;
