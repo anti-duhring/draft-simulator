@@ -1,13 +1,14 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import './style.css'
+import { isMobile } from "react-device-detect";
 
 const Header = () => {
     return (
-        <HeaderWrap className="header">
+        <HeaderWrap classNameName="header">
             <Logo src="https://ontheclock.com.br/novo/wp-content/uploads/2019/08/LOGO-ON-THE-CLOCK.png" alt="On The Clock" />
-            <Navbar className="navbar">
-            <div class="mobile-toggle-holder">
-                        <div class="mobile-toggle">
+            <Navbar isMobile={isMobile} classNameName="navbar">
+            <div className="mobile-toggle-holder">
+                        <div className="mobile-toggle">
                             <span></span>
                             <span></span>
                             <span></span>
@@ -30,13 +31,13 @@ const Header = () => {
                     <a href="https://ontheclock.com.br/categoria/assinantes/"><span>Área assinantes</span></a>
                 </li>
                 <li>
-                    <a href="#"><span>Curso de Scouting RB</span></a>
+                    <a href="/"><span>Curso de Scouting RB</span></a>
                 </li>
                 <li>
                     <a href="https://ontheclock.com.br/produto/guia-draft-2022/"><span>Guia Draft 2022 🔥</span></a>
                 </li>
                 <li>
-                    <a href="#"><span>Guias</span></a>
+                    <a href="/"><span>Guias</span></a>
                 </li>
                 </ul>
             </Navbar>
@@ -59,14 +60,14 @@ const Logo = styled.img`
     margin-bottom: 30px;
 `
 
-const Navbar = styled.div`
+const Navbar = styled.div((props) => css`
     flex: 1;
     width:70.375rem;
     border-top: 2px solid black;
     border-bottom: 1px solid black;
-    display: inline-flex;
+    display: ${props.isMobile ? 'none' : 'inline-flex'};
     align-items: center;
     padding-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 10px;
-`
+`)

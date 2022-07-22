@@ -1,4 +1,4 @@
-import {useState, useContext} from 'react'
+import {useState, useContext, useEffect} from 'react'
 import Select from 'react-select'
 import styled, { css } from "styled-components";
 import data from '../../../data/draft_picks.json'
@@ -8,22 +8,26 @@ import { BLACK, BORDER_GRAY, GRAY, ORANGE } from '../../../constants/Colors';
 import { IconContext } from "react-icons";
 import { GoSync, GoArrowBoth } from 'react-icons/go'
 import ProgressBar from '../../ProgressBar';
+import Button from '../../Button'
 
 const TradeScreen = (props) => {
     const {
         myTeams,
         draftOrder,
         allPicks,
+        setAllPicks,
         currentPick,
+        NFLseason,
         getPicksFromTeam,
-        getValueFromFuturePicks
+        getValueFromFuturePicks,
+        handleOfferTrade
     } = useContext(DraftContext)
 
     const myTeamsData = data.teams.filter(team => myTeams.indexOf(team.franchise_id)!=-1);
 
     const options = myTeamsData.map(team => {
         const teamData = teamsData.find(item => item.team_abbr==team.abbreviation)
-        const teamNextPick = getPicksFromTeam(team.id).find(item => item.pick >= currentPick);
+        const teamNextPick = getPicksFromTeam(team.id).find(item => item.pick > currentPick);
 
         return {value: team.id, label:(
         <Option>
@@ -33,8 +37,17 @@ const TradeScreen = (props) => {
         ) }
     });
 
+    const [otherTeamID, setOtherTeamID] = useState(options[0].value)
+    const [otherTeamPicks, setOtherTeamPicks] = useState(getPicksFromTeam(options[0].value));
+    const [otherTeamOffer, setOtherTeamOffer] = useState([]);
+    const currentTeam = data.teams.find(item => item.id==allPicks[1][currentPick - 1].current_team_id);
+    const [currentTeamPicks, setCurrentTeamPicks] = useState(getPicksFromTeam(currentTeam.id));
+    const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
+
     const getOption = (team) => {
+
         const teamData = teamsData.find(item => item.team_id == team.id);
+
         const teamNextPick = getPicksFromTeam(team.id).find(item => item.pick >= currentPick);
 
         return {value: team.id, label:(
@@ -45,14 +58,10 @@ const TradeScreen = (props) => {
             ) }
     }
 
-    const [otherTeamPicks, setOtherTeamPicks] = useState(getPicksFromTeam(options[0].value));
-    const [otherTeamOffer, setOtherTeamOffer] = useState([]);
-    const currentTeam = data.teams.find(item => item.id==allPicks.round1[currentPick - 1].current_team_id);
-    const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
-    
-
     const handleSelect = (newValue, actionMeta) => {
+        setOtherTeamID(prevID => (newValue.value));
         setOtherTeamPicks(getPicksFromTeam(newValue.value));
+        setOtherTeamOffer([]);
     }
 
     const getValueFromOffer = (offer) => {
@@ -84,6 +93,13 @@ const TradeScreen = (props) => {
             ([...prevOffer, pick]));
         }
     }
+
+    const offerTrade = () => {
+        handleOfferTrade(otherTeamOffer, otherTeamID, currentTeamOffer, currentTeam.id);
+        setOtherTeamPicks(prevPicks => getPicksFromTeam(otherTeamID));
+        setCurrentTeamPicks(prevPicks => getPicksFromTeam(currentTeam.id));
+    }
+    
 
     const Slice = () => {
         return (
@@ -128,7 +144,7 @@ const TradeScreen = (props) => {
             <Title>{season}</Title>
             <Grid>
             { 
-                [...otherTeamPicks,...getPicksFromTeam(currentTeam.id)].map((pick, index) => {
+                [...otherTeamPicks,...currentTeamPicks].map((pick, index) => {
                     if(pick.season != season) return
                     if(team == 'otherTeam' && pick.current_team_id == currentTeam.id || team =='currentTeam' && pick.current_team_id != currentTeam.id) return
 
@@ -164,47 +180,44 @@ const TradeScreen = (props) => {
                 Selecione um dos seus times para compor a troca:
                 <Select 
                     options={options} 
-                    defaultValue={options[0]} 
+                    defaultValue={options[0] || {value: 0, label: 'Hm'}} 
                     onChange={handleSelect}
                 />
-                <TeamPicks 
-                    team="otherTeam" 
-                    season={2023} 
-                />
-                <TeamPicks 
-                    team="otherTeam" 
-                    typePicks='futurePick' 
-                    season={2024} 
-                />
-                <TeamPicks 
-                    team="otherTeam" 
-                    typePicks='futurePick' 
-                    season={2025} 
-                />
+                {
+                    new Array(3).fill(0).map((item, index) => {
+                        return (
+                            <TeamPicks 
+                                key={index}
+                                team="otherTeam" 
+                                typePicks={index > 0? 'futurePick' : 'currentPick'}
+                                season={2023 + index} 
+                            />
+                        )
+                    })
+                }
                 <div>
-                    {getValueFromOffer(otherTeamOffer)} 
+                    {getValueFromOffer(otherTeamOffer)}
                 </div>
             </OtherTeam>
             <Slice />
             <CurrentTeam>
                 <Select 
                     isDisabled={true}
-                    defaultValue={getOption(currentTeam)} 
+                    //defaultValue={getOption(currentTeam)} 
+                    value={getOption(currentTeam)}
                 />
-                <TeamPicks 
-                    team="currentTeam" 
-                    season={2023} 
-                />
-                <TeamPicks 
-                    team="currentTeam" 
-                    typePicks='futurePick' 
-                    season={2024} 
-                />
-                <TeamPicks 
-                    team="currentTeam" 
-                    typePicks='futurePick'
-                    season={2025}
-                />
+                {
+                    new Array(3).fill(0).map((item, index) => {
+                        return (
+                            <TeamPicks 
+                                key={index}
+                                team="currentTeam" 
+                                typePicks={index > 0? 'futurePick' : 'currentPick'}
+                                season={2023 + index} 
+                            />
+                        )
+                    })
+                }
                 <div>
                     {getValueFromOffer(currentTeamOffer)}
                 </div>
@@ -214,13 +227,16 @@ const TradeScreen = (props) => {
                         progress={
                             (getValueFromOffer(otherTeamOffer) > 0 && getValueFromOffer(currentTeamOffer) > 0) ?
 
-                            (100 * getValueFromOffer(otherTeamOffer)) / (getValueFromOffer(currentTeamOffer) / 1.8) : 0
+                            (100 * getValueFromOffer(otherTeamOffer)) / (getValueFromOffer(currentTeamOffer)) : 0
                         }
                     />
                     <TradeProgressLegend>
                         Chance da troca ser aceita
                     </TradeProgressLegend>
                 </TradeProgress>
+                <div>
+                    <Button onClick={offerTrade}>Propor troca</Button>
+                </div>
             </CurrentTeam>
         </Container>
      );

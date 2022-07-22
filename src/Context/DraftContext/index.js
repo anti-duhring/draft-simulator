@@ -1,26 +1,58 @@
 import { createContext } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
 
 export const DraftContext = createContext();
 
 export const DraftContextProvider = ({children}) => {
+    const NFLseason = 2023;
     const [step, setStep] = useState('order');
     const [draftOrder, setDraftOrder] = useState(data.teams);
     const [myTeams, setMyTeams] = useState([]);
 
     const [currentPick, setCurrentPick] = useState(1);
     const [picksPlayers, setPicksPlayers] = useState([]);
-    const MyPicks = draftOrder.map((team, index) => { 
+
+    const [allPicks, setAllPicks] = useState(null);
+    const [futurePicks, setFuturePicks] = useState(null);
+    const MyPicks = () => {
+        const myPicks = [];
+        for(let i = 1; i <= 7; i++) {
+            allPicks[i].map(pick => {
+                if(myTeams.indexOf(pick.current_team_id)!=-1) {
+                    myPicks.push(pick.pick)
+                }
+            })
+        }
+        return myPicks
+    }
+    /*draftOrder.map((team, index) => { 
         if(myTeams.indexOf(team.id) != -1) {
             return index + 1
         }
         return null
-    }).filter(team => team != null);
+    }).filter(team => team != null);*/
 
-    const [allPicks, setAllPicks] = useState(null);
-    const [futurePicks, setFuturePicks] = useState(null);
+    const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID) => {
+        let newAllPicks = {...allPicks};
+        otherTeamOffer.map(pick => {
+            const thisPickIndex = newAllPicks[pick.round].findIndex(item => item == pick);
+            let thisPick = pick;
+
+            thisPick.current_team_id = currentTeamID;
+            newAllPicks[pick.round][thisPickIndex] = thisPick;
+        })
+        currentTeamOffer.map(pick => {
+            const thisPickIndex = newAllPicks[pick.round].findIndex(item => item == pick);
+            let thisPick = pick;
+
+            thisPick.current_team_id = otherTeamID;
+            newAllPicks[pick.round][thisPickIndex] = thisPick;
+        })
+        //console.log(newAllPicks);
+        setAllPicks(prevAllPicks => newAllPicks);
+    }
 
     const getPicks = (order, round, season) => {
         const arr = []
@@ -124,13 +156,13 @@ export const DraftContextProvider = ({children}) => {
         setMyTeams(myTeams);
 
         const picks = {
-            round1: getPicks(order, 1, 2023),
-            round2: getPicks(order, 2, 2023),
-            round3: getPicks(order, 3, 2023),
-            round4: getPicks(order, 4, 2023),
-            round5: getPicks(order, 5, 2023),
-            round6: getPicks(order, 6, 2023),
-            round7: getPicks(order, 7, 2023),
+            "1": getPicks(order, 1, NFLseason),
+            "2": getPicks(order, 2, NFLseason),
+            "3": getPicks(order, 3, NFLseason),
+            "4": getPicks(order, 4, NFLseason),
+            "5": getPicks(order, 5, NFLseason),
+            "6": getPicks(order, 6, NFLseason),
+            "7": getPicks(order, 7, NFLseason),
         }
 
         const f_picks = {
@@ -141,7 +173,7 @@ export const DraftContextProvider = ({children}) => {
         setAllPicks(picks);
         setFuturePicks(f_picks);
 
-        console.log(picks);
+        //console.log(picks);
 
       }
 
@@ -208,6 +240,10 @@ export const DraftContextProvider = ({children}) => {
         }
     }
 
+    useEffect(() => {
+        console.log(allPicks);
+    },[allPicks])
+
     return ( 
         <DraftContext.Provider value={{
             step, 
@@ -223,10 +259,12 @@ export const DraftContextProvider = ({children}) => {
             MyPicks,
             allPicks,
             setAllPicks,
+            NFLseason,
             handleDraftOrder,
             handleDraftPlayer,
             handleNextPick,
             handleMyNextPick,
+            handleOfferTrade,
             getPicksFromTeam,
             getValueFromFuturePicks
             }}>

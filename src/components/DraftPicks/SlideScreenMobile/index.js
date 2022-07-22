@@ -8,7 +8,7 @@ import { DraftContext } from "../../../Context/DraftContext";
 
 const SlideScreenMobile = (props) => {
     const {MyPicks, currentPick} = useContext(DraftContext)
-    const isMyPick = MyPicks.indexOf(currentPick)!= -1;
+    const isMyPick = MyPicks().indexOf(currentPick)!= -1;
 
     const [showScreen, setShowScreen] = useState(false);
 

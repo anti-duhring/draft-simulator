@@ -1,4 +1,4 @@
-import { createRef, useState, useRef, useContext } from "react"
+import { useEffect, useContext } from "react"
 import styled, { css } from "styled-components"
 import { BLACK, BORDER_GRAY, GRAY, ORANGE } from "../../../constants/Colors"
 import teams from '../../../data/NFL_teams.json'
@@ -39,7 +39,7 @@ const DraftList = (props) => {
     return (
         <Container>
             {
-                allPicks.round1.map((pick, index) => {
+                allPicks[1].map((pick, index) => {
                     return (
                         <PickItem key={index} team={pick.current_team_id} pick={pick.pick} index={index} />
                     )
