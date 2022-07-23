@@ -13,8 +13,6 @@ const DraftMenu = (props) => {
         handleMyNextPick
     } = useContext(DraftContext);
 
-    console.log(MyPicks());
-
     return (
         <Container>
             <IconContext.Provider value={{color: 'white',size:'2rem',style: { verticalAlign: 'middle' }}}>

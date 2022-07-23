@@ -36,22 +36,28 @@ export const DraftContextProvider = ({children}) => {
 
     const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID) => {
         let newAllPicks = {...allPicks};
-        otherTeamOffer.map(pick => {
-            const thisPickIndex = newAllPicks[pick.round].findIndex(item => item == pick);
-            let thisPick = pick;
+        let newFuturePicks = {...futurePicks};
 
-            thisPick.current_team_id = currentTeamID;
-            newAllPicks[pick.round][thisPickIndex] = thisPick;
-        })
-        currentTeamOffer.map(pick => {
-            const thisPickIndex = newAllPicks[pick.round].findIndex(item => item == pick);
+        [...otherTeamOffer,...currentTeamOffer].map(pick => {
             let thisPick = pick;
+            let thisPickIndex = -1;
 
-            thisPick.current_team_id = otherTeamID;
-            newAllPicks[pick.round][thisPickIndex] = thisPick;
-        })
-        //console.log(newAllPicks);
+            thisPick.original_team_id = thisPick.current_team_id;
+            thisPick.current_team_id = thisPick.current_team_id == otherTeamID ? currentTeamID : otherTeamID;
+
+            if(pick.season == NFLseason) {
+                thisPickIndex = newAllPicks[pick.round].findIndex(item => item == pick);
+
+                newAllPicks[pick.round][thisPickIndex] = thisPick;
+
+            } else {
+                thisPickIndex = newFuturePicks[pick.season][pick.round].findIndex(item => item == pick);
+
+                newFuturePicks[pick.season][pick.round][thisPickIndex] = thisPick;
+            }
+        });
         setAllPicks(prevAllPicks => newAllPicks);
+        setFuturePicks(prevFuturePicks => newFuturePicks);
     }
 
     const getPicks = (order, round, season) => {
@@ -239,10 +245,6 @@ export const DraftContextProvider = ({children}) => {
 
         }
     }
-
-    useEffect(() => {
-        console.log(allPicks);
-    },[allPicks])
 
     return ( 
         <DraftContext.Provider value={{

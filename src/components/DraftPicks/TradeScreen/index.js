@@ -113,6 +113,9 @@ const TradeScreen = (props) => {
     }
 
     const PickItem = ({pick, isAvaliable, team}) => {
+        const teamID = team == 'otherTeam' ? otherTeamID : currentTeam.id;
+        const viaTeamData = data.teams.find(team => team.franchise_id==pick.original_team_id);
+
         return (
             <PickItemContainer 
                 isAvaliable={isAvaliable} 
@@ -120,12 +123,20 @@ const TradeScreen = (props) => {
                 onClick={() => isAvaliable ? addPickToOffer(team, pick) : null}
             >
                 <PickItemPick>{pick.pick}</PickItemPick>
-                <PickItemLegend>pick</PickItemLegend>
+                <PickItemLegend>
+                    <span>pick</span>
+                    {pick.original_team_id != teamID && 
+                    <span className='viaLegend'>via {viaTeamData.abbreviation}</span>
+                    }
+                </PickItemLegend>
             </PickItemContainer>
         )
     }
 
     const FuturePickItem = ({pick, team}) => {
+        const teamID = team == 'otherTeam' ? otherTeamID : currentTeam.id;
+        const viaTeamData = data.teams.find(team => team.franchise_id==pick.original_team_id);
+
         return (
             <PickItemContainer 
                 isAvaliable
@@ -133,7 +144,12 @@ const TradeScreen = (props) => {
                 onClick={() => addPickToOffer(team, pick)}
             >
                 <PickItemPick>{pick.round}</PickItemPick>
-                <PickItemLegend futurePick={true}>round</PickItemLegend>
+                <PickItemLegend futurePick={true}>
+                    <span>round</span>
+                    {pick.original_team_id != teamID && 
+                    <span className='viaLegend'>via {viaTeamData.abbreviation}</span>
+                    }
+                </PickItemLegend>
             </PickItemContainer>
         )
     }
@@ -195,9 +211,6 @@ const TradeScreen = (props) => {
                         )
                     })
                 }
-                <div>
-                    {getValueFromOffer(otherTeamOffer)}
-                </div>
             </OtherTeam>
             <Slice />
             <CurrentTeam>
@@ -218,9 +231,6 @@ const TradeScreen = (props) => {
                         )
                     })
                 }
-                <div>
-                    {getValueFromOffer(currentTeamOffer)}
-                </div>
                 <TradeProgress>
                     <ProgressBar
                         //style={{flex:1}}
@@ -286,9 +296,11 @@ const TeamPicksContainer = styled.div`
 `
 const Grid = styled.div`
     flex: 1;
-    display: grid;
-    grid-template: auto / repeat(auto-fill, 50px);
-    grid-gap: .5rem;
+    //display: grid;
+    //grid-template: auto / repeat(auto-fill, 50px);
+    //grid-gap: .5rem;
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
     justify-content: center;
 `
@@ -302,6 +314,9 @@ const PickItemContainer = styled.div((props) => css`
     border: 1px solid ${props.isAvaliable ? props.selected ? ORANGE : BORDER_GRAY : 'hsl(0, 0%, 90%)'};
     border-radius: 5px;
     padding: .3rem;
+    width: 50px;
+    margin-right: .5rem;
+    margin-bottom: .5rem;
     display: flex;
     flex-direction: column;
     background-color: ${props.isAvaliable ? 'transparent' : 'hsl(0, 0%, 95%)'};
@@ -315,6 +330,11 @@ const PickItemLegend = styled.div((props) => css`
     color: ${GRAY}; 
     flex: 1;
     font-size: .8rem;
+    display: flex;
+    flex-direction: column;
+    .viaLegend {
+        font-size: .5rem;
+    }
 `)
 const SliceContainer = styled.div`
     position: relative;
