@@ -40,7 +40,7 @@ const TradeScreen = (props) => {
     const [otherTeamID, setOtherTeamID] = useState(options[0].value)
     const [otherTeamPicks, setOtherTeamPicks] = useState(getPicksFromTeam(options[0].value));
     const [otherTeamOffer, setOtherTeamOffer] = useState([]);
-    const currentTeam = data.teams.find(item => item.id==allPicks[1][currentPick - 1].current_team_id);
+    const [currentTeam, setCurrentTeam] = useState(data.teams.find(item => item.id==allPicks[1][currentPick - 1].current_team_id));
     const [currentTeamPicks, setCurrentTeamPicks] = useState(getPicksFromTeam(currentTeam.id));
     const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
 
@@ -100,6 +100,14 @@ const TradeScreen = (props) => {
         setCurrentTeamPicks(prevPicks => getPicksFromTeam(currentTeam.id));
     }
     
+    useEffect(() => {
+        setCurrentTeam(data.teams.find(item => item.id==allPicks[1][currentPick - 1].current_team_id));
+        setOtherTeamID(options[0].value);
+        setOtherTeamPicks(getPicksFromTeam(options[0].value));
+        setOtherTeamOffer([]);
+        setCurrentTeamPicks(getPicksFromTeam(data.teams.find(item => item.id==allPicks[1][currentPick - 1].current_team_id).id));
+        setCurrentTeamOffer([]);
+    },[currentPick])
 
     const Slice = () => {
         return (

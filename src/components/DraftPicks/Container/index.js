@@ -11,7 +11,12 @@ import { DraftContext } from "../../../Context/DraftContext";
 
 const DraftPicksContainer = (props) => {
     data.players.sort((a, b) => a.pff_rank - b.pff_rank);
-    const {step, setStep} = useContext(DraftContext)
+    const {
+        step, 
+        setStep,
+        currentPick,
+        allPicks
+    } = useContext(DraftContext)
 
     const backToDraftOrder = () => {
         setStep('order');
@@ -94,6 +99,8 @@ const DraftPicksContainer = (props) => {
                 <Button onClick={backToDraftOrder}>Voltar</Button>
                 <Button>Finalizar Draft</Button>
             </div>
+            {currentPick <= allPicks[1].length && 
+            <>
             <Sticky>
                 <DraftMenu 
                     /*disabled={MyPicks.indexOf(currentPick)!= -1}
@@ -108,6 +115,7 @@ const DraftPicksContainer = (props) => {
                 picksPlayers={picksPlayers}
                 handleDraftPlayer={handleDraftPlayer}*/
             />
+            </>}
         </Container>
     )
 }

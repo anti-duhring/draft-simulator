@@ -7,6 +7,7 @@ export const DraftContext = createContext();
 
 export const DraftContextProvider = ({children}) => {
     const NFLseason = 2023;
+    const [waitToPick, setWaitToPick] = useState(500)
     const [step, setStep] = useState('order');
     const [draftOrder, setDraftOrder] = useState(data.teams);
     const [myTeams, setMyTeams] = useState([]);
@@ -27,12 +28,6 @@ export const DraftContextProvider = ({children}) => {
         }
         return myPicks
     }
-    /*draftOrder.map((team, index) => { 
-        if(myTeams.indexOf(team.id) != -1) {
-            return index + 1
-        }
-        return null
-    }).filter(team => team != null);*/
 
     const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID) => {
         let newAllPicks = {...allPicks};
@@ -184,14 +179,14 @@ export const DraftContextProvider = ({children}) => {
       }
 
     const handleDraftPlayer = (player) => {
-        setCurrentPick(currentPick + 1);
+        setCurrentPick(prevPick => prevPick + 1);
         setPicksPlayers(prevPicks => prevPicks ? ([...prevPicks,player.id]) : ([player.id]));
     }
 
     const handleNextPick = () => {
         if(currentPick > draftOrder.length) return
 
-        setCurrentPick(currentPick + 1)
+        setCurrentPick(prevPick => prevPick + 1);
 
         if(picksPlayers.length <= 0) {
             setPicksPlayers([dataPlayers.players[0].id])
@@ -205,44 +200,43 @@ export const DraftContextProvider = ({children}) => {
     const handleMyNextPick = () => {
         if(currentPick >= draftOrder.length) return
 
-        const MyNextPick = draftOrder.map((team, index) => { 
-            if(index + 1 > currentPick && myTeams.indexOf(team.id) != -1) {
-                return index + 1
-            }
-            return null
-        }).filter(team => team != null)[0] || null;
+        const MyNextPick = allPicks[1].find(item => myTeams.indexOf(item.current_team_id) != -1 && item.pick > currentPick);
+        let i = currentPick;
+        let newPlayers = [];
+        let pName = [];
 
-        if(MyNextPick) {
-            let newPlayers = []
-            for(let i=currentPick; i<MyNextPick; i++) {
+        const loop = (loopUntil) => {        
+            i++;
+
+            if(i <= loopUntil) {
+                setCurrentPick(i);
+
                 const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1 && newPlayers.indexOf(item.id) == -1);
 
-                newPlayers.push(playersAvaliable[0].id)
-                
-            }
-            setPicksPlayers(prevPicks => ([...prevPicks,...newPlayers]));
+                setPicksPlayers(prevPicks => ([...prevPicks, playersAvaliable[0].id ]));
+                newPlayers.push(playersAvaliable[0].id);
 
-            document.querySelector(`.pick-${MyNextPick}`).scrollIntoView({
-                behavior: 'smooth'
-            });
-            setCurrentPick(MyNextPick);
+                document.querySelector(`.pick-${ i > 1 ?i - 1 : 1}`).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                setTimeout(() => loop(loopUntil), waitToPick);
+            } else {
+                if(!MyNextPick) return 
+
+                document.querySelector(`.pick-${loopUntil > 32 ? 32 : loopUntil}`).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                setCurrentPick(loopUntil);
+            }
 
         }
+
+        if(MyNextPick) {
+            loop(MyNextPick.pick);
+        }
         else if(!MyNextPick) {
-            let newPlayers = []
-            for(let i=currentPick; i<33; i++) {
-                const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1 && newPlayers.indexOf(item.id) == -1);
-
-                newPlayers.push(playersAvaliable[0].id)
-                
-            }
-            setPicksPlayers(prevPicks => ([...prevPicks,...newPlayers]));
-
-            document.querySelector(`.pick-32`).scrollIntoView({
-                behavior: 'smooth'
-            });
-            setCurrentPick(33);
-
+            loop(33);
         }
     }
 
