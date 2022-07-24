@@ -104,7 +104,7 @@ const NumberPick = styled.div`
 
 const Sortable = styled.div((props) => css`
   &:hover .btt-drag-handler svg {
-    fill: #f65e1b;
+    fill: ${props.isMobile ? '#919eab' : '#f65e1b'};
   }
   &:hover {
     ${!props.isMobile &&

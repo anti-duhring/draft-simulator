@@ -31,8 +31,3 @@
     margin: 5px;
     border-radius: 5px;
 }
-
-.btt-drag-handler:hover svg {
-    /*background-color: rgba(0,0,0,0.1);*/
-    fill: #f65e1b;
-}

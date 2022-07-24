@@ -17,6 +17,7 @@ export const DraftContextProvider = ({children}) => {
 
     const [allPicks, setAllPicks] = useState(null);
     const [futurePicks, setFuturePicks] = useState(null);
+    
     const MyPicks = () => {
         const myPicks = [];
         for(let i = 1; i <= 7; i++) {
@@ -133,7 +134,6 @@ export const DraftContextProvider = ({children}) => {
 
     const getPicksFromTeam = (id) => {
         const myPicks = [];
-        //const myPicks = allPicks.filter(pick => pick.current_team_id == newValue.value)
         Object.entries(allPicks).map(item => {
             const picksFromThisRound = item[1].filter(pick => pick.current_team_id == id);
 
@@ -151,7 +151,6 @@ export const DraftContextProvider = ({children}) => {
     }
 
     const handleDraftOrder = (order, myTeams) => {
-        //console.log(order, myTeams);
         setStep('picks');
         setDraftOrder(order);
         setMyTeams(myTeams);
@@ -173,8 +172,6 @@ export const DraftContextProvider = ({children}) => {
 
         setAllPicks(picks);
         setFuturePicks(f_picks);
-
-        //console.log(picks);
 
       }
 
@@ -203,7 +200,6 @@ export const DraftContextProvider = ({children}) => {
         const MyNextPick = allPicks[1].find(item => myTeams.indexOf(item.current_team_id) != -1 && item.pick > currentPick);
         let i = currentPick;
         let newPlayers = [];
-        let pName = [];
 
         const loop = (loopUntil) => {        
             i++;

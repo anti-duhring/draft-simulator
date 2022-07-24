@@ -18,7 +18,6 @@ const DraftList = (props) => {
     const PickItem = ({team, pick, index}) => {
         const currentTeam = teams.find(item => item.team_id == team);
         const playerPick = currentPick > pick ? data.players.find(item => item.id == picksPlayers[index]) : null;
-        console.log(picksPlayers);
 
         return (
             <PickItemContainer className={`pick-${pick}`} otc={currentPick==pick} isMyPick={myTeams.indexOf(team) != -1}>
@@ -29,8 +28,7 @@ const DraftList = (props) => {
                 <Team>
                     <Logo src={currentTeam.team_logo_espn} />
                     <Status className="pick-status" otc={currentPick==pick}>
-                    {currentPick==pick ? 'On the clock' : currentPick > pick ? null : 'Aguardando'}
-                    {currentPick > pick && playerPick?.name}
+                    {currentPick==pick ? 'On the clock' : currentPick > pick ? playerPick?.name : 'Aguardando'}
                     </Status>
                 </Team>
             </PickItemContainer>
