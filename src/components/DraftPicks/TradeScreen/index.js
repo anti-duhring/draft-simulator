@@ -51,6 +51,9 @@ const TradeScreen = (props) => {
     const [currentTeam, setCurrentTeam] = useState(data.teams.find(item => item.id==allPicks[1][currentPick - 1].current_team_id));
     const [currentTeamPicks, setCurrentTeamPicks] = useState(getPicksFromTeam(currentTeam.id));
     const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
+
+    const otherTeamPlayerSelectRef = useRef();
+    const currentTeamPlayerSelectRef = useRef();
  
     const getOption = (team) => {
 
@@ -109,6 +112,9 @@ const TradeScreen = (props) => {
 
     const offerTrade = () => {
         handleOfferTrade(otherTeamOffer, otherTeamID, currentTeamOffer, currentTeam.id);
+
+        otherTeamPlayerSelectRef.current.clearValue();
+        currentTeamPlayerSelectRef.current.clearValue();
 
         setOtherTeamID(options[0].value);
         setOtherTeamPicks(getPicksFromTeam(options[0].value));
@@ -243,6 +249,7 @@ const TradeScreen = (props) => {
                 }
                 <div style={{marginTop:'.5rem'}}>
                     <Select 
+                        ref={otherTeamPlayerSelectRef}
                         options={optionsTradablePlayers(otherTeamID)} 
                         isMulti={true}
                         onChange={(newValue, actionMeta) => addPlayerToOffer(newValue, actionMeta, otherTeamID)}
@@ -271,6 +278,7 @@ const TradeScreen = (props) => {
                 }
                 <div style={{marginTop:'.5rem'}}>
                     <Select 
+                        ref={currentTeamPlayerSelectRef}
                         options={optionsTradablePlayers(currentTeam.id)}  
                         isMulti={true}
                         onChange={(newValue, actionMeta) => addPlayerToOffer(newValue, actionMeta, currentTeam.id)}
