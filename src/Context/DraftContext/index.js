@@ -35,10 +35,20 @@ export const DraftContextProvider = ({children}) => {
     const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID) => {
         let newAllPicks = {...allPicks};
         let newFuturePicks = {...futurePicks};
+        let newTradablePlayers = [...tradablePlayers];
 
-        [...otherTeamOffer,...currentTeamOffer].map(pick => {
+        [...otherTeamOffer.filter(item => item.player_id), ...currentTeamOffer.filter(item => item.player_id)].map(player => {
+            let thisPlayer = {...player};
+            let thisPlayerIndex = newTradablePlayers.findIndex(item => item == player);
+
+            thisPlayer.franchise_id = thisPlayer.franchise_id == otherTeamID ? currentTeamID : otherTeamID;
+
+            newTradablePlayers[thisPlayerIndex] = thisPlayer;
+        });
+
+        [...otherTeamOffer.filter(item => !item.player_id),...currentTeamOffer.filter(item => !item.player_id)].map(pick => {
             let thisPick = pick;
-            let thisPickIndex = -1;
+            let thisPickIndex;
 
             thisPick.original_team_id = thisPick.current_team_id;
             thisPick.current_team_id = thisPick.current_team_id == otherTeamID ? currentTeamID : otherTeamID;
@@ -56,6 +66,7 @@ export const DraftContextProvider = ({children}) => {
         });
         setAllPicks(prevAllPicks => newAllPicks);
         setFuturePicks(prevFuturePicks => newFuturePicks);
+        setTradablePlayers(newTradablePlayers);
     }
 
     const getPicksFromTeam = (id) => {

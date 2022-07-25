@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from 'react'
+import {useState, useContext, useEffect, useRef} from 'react'
 import Select from 'react-select'
 import styled, { css } from "styled-components";
 import data from '../../../data/draft_picks.json'
@@ -36,6 +36,14 @@ const TradeScreen = (props) => {
         ) }
     });
 
+    const optionsTradablePlayers = (teamID) => {
+        const options = [];
+        tradablePlayers.filter(player => player.franchise_id==teamID).map(player => {
+            options.push({value: player , label:`${player.player_name} - ${player.position}`});
+        })
+        return options
+    } 
+
     const [otherTeamID, setOtherTeamID] = useState(options[0].value)
     const [otherTeamPicks, setOtherTeamPicks] = useState(getPicksFromTeam(options[0].value));
     const [otherTeamOffer, setOtherTeamOffer] = useState([]);
@@ -43,7 +51,7 @@ const TradeScreen = (props) => {
     const [currentTeam, setCurrentTeam] = useState(data.teams.find(item => item.id==allPicks[1][currentPick - 1].current_team_id));
     const [currentTeamPicks, setCurrentTeamPicks] = useState(getPicksFromTeam(currentTeam.id));
     const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
-
+ 
     const getOption = (team) => {
 
         const teamData = teamsData.find(item => item.team_id == team.id);
@@ -64,20 +72,26 @@ const TradeScreen = (props) => {
         setOtherTeamOffer([]);
     }
 
-    const handleAddPlayerToOffer = (newValue, actionMeta) => {
-        const team = otherTeamID;
+    const addPlayerToOffer = (newValue, actionMeta, team) => {
         const selected = [];
-       /* newValue.map(item => {
+        newValue.map(item => {
             selected.push(item.value)
-            addToOffer(team == otherTeamID ? 'otherTeam' : 'currentTeam', item.value);
-        })*/
-
-        //console.log(...selected, actionMeta);
-
-        //addToOffer(team == otherTeamID ? 'otherTeam' : 'currentTeam', newValue.value)
+        })
+        if(team==otherTeamID) {
+            setOtherTeamOffer(prevOffer => ([
+                ...prevOffer.filter(item => !item.player_id),
+                ...selected
+            ]))
+        } else {
+            setCurrentTeamOffer(prevOffer => ([
+                ...prevOffer.filter(item => !item.player_id),
+                ...selected
+            ]))
+        }
+       
     }
 
-    const addToOffer = (team, pick) => {
+    const addPickToOffer = (team, pick) => {
         if(team=='otherTeam') {
             setOtherTeamOffer(prevOffer => prevOffer.findIndex(item => item == pick) !=-1 ?
 
@@ -95,8 +109,12 @@ const TradeScreen = (props) => {
 
     const offerTrade = () => {
         handleOfferTrade(otherTeamOffer, otherTeamID, currentTeamOffer, currentTeam.id);
-        setOtherTeamPicks(prevPicks => getPicksFromTeam(otherTeamID));
-        setCurrentTeamPicks(prevPicks => getPicksFromTeam(currentTeam.id));
+
+        setOtherTeamID(options[0].value);
+        setOtherTeamPicks(getPicksFromTeam(options[0].value));
+        setOtherTeamOffer([]);
+        setCurrentTeamPicks(getPicksFromTeam(data.teams.find(item => item.id==allPicks[1][currentPick - 1].current_team_id).id));
+        setCurrentTeamOffer([]);
     }
     
     useEffect(() => {
@@ -109,7 +127,7 @@ const TradeScreen = (props) => {
     },[currentPick])
 
     useEffect(() => {
-        console.log(otherTeamOffer);
+        //console.log(otherTeamOffer);
     },[otherTeamOffer])
 
     const Slice = () => {
@@ -123,28 +141,6 @@ const TradeScreen = (props) => {
         )
     }
 
-    const TradePlayer = ({team}) => {
-        const options = tradablePlayers.filter(player => player.franchise_id==team).map(player => {
-            return {value: player , label:`${player.player_name} - ${player.position}`}
-        })
-        //options.unshift({value: 0, label: 'Nenhum'})
-
-        return (
-            <div style={{marginTop:'.5rem'}}>
-                <Select 
-                    options={options} 
-                    //defaultValue={options[0]} 
-                    isMulti={true}
-                    //onChange={(newValue, actionMeta) => handleAddPlayerToOffer(newValue, actionMeta, team)}
-                    onChange={handleAddPlayerToOffer}
-                    isSearchable={false}
-                    placeholder='Adicionar jogador'
-                />
-                    
-            </div>
-        )
-    }
-
     const PickItem = ({pick, isAvaliable, team}) => {
         const teamID = team == 'otherTeam' ? otherTeamID : currentTeam.id;
         const viaTeamData = data.teams.find(team => team.franchise_id==pick.original_team_id);
@@ -153,7 +149,7 @@ const TradeScreen = (props) => {
             <PickItemContainer 
                 isAvaliable={isAvaliable} 
                 selected={[...otherTeamOffer,...currentTeamOffer].map(item => item.pick).indexOf(pick.pick)!=-1}
-                onClick={() => isAvaliable ? addToOffer(team, pick) : null}
+                onClick={() => isAvaliable ? addPickToOffer(team, pick) : null}
             >
                 <PickItemPick>{pick.pick}</PickItemPick>
                 <PickItemLegend>
@@ -174,7 +170,7 @@ const TradeScreen = (props) => {
             <PickItemContainer 
                 isAvaliable
                 selected={[...otherTeamOffer,...currentTeamOffer].findIndex(item => item==pick)!=-1}
-                onClick={() => addToOffer(team, pick)}
+                onClick={() => addPickToOffer(team, pick)}
             >
                 <PickItemPick>{pick.round}</PickItemPick>
                 <PickItemLegend futurePick={true}>
@@ -245,13 +241,20 @@ const TradeScreen = (props) => {
                         )
                     })
                 }
-                <TradePlayer team={otherTeamID} />
+                <div style={{marginTop:'.5rem'}}>
+                    <Select 
+                        options={optionsTradablePlayers(otherTeamID)} 
+                        isMulti={true}
+                        onChange={(newValue, actionMeta) => addPlayerToOffer(newValue, actionMeta, otherTeamID)}
+                        isSearchable={false}
+                        placeholder='Adicionar jogador'
+                    />
+                </div>
             </OtherTeam>
             <Slice />
             <CurrentTeam>
                 <Select 
-                    isDisabled={true}
-                    //defaultValue={getOption(currentTeam)} 
+                    isDisabled={true} 
                     value={getOption(currentTeam)}
                 />
                 {
@@ -266,6 +269,15 @@ const TradeScreen = (props) => {
                         )
                     })
                 }
+                <div style={{marginTop:'.5rem'}}>
+                    <Select 
+                        options={optionsTradablePlayers(currentTeam.id)}  
+                        isMulti={true}
+                        onChange={(newValue, actionMeta) => addPlayerToOffer(newValue, actionMeta, currentTeam.id)}
+                        isSearchable={false}
+                        placeholder='Adicionar jogador'
+                    />
+                </div>
                 <TradeProgress>
                     <ProgressBar
                         //style={{flex:1}}
