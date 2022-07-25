@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 import data from '../../../data/draft_picks.json'
 import teamsData from '../../../data/NFL_teams.json'
 import {DraftContext} from '../../../Context/DraftContext'
+import { getValueFromOffer } from '../../../services/Draft';
 import { BLACK, BORDER_GRAY, GRAY, ORANGE } from '../../../constants/Colors';
 import { IconContext } from "react-icons";
 import { GoSync, GoArrowBoth } from 'react-icons/go'
@@ -13,13 +14,11 @@ import Button from '../../Button'
 const TradeScreen = (props) => {
     const {
         myTeams,
-        draftOrder,
+        tradablePlayers,
         allPicks,
-        setAllPicks,
         currentPick,
         NFLseason,
         getPicksFromTeam,
-        getValueFromFuturePicks,
         handleOfferTrade
     } = useContext(DraftContext)
 
@@ -40,6 +39,7 @@ const TradeScreen = (props) => {
     const [otherTeamID, setOtherTeamID] = useState(options[0].value)
     const [otherTeamPicks, setOtherTeamPicks] = useState(getPicksFromTeam(options[0].value));
     const [otherTeamOffer, setOtherTeamOffer] = useState([]);
+
     const [currentTeam, setCurrentTeam] = useState(data.teams.find(item => item.id==allPicks[1][currentPick - 1].current_team_id));
     const [currentTeamPicks, setCurrentTeamPicks] = useState(getPicksFromTeam(currentTeam.id));
     const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
@@ -62,20 +62,6 @@ const TradeScreen = (props) => {
         setOtherTeamID(prevID => (newValue.value));
         setOtherTeamPicks(getPicksFromTeam(newValue.value));
         setOtherTeamOffer([]);
-    }
-
-    const getValueFromOffer = (offer) => {
-        let value = 0;
-        offer.map(item => {
-            if(item.pick==0) {
-                value += getValueFromFuturePicks(item.round)
-            } else {
-                const val = data.pick_trade_values.find(i => i.pick == item.pick);
-                value += val.chart_value
-            }
-        })
-
-        return value
     }
 
     const addPickToOffer = (team, pick) => {
@@ -117,6 +103,27 @@ const TradeScreen = (props) => {
                 <GoArrowBoth />
             </IconContext.Provider>
         </SliceContainer>
+        )
+    }
+
+    const TradePlayer = ({team}) => {
+        const options = tradablePlayers.filter(player => player.franchise_id==team).map(player => {
+            return {value: player.player_id , label:`${player.player_name} - ${player.position}`}
+        })
+        //options.unshift({value: 0, label: 'Nenhum'})
+
+        return (
+            <div style={{marginTop:'.5rem'}}>
+                <Select 
+                    options={options} 
+                    //defaultValue={options[0]} 
+                    isMulti={true}
+                    onChange={() => console.log('Changed')}
+                    isSearchable={false}
+                    placeholder='Adicionar jogador'
+                />
+                    
+            </div>
         )
     }
 
@@ -206,6 +213,7 @@ const TradeScreen = (props) => {
                     options={options} 
                     defaultValue={options[0] || {value: 0, label: 'Hm'}} 
                     onChange={handleSelect}
+                    isSearchable={false}
                 />
                 {
                     new Array(3).fill(0).map((item, index) => {
@@ -219,6 +227,7 @@ const TradeScreen = (props) => {
                         )
                     })
                 }
+                <TradePlayer team={otherTeamID} />
             </OtherTeam>
             <Slice />
             <CurrentTeam>

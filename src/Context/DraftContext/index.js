@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { useState, useEffect } from "react";
 import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
+import { getFuturePicks, getPicks } from "../../services/Draft";
 
 export const DraftContext = createContext();
 
@@ -17,6 +18,7 @@ export const DraftContextProvider = ({children}) => {
 
     const [allPicks, setAllPicks] = useState(null);
     const [futurePicks, setFuturePicks] = useState(null);
+    const [tradablePlayers, setTradablePlayers] = useState(null);
     
     const MyPicks = () => {
         const myPicks = [];
@@ -54,82 +56,6 @@ export const DraftContextProvider = ({children}) => {
         });
         setAllPicks(prevAllPicks => newAllPicks);
         setFuturePicks(prevFuturePicks => newFuturePicks);
-    }
-
-    const getPicks = (order, round, season) => {
-        const arr = []
-        order.map((team, index) => {
-            arr.push({
-                round: round,
-                pick: (index +1) + (32 * (round - 1)),
-                season: season,
-                original_team_id: team.id,
-                current_team_id: team.id,
-                pick_id: index,
-            })
-        })
-        return arr;
-    }
-
-    const getFuturePicks = (order, season) => {
-        let rounds = {
-            "1": [],
-            "2": [],
-            "3": [],
-            "4": [],
-            "5": [],
-            "6": [],
-            "7": [],
-        }
-        order.map((team, index) => {
-            for(let i = 1; i<=7; i++) {
-                rounds[i].push({
-                    round: i,
-                    pick: 0,
-                    season: season,
-                    original_team_id: team.id,
-                    current_team_id: team.id,
-                    pick_id: index,
-                })
-            }
-        })
-        return rounds
-    }
-
-    const getValueFromFuturePicks = (round) => {
-        let i = {
-            "1": { value: 0, count: 0 },
-            "2": { value: 0, count: 0 },
-            "3": { value: 0, count: 0 },
-            "4": { value: 0, count: 0 },
-            "5": { value: 0, count: 0 },
-            "6": { value: 0, count: 0 },
-            "7": { value: 0, count: 0 }
-        }
-
-        data.pick_trade_values.map(item => {
-            const p = item.pick;
-            let r = 0;
-            if(p <= 32) {
-                r = 1;
-            } else if(p <= 32 * 2) {
-                r = 2;
-            } else if(p <= 32 * 3) {
-                r = 3;
-            } else if(p <= 32 * 4) {
-                r = 4;
-            } else if(p <= 32 * 5) {
-                r = 5;
-            } else if(p <= 32 * 6) {
-                r = 6;
-            } else {
-                r = 7;
-            }
-            i[r].value += item.chart_value;
-            i[r].count++
-        })
-        return i[round].value / i[round].count
-        
     }
 
     const getPicksFromTeam = (id) => {
@@ -172,6 +98,7 @@ export const DraftContextProvider = ({children}) => {
 
         setAllPicks(picks);
         setFuturePicks(f_picks);
+        setTradablePlayers(data.tradable_players);
 
       }
 
@@ -209,8 +136,10 @@ export const DraftContextProvider = ({children}) => {
 
                 const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1 && newPlayers.indexOf(item.id) == -1);
 
-                setPicksPlayers(prevPicks => ([...prevPicks, playersAvaliable[0].id ]));
-                newPlayers.push(playersAvaliable[0].id);
+                const playerToDraft = playersAvaliable[0];
+
+                setPicksPlayers(prevPicks => ([...prevPicks, playerToDraft.id ]));
+                newPlayers.push(playerToDraft.id);
 
                 document.querySelector(`.pick-${ i > 1 ?i - 1 : 1}`).scrollIntoView({
                     behavior: 'smooth'
@@ -250,15 +179,14 @@ export const DraftContextProvider = ({children}) => {
             setPicksPlayers,
             MyPicks,
             allPicks,
-            setAllPicks,
             NFLseason,
+            tradablePlayers,
             handleDraftOrder,
             handleDraftPlayer,
             handleNextPick,
             handleMyNextPick,
             handleOfferTrade,
             getPicksFromTeam,
-            getValueFromFuturePicks
             }}>
             {children}
         </DraftContext.Provider>
