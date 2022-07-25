@@ -79,6 +79,11 @@ export const getValueFromFuturePicks = (round) => {
 export const getValueFromOffer = (offer) => {
     let value = 0;
     offer.map(item => {
+       if(item?.player_id) {
+            value += item.value_traded_away;
+            return
+        }
+
         if(item.pick==0) {
             value += getValueFromFuturePicks(item.round)
         } else {

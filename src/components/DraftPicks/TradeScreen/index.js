@@ -64,7 +64,20 @@ const TradeScreen = (props) => {
         setOtherTeamOffer([]);
     }
 
-    const addPickToOffer = (team, pick) => {
+    const handleAddPlayerToOffer = (newValue, actionMeta) => {
+        const team = otherTeamID;
+        const selected = [];
+       /* newValue.map(item => {
+            selected.push(item.value)
+            addToOffer(team == otherTeamID ? 'otherTeam' : 'currentTeam', item.value);
+        })*/
+
+        //console.log(...selected, actionMeta);
+
+        //addToOffer(team == otherTeamID ? 'otherTeam' : 'currentTeam', newValue.value)
+    }
+
+    const addToOffer = (team, pick) => {
         if(team=='otherTeam') {
             setOtherTeamOffer(prevOffer => prevOffer.findIndex(item => item == pick) !=-1 ?
 
@@ -95,6 +108,10 @@ const TradeScreen = (props) => {
         setCurrentTeamOffer([]);
     },[currentPick])
 
+    useEffect(() => {
+        console.log(otherTeamOffer);
+    },[otherTeamOffer])
+
     const Slice = () => {
         return (
             <SliceContainer>
@@ -108,7 +125,7 @@ const TradeScreen = (props) => {
 
     const TradePlayer = ({team}) => {
         const options = tradablePlayers.filter(player => player.franchise_id==team).map(player => {
-            return {value: player.player_id , label:`${player.player_name} - ${player.position}`}
+            return {value: player , label:`${player.player_name} - ${player.position}`}
         })
         //options.unshift({value: 0, label: 'Nenhum'})
 
@@ -118,7 +135,8 @@ const TradeScreen = (props) => {
                     options={options} 
                     //defaultValue={options[0]} 
                     isMulti={true}
-                    onChange={() => console.log('Changed')}
+                    //onChange={(newValue, actionMeta) => handleAddPlayerToOffer(newValue, actionMeta, team)}
+                    onChange={handleAddPlayerToOffer}
                     isSearchable={false}
                     placeholder='Adicionar jogador'
                 />
@@ -135,7 +153,7 @@ const TradeScreen = (props) => {
             <PickItemContainer 
                 isAvaliable={isAvaliable} 
                 selected={[...otherTeamOffer,...currentTeamOffer].map(item => item.pick).indexOf(pick.pick)!=-1}
-                onClick={() => isAvaliable ? addPickToOffer(team, pick) : null}
+                onClick={() => isAvaliable ? addToOffer(team, pick) : null}
             >
                 <PickItemPick>{pick.pick}</PickItemPick>
                 <PickItemLegend>
@@ -156,7 +174,7 @@ const TradeScreen = (props) => {
             <PickItemContainer 
                 isAvaliable
                 selected={[...otherTeamOffer,...currentTeamOffer].findIndex(item => item==pick)!=-1}
-                onClick={() => addPickToOffer(team, pick)}
+                onClick={() => addToOffer(team, pick)}
             >
                 <PickItemPick>{pick.round}</PickItemPick>
                 <PickItemLegend futurePick={true}>
