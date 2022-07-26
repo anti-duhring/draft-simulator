@@ -102,4 +102,3 @@ export const myTeamsData = (myTeams) => {
     data.teams.filter(team => myTeams.indexOf(team.franchise_id)!=-1);
 }
 
-

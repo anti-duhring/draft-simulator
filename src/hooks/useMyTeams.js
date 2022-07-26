@@ -7,9 +7,12 @@ export const useMyTeams = () => {
     const {
         myTeams,
         getPicksFromTeam,
-        tradablePlayers
+        tradablePlayers,
+        allPicks,
+        currentPick
     } = useContext(DraftContext)
     const [dataTeams, setDataTeams] = useState(null);
+    const round = 1;
 
     useEffect(() => {
         const arr = []
@@ -24,7 +27,7 @@ export const useMyTeams = () => {
             arr.push(team)
         });
         setDataTeams(arr);
-    },[])
+    },[allPicks, tradablePlayers, currentPick])
 
     return dataTeams
 }

@@ -22,7 +22,7 @@ export const useCurrentTeam = (round) => {
         team.tradablePlayers = [...tradablePlayers.filter(player => player.franchise_id==item.id)]
 
         setCurrentTeam(team);
-    },[])
+    },[allPicks, tradablePlayers])
 
     return currentTeam
 }

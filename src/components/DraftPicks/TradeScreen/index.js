@@ -26,21 +26,10 @@ const TradeScreen = (props) => {
     const [otherTeamID, setOtherTeamID] = useState(null)
     const [otherTeamOffer, setOtherTeamOffer] = useState([]);
     const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
+    const [tradesMade, setTradesMade] = useState(0);
 
     const otherTeamPlayerSelectRef = useRef();
     const currentTeamPlayerSelectRef = useRef();
-
-    const options = myTeams?.map(team => {
-        return {
-            value: team.id,
-            label:(
-                <Option>
-                    <OptionLogo src={team.nflData.team_logo_espn} /> <OptionName>{team.nflData.team_nick}</OptionName>
-                    <OptionPick>- Próxima pick {team.picks.find(p => p.pick > currentPick).pick}</OptionPick>
-                </Option>
-            )
-        }
-    })
 
     const optionsTradablePlayers = (teamID) => {
         const options = [];
@@ -50,6 +39,22 @@ const TradeScreen = (props) => {
         return options
     } 
  
+    const myTeamsOptions = () => {
+        const opt = [];
+        myTeams?.map(team => {
+            opt.push({
+                value: team.id,
+                label:(
+                    <Option>
+                        <OptionLogo src={team.nflData.team_logo_espn} /> <OptionName>{team.nflData.team_nick}</OptionName>
+                        <OptionPick>- Próxima pick {team.picks.find(p => p.pick > currentPick).pick}</OptionPick>
+                    </Option>
+                )
+            });
+        })
+        return opt
+    }
+    const [options, setOptions] = useState([...myTeamsOptions()])
 
     const handleSelect = (newValue, actionMeta) => {
         setOtherTeamID(prevID => (newValue.value));
@@ -100,12 +105,14 @@ const TradeScreen = (props) => {
         setOtherTeamID(options[0]?.value);
         setOtherTeamOffer([]);
         setCurrentTeamOffer([]);
+        setTradesMade(prevTrades => (prevTrades + 1))
     }
 
     useEffect(() => {
         if(!myTeams) return 
 
-        setOtherTeamID(myTeams[0].id)
+        setOtherTeamID(myTeams[0].id);
+        setOptions([...myTeamsOptions()]);
     },[myTeams])
     
     useEffect(() => {
@@ -115,12 +122,20 @@ const TradeScreen = (props) => {
         setCurrentTeamOffer([]);
     },[currentPick])
 
+    useEffect(() => {
+        setOptions([...myTeamsOptions()]);
+    },[tradesMade])
+
     if(!otherTeamID || !currentTeam) {
         return (
             <div>Loading...</div>
         )
-    } 
-
+    } else if(!myTeams || myTeams.map(i => i.id).indexOf(currentTeam.id) != -1) {
+        return (
+            <div>You trade</div>
+        )
+    }
+   
     const Slice = () => {
         return (
             <SliceContainer>
