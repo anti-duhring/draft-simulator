@@ -124,7 +124,7 @@ const Container = styled.div`
 `
 const PlayersList = styled.div`
     overflow: auto;
-    height: 90%;
+    height: 6.3%;
 `
 const PlayerContainer = styled.div`
     display: flex;

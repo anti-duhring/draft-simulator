@@ -84,6 +84,8 @@ export const DraftContextProvider = ({children}) => {
             myPicks.push(...picksFromThisSeason)
         });
 
+        //myPicks.sort((a, b) => a.pick - b.pick)
+
         return myPicks
     }
 

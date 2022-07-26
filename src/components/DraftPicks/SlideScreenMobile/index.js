@@ -1,16 +1,18 @@
 import { useState, useContext } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { IconContext } from "react-icons/lib";
 import { GoChevronUp, GoChevronDown } from 'react-icons/go'
 import PicksAvaliable from "../PicksAvaliable";
 import TradeScreen from '../TradeScreen'
 import { DraftContext } from "../../../Context/DraftContext";
+import { ORANGE } from "../../../constants/Colors";
 
 const SlideScreenMobile = (props) => {
     const {MyPicks, currentPick} = useContext(DraftContext)
     const isMyPick = MyPicks().indexOf(currentPick)!= -1;
 
     const [showScreen, setShowScreen] = useState(false);
+    const [tabToShow, setTabToShow] = useState('pick');
 
     const toggleShowScreen = () => {
         setShowScreen(showScreen ? false : true);
@@ -24,22 +26,24 @@ const SlideScreenMobile = (props) => {
                 </IconContext.Provider>   
             </TitleTab>
             <ContentTab style={{display:'flex',height:showScreen ? '80vh' : '0'}}>
-                {isMyPick ? 
-                    <PicksAvaliable 
-                        //picksPlayers={props.picksPlayers}
-                        //setPicksPlayers={props.setPicksPlayers}
-                        //currentPick={props.currentPick} 
-                        //setCurrentPick={props.setCurrentPick} 
-                        toggleShowScreen={toggleShowScreen}
-                       //handleDraftPlayer={props.handleDraftPlayer}
-                    /> 
+                <TabLinkContainer>
+                    <TabLink 
+                        onClick={() => setTabToShow('pick')}
+                        isActive={tabToShow == 'pick'}
+                    >
+                        Draftar jogador
+                    </TabLink>
+                    <TabLink 
+                        onClick={() => setTabToShow('trade')}
+                        isActive={tabToShow == 'trade'}
+                    >
+                        Propor troca
+                    </TabLink>
+                </TabLinkContainer>
+                {tabToShow == 'pick' ? 
+                    <PicksAvaliable toggleShowScreen={toggleShowScreen} /> 
                 : 
-                <TradeScreen
-                   /* currentPick={props.currentPick} 
-                    draftOrder={props.draftOrder}
-                    myTeams={props.myTeams} 
-                    picksPlayers={props.picksPlayers}*/
-                />}
+                <TradeScreen />}
             </ContentTab>
         </Container>
      );
@@ -69,4 +73,17 @@ const ContentTab = styled.div`
     //height: 80vh;
     padding: 0;//.5rem;
     /*overflow: auto;*/
+    display: flex;
+    flex-direction: column;
 `
+const TabLinkContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`
+const TabLink = styled.div((props) => css`
+    flex: 1;
+    padding: .5rem 0 .5rem 0;
+    border-bottom: 1px solid ${props.isActive ? ORANGE : 'white'};
+`)
