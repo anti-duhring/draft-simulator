@@ -12,6 +12,7 @@ import { IconContext } from "react-icons";
 import { GoSync, GoArrowBoth } from 'react-icons/go'
 import ProgressBar from '../../ProgressBar';
 import Button from '../../Button'
+import { useBotTeams } from '../../../hooks/useBotTeams';
 
 const TradeScreen = (props) => {
     const {
@@ -21,12 +22,16 @@ const TradeScreen = (props) => {
     } = useContext(DraftContext);
 
     const myTeams = useMyTeams();
+    const botTeams = useBotTeams();
     const currentTeam = useCurrentTeam(1);
 
     const [otherTeamID, setOtherTeamID] = useState(null)
     const [otherTeamOffer, setOtherTeamOffer] = useState([]);
     const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
+
+    const [options, setOptions] = useState(null)
     const [tradesMade, setTradesMade] = useState(0);
+    const [message, setMessage] = useState('Selecione um dos seus times para compor a troca:');
 
     const otherTeamPlayerSelectRef = useRef();
     const currentTeamPlayerSelectRef = useRef();
@@ -39,9 +44,9 @@ const TradeScreen = (props) => {
         return options
     } 
  
-    const myTeamsOptions = () => {
+    const teamsOptions = (teams) => {
         const opt = [];
-        myTeams?.map(team => {
+       teams.map(team => {
             opt.push({
                 value: team.id,
                 label:(
@@ -54,10 +59,9 @@ const TradeScreen = (props) => {
         })
         return opt
     }
-    const [options, setOptions] = useState([...myTeamsOptions()])
 
     const handleSelect = (newValue, actionMeta) => {
-        setOtherTeamID(prevID => (newValue.value));
+        setOtherTeamID(newValue.value);
         setOtherTeamOffer([]);
     }
 
@@ -102,7 +106,6 @@ const TradeScreen = (props) => {
         otherTeamPlayerSelectRef.current.clearValue();
         currentTeamPlayerSelectRef.current.clearValue();
 
-        setOtherTeamID(options[0]?.value);
         setOtherTeamOffer([]);
         setCurrentTeamOffer([]);
         setTradesMade(prevTrades => (prevTrades + 1))
@@ -111,30 +114,29 @@ const TradeScreen = (props) => {
     useEffect(() => {
         if(!myTeams) return 
 
-        setOtherTeamID(myTeams[0].id);
-        setOptions([...myTeamsOptions()]);
+        if(myTeams.map(i => i.id).indexOf(currentTeam.id) != -1) {
+            setMessage('Selecione um outro time para compor a troca:');
+            setOptions([...teamsOptions(botTeams)]);
+            setOtherTeamID(prevTeamID => (prevTeamID ? myTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? botTeams[0].id : prevTeamID : botTeams[0].id));
+        } else {
+            setMessage('Selecione um dos seus times para compor a troca:');
+            setOptions([...teamsOptions(myTeams)]);
+            setOtherTeamID(prevTeamID => (prevTeamID ? botTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? myTeams[0].id : prevTeamID : myTeams[0].id));
+
+        }
     },[myTeams])
     
     useEffect(() => {
         
-        setOtherTeamID(myTeams? myTeams[0].id : null)
         setOtherTeamOffer([]);
         setCurrentTeamOffer([]);
     },[currentPick])
 
-    useEffect(() => {
-        setOptions([...myTeamsOptions()]);
-    },[tradesMade])
-
-    if(!otherTeamID || !currentTeam) {
+    if(!otherTeamID || !currentTeam || !options) {
         return (
             <div>Loading...</div>
         )
-    } else if(!myTeams || myTeams.map(i => i.id).indexOf(currentTeam.id) != -1) {
-        return (
-            <div>You trade</div>
-        )
-    }
+    } 
    
     const Slice = () => {
         return (
@@ -195,7 +197,7 @@ const TradeScreen = (props) => {
             <Title>{season}</Title>
             <Grid>
             { otherTeamID && currentTeam &&
-                [...myTeams.find(i => i.id == otherTeamID).picks,...currentTeam.picks].sort((a, b) => a.pick - b.pick).map((pick, index) => {
+                [...[...myTeams, ...botTeams].find(i => i.id == otherTeamID).picks,...currentTeam.picks].sort((a, b) => a.pick - b.pick).map((pick, index) => {
                     if(pick.season != season) return
                     if(team == 'otherTeam' && pick.current_team_id == currentTeam.id || team =='currentTeam' && pick.current_team_id != currentTeam.id) return
 
@@ -211,7 +213,7 @@ const TradeScreen = (props) => {
                     } else {
                         return (
                             <PickItem 
-                                key={pick.pick} 
+                                key={index} 
                                 isAvaliable={currentPick <= pick.pick} 
                                 pick={pick} 
                                 team={team}
@@ -228,10 +230,10 @@ const TradeScreen = (props) => {
     return ( 
         <Container>
             <OtherTeam>
-                Selecione um dos seus times para compor a troca:
+                {message}
                 <Select 
                     options={options} 
-                    defaultValue={options[0]} 
+                    value={options.find(item => item.value==otherTeamID)} 
                     onChange={handleSelect}
                     isSearchable={false}
                 />

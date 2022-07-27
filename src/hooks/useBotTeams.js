@@ -3,7 +3,7 @@ import teamsData from '../data/NFL_teams.json'
 import { useContext, useEffect, useState } from 'react'
 import { DraftContext } from '../Context/DraftContext'
 
-export const useMyTeams = () => {
+export const useBotTeams = () => {
     const {
         myTeams,
         getPicksFromTeam,
@@ -16,13 +16,13 @@ export const useMyTeams = () => {
 
     useEffect(() => {
         const arr = []
-        myTeams.map(item => {
+        data.teams.filter(item => myTeams.indexOf(item.id) == -1).map(item => {
             const team = {}
-            team.id = item;
-            team.pffData = {...data.teams.find(i => i.id==item)};
-            team.nflData = {...teamsData.find(i => i.team_id == item)};
-            team.picks = [...getPicksFromTeam(item)];
-            team.tradablePlayers = [...tradablePlayers.filter(player => player.franchise_id==item)]
+            team.id = item.id;
+            team.pffData = {...data.teams.find(i => i.id==item.id)};
+            team.nflData = {...teamsData.find(i => i.team_id == item.id)};
+            team.picks = [...getPicksFromTeam(item.id)];
+            team.tradablePlayers = [...tradablePlayers.filter(player => player.franchise_id==item.id)]
     
             arr.push(team)
         });

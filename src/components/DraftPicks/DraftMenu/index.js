@@ -18,14 +18,20 @@ const DraftMenu = (props) => {
             <IconContext.Provider value={{color: 'white',size:'2rem',style: { verticalAlign: 'middle' }}}>
             <Button 
                 disabled={MyPicks().indexOf(currentPick)!= -1} 
-                onClick={handleNextPick} 
+                onClick={() => {
+                    props.setTabToShow('pick')
+                    handleNextPick();
+                }} 
                 style={styleButton}
             >
                 <GoChevronRight />
             </Button>
             <Button 
                 disabled={MyPicks().indexOf(currentPick)!= -1} 
-                onClick={handleMyNextPick} 
+                onClick={() => {
+                    props.setTabToShow('pick')
+                    handleMyNextPick();
+                }} 
                 style={styleButton}
             >
                 <GoChevronDown />

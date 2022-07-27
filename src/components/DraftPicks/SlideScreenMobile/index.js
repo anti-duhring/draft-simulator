@@ -12,7 +12,6 @@ const SlideScreenMobile = (props) => {
     const isMyPick = MyPicks().indexOf(currentPick)!= -1;
 
     const [showScreen, setShowScreen] = useState(false);
-    const [tabToShow, setTabToShow] = useState('pick');
 
     const toggleShowScreen = () => {
         setShowScreen(showScreen ? false : true);
@@ -28,21 +27,22 @@ const SlideScreenMobile = (props) => {
             <ContentTab style={{display:'flex',height:showScreen ? '80vh' : '0'}}>
                 <TabLinkContainer>
                     <TabLink 
-                        onClick={() => setTabToShow('pick')}
-                        isActive={tabToShow == 'pick'}
+                        onClick={() => props.setTabToShow('pick')}
+                        isActive={props.tabToShow == 'pick'}
                     >
                         Draftar jogador
                     </TabLink>
                     <TabLink 
-                        onClick={() => setTabToShow('trade')}
-                        isActive={tabToShow == 'trade'}
+                        onClick={() => props.setTabToShow('trade')}
+                        isActive={props.tabToShow == 'trade'}
                     >
                         Propor troca
                     </TabLink>
                 </TabLinkContainer>
-                {tabToShow == 'pick' ? 
-                    <PicksAvaliable toggleShowScreen={toggleShowScreen} /> 
-                : 
+
+                {props.tabToShow == 'pick' ?
+                <PicksAvaliable toggleShowScreen={toggleShowScreen} /> 
+                :
                 <TradeScreen />}
             </ContentTab>
         </Container>

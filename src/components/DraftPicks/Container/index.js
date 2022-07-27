@@ -16,7 +16,8 @@ const DraftPicksContainer = (props) => {
         setStep,
         currentPick,
         allPicks
-    } = useContext(DraftContext)
+    } = useContext(DraftContext);
+    const [tabToShow, setTabToShow] = useState('pick');
 
     const backToDraftOrder = () => {
         setStep('order');
@@ -32,9 +33,9 @@ const DraftPicksContainer = (props) => {
             {currentPick <= allPicks[1].length && 
             <>
             <Sticky>
-                <DraftMenu />
+                <DraftMenu tabToShow={tabToShow} setTabToShow={setTabToShow} />
             </Sticky>
-            <SlideScreenMobile />
+            <SlideScreenMobile tabToShow={tabToShow} setTabToShow={setTabToShow} />
             </>}
         </Container>
     )
