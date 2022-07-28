@@ -19,6 +19,7 @@ export const DraftContextProvider = ({children}) => {
     const [allPicks, setAllPicks] = useState(null);
     const [futurePicks, setFuturePicks] = useState(null);
     const [tradablePlayers, setTradablePlayers] = useState(null);
+    const [tradeHistory, setTradeHistory] = useState([]);
     
     const MyPicks = () => {
         const myPicks = [];
@@ -36,6 +37,20 @@ export const DraftContextProvider = ({children}) => {
         let newAllPicks = {...allPicks};
         let newFuturePicks = {...futurePicks};
         let newTradablePlayers = [...tradablePlayers];
+        const tradeResume = {
+            id: tradeHistory.length + 1,
+            teams_involved: [otherTeamID, currentTeamID],
+            assets_received_1: {
+                prev_owner: otherTeamID,
+                current_owner: currentTeamID,
+                assets: [...otherTeamOffer]
+            },
+            assets_received_2: {
+                prev_owner: currentTeamID,
+                current_owner: otherTeamID,
+                assets: [...currentTeamOffer]
+            }
+        };
 
         [...otherTeamOffer.filter(item => item.player_id), ...currentTeamOffer.filter(item => item.player_id)].map(player => {
             let thisPlayer = {...player};
@@ -67,6 +82,7 @@ export const DraftContextProvider = ({children}) => {
         setAllPicks(prevAllPicks => newAllPicks);
         setFuturePicks(prevFuturePicks => newFuturePicks);
         setTradablePlayers(newTradablePlayers);
+        setTradeHistory(prevHistory => ([...prevHistory,tradeResume]))
     }
 
     const getPicksFromTeam = (id) => {
@@ -192,6 +208,7 @@ export const DraftContextProvider = ({children}) => {
             setPicksPlayers,
             MyPicks,
             allPicks,
+            tradeHistory,
             NFLseason,
             tradablePlayers,
             handleDraftOrder,

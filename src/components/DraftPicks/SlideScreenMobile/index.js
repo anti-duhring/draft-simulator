@@ -6,6 +6,7 @@ import PicksAvaliable from "../PicksAvaliable";
 import TradeScreen from '../TradeScreen'
 import { DraftContext } from "../../../Context/DraftContext";
 import { ORANGE } from "../../../constants/Colors";
+import TeamInfo from "../TeamInfo";
 
 const SlideScreenMobile = (props) => {
     const {MyPicks, currentPick} = useContext(DraftContext)
@@ -38,12 +39,20 @@ const SlideScreenMobile = (props) => {
                     >
                         Propor troca
                     </TabLink>
+                    <TabLink 
+                        onClick={() => props.setTabToShow('team')}
+                        isActive={props.tabToShow == 'team'}
+                    >
+                        Time
+                    </TabLink>
                 </TabLinkContainer>
 
-                {props.tabToShow == 'pick' ?
-                <PicksAvaliable toggleShowScreen={toggleShowScreen} /> 
-                :
+                {props.tabToShow == 'pick' &&
+                <PicksAvaliable toggleShowScreen={toggleShowScreen} />}
+                {props.tabToShow == 'trade' &&
                 <TradeScreen />}
+                {props.tabToShow == 'team' &&
+                <TeamInfo />}
             </ContentTab>
         </Container>
      );
