@@ -65,6 +65,7 @@ const Container = styled.div`
     bottom: 0;
     left: 0;
     width: 100%;
+    margin-bottom: -1px;
 `
 const TitleTab = styled.div`
     background-color: black;

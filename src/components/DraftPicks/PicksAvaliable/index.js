@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import Select from 'react-select'
 import data from '../../../data/players.json'
 import styled from "styled-components";
@@ -31,6 +31,7 @@ const PicksAvaliable = (props) => {
     const [searchName, setSearchName] = useState('')
     const [searchPositions, setSearchPositions] = useState([]);
     const [render, setRender] = useState(1);
+    const PlayerItemRef = useRef();
 
     useEffect(() => {
         setRender(render + 1)
@@ -78,7 +79,9 @@ const PicksAvaliable = (props) => {
 
     const PlayerItem = ({player}) => {
         return (
-            <PlayerContainer onClick={() => {
+            <PlayerContainer className={`player-${player.pff_rank}`} onPointerDown={() => {
+                document.querySelector(`.player-${player.pff_rank}`).style.backgroundColor = BORDER_GRAY
+            }} onPointerUp={() => {
                 props.toggleShowScreen();
                 handleDraftPlayer(player)
             }}>
@@ -120,15 +123,16 @@ export default PicksAvaliable;
 
 const Container = styled.div`
     width: 100%;
-    padding: .5rem;
+    height: 100%;
+    //padding-top: 0;
+    overflow: auto;
 `
 const PlayersList = styled.div`
-    overflow: auto;
-    height: 6.3%;
+    padding: .5rem;
 `
 const PlayerContainer = styled.div`
     display: flex;
-    background-color: white;
+    //background-color: white;
     border: 1px solid ${BORDER_GRAY};
     //box-shadow: 0 1px 3px rgb(22 24 26 / 10%), 0 5px 10px -3px rgb(22 24 26 / 5%);
     border-radius: 5px;
@@ -136,6 +140,7 @@ const PlayerContainer = styled.div`
     align-items: center;
     color: ${GRAY};
     margin-bottom: .5rem;
+    cursor: pointer;
 `
 const Rank = styled.div`
     flex: 1;
@@ -154,6 +159,10 @@ const SearchContainer = styled.div`
     margin-bottom: .5rem;
     display: flex;
     flex-direction: row;
+    padding: .5rem .5rem 0 .5rem;
+    /*position: fixed;
+    background-color: white;
+    width: 100%;*/
 `
 const SearchBox = styled.div`
     flex: 1;
