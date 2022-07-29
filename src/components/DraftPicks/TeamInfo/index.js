@@ -5,6 +5,7 @@ import {useCurrentTeam} from '../../../hooks/useCurrentTeam'
 import { IconContext } from "react-icons";
 import { GoSync, GoArrowBoth } from 'react-icons/go'
 import data from '../../../data/NFL_teams.json'
+import { isMobile } from 'react-device-detect';
 
 const TeamInfo = () => {
     const currentTeam = useCurrentTeam(1);
@@ -135,6 +136,7 @@ const Container = styled.div`
     width: 100%;
     padding-top: .5rem;
     overflow: auto;
+    height: ${isMobile ? 'auto' : '82vh'};
 `
 const Logo = styled.img`
     width: 5rem;

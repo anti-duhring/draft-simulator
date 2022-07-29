@@ -4,6 +4,8 @@ import data from '../../../data/players.json'
 import styled from "styled-components";
 import { BLACK, BORDER_GRAY, GRAY } from '../../../constants/Colors';
 import { DraftContext } from '../../../Context/DraftContext';
+import { isMobile } from 'react-device-detect';
+import { defaultStyles, SelectTheme } from '../../../constants/SelectStyles';
 
 const options = [
     { value: 'QB', label: 'QB' },
@@ -100,7 +102,14 @@ const PicksAvaliable = (props) => {
             <SearchContainer>
                 <SearchBox>
 
-                    <Select isMulti={true} options={options} onChange={handleSelect} placeholder='Posições' />
+                    <Select 
+                        theme={SelectTheme}
+                        styles={defaultStyles}
+                        isMulti={true} 
+                        options={options} 
+                        onChange={handleSelect} 
+                        placeholder='Posições' 
+                    />
                 </SearchBox>
                 <SearchBox>
                     <SearchInput type="text" onChange={(e) => handleSearchName(e)} value={searchName} name="search" placeholder={'Pesquisar'} />
@@ -123,7 +132,7 @@ export default PicksAvaliable;
 
 const Container = styled.div`
     width: 100%;
-    height: 100%;
+    height: ${isMobile? '100%' : '82vh'};
     //padding-top: 0;
     overflow: auto;
 `

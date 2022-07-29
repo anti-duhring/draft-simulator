@@ -6,13 +6,14 @@ import {DraftContext} from '../../../Context/DraftContext'
 import { getValueFromOffer } from '../../../services/Draft';
 import { useMyTeams } from '../../../hooks/useMyTeams';
 import { useCurrentTeam } from '../../../hooks/useCurrentTeam';
-import { BLACK, BORDER_GRAY, GRAY, ORANGE } from '../../../constants/Colors';
+import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from '../../../constants/Colors';
 import { IconContext } from "react-icons";
 import { GoSync, GoArrowBoth } from 'react-icons/go'
 import ProgressBar from '../../ProgressBar';
 import Button from '../../Button'
 import { useBotTeams } from '../../../hooks/useBotTeams';
 import { isMobile } from 'react-device-detect';
+import { defaultStyles, SelectTheme } from '../../../constants/SelectStyles';
 
 const TradeScreen = (props) => {
     const {
@@ -36,13 +37,30 @@ const TradeScreen = (props) => {
     const otherTeamPlayerSelectRef = useRef();
     const currentTeamPlayerSelectRef = useRef();
 
-    const optionsTradablePlayers = (teamID) => {
+    const optionsTradablePlayers = (teamID, position) => {
         const options = [];
-        tradablePlayers.filter(player => player.franchise_id==teamID).map(player => {
-            options.push({value: player , label:`${player.player_name} - ${player.position}`});
+        const players = tradablePlayers.filter(player => player.franchise_id==teamID).filter(p => p.position==position);
+        let uniquePlayers = [];
+
+        players.filter((p, i) => players.indexOf(p)==i).map(player => {
+            if(uniquePlayers.indexOf(player.player_id)!=-1) return
+            uniquePlayers.push(player.player_id);
+            
+            options.push({value: player , label:`${player.player_name}`});
         })
         return options
     } 
+
+    const groupedOptionsTradablePlayers = (teamID) => {
+        const groups = [];
+        tradablePlayers.filter(player => player.franchise_id==teamID).map(p => p.position).filter((p, i) => tradablePlayers.filter(player => player.franchise_id==teamID).map(p => p.position).indexOf(p)==i).map(position => {
+            groups.push({
+                label: position,
+                options: optionsTradablePlayers(teamID, position)
+            })
+        })
+        return groups
+    }
  
     const teamsOptions = (teams) => {
         const opt = [];
@@ -233,6 +251,8 @@ const TradeScreen = (props) => {
                 {isMobile && message}
                 <Select 
                     options={options} 
+                    theme={SelectTheme}
+                    styles={defaultStyles}
                     value={options.find(item => item.value==otherTeamID)} 
                     onChange={handleSelect}
                     isSearchable={false}
@@ -252,9 +272,11 @@ const TradeScreen = (props) => {
                 <div style={{marginTop:'.5rem'}}>
                     <Select 
                         ref={otherTeamPlayerSelectRef}
-                        options={optionsTradablePlayers(otherTeamID)} 
+                        options={groupedOptionsTradablePlayers(otherTeamID)} 
                         isMulti={true}
                         menuPlacement={isMobile ? 'bottom' : 'top'}
+                        theme={SelectTheme}
+                        styles={defaultStyles}
                         onChange={(newValue, actionMeta) => addPlayerToOffer(newValue, actionMeta, otherTeamID)}
                         isSearchable={false}
                         placeholder='Adicionar jogador'
@@ -265,6 +287,8 @@ const TradeScreen = (props) => {
             <CurrentTeam>
                 <Select 
                     isDisabled={true} 
+                    theme={SelectTheme}
+                    styles={defaultStyles}
                     value={{value: currentTeam.id, label: (
                         <Option>
                             <OptionLogo src={currentTeam.nflData.team_logo_espn} /> <OptionName>{currentTeam.nflData.team_nick}</OptionName>
@@ -287,9 +311,11 @@ const TradeScreen = (props) => {
                 <div style={{marginTop:'.5rem'}}>
                     <Select 
                         ref={currentTeamPlayerSelectRef}
-                        options={optionsTradablePlayers(currentTeam.id)}  
+                        options={groupedOptionsTradablePlayers(currentTeam.id)}  
                         isMulti={true}
                         menuPlacement={isMobile ? 'bottom' : 'top'}
+                        theme={SelectTheme}
+                        styles={defaultStyles}
                         onChange={(newValue, actionMeta) => addPlayerToOffer(newValue, actionMeta, currentTeam.id)}
                         isSearchable={false}
                         placeholder='Adicionar jogador'
@@ -324,16 +350,16 @@ export default TradeScreen;
 const Container = styled.div`
     padding: 0.5rem;
     width: 100%;
-    overflow: auto;
-    height: 100%;
+    overflow:  ${isMobile ? 'auto' : 'none'};
+    height: ${isMobile ? '100%' : 'auto'};
     display: flex;
     flex-direction: column;
 `
 const OtherTeam = styled.div`
-
+    flex:1;
 `
 const CurrentTeam = styled.div`
-
+    flex:1;
 `
 const OptionLogo = styled.img`
     width: 2rem;
@@ -420,11 +446,11 @@ const SliceContainer = styled.div`
     align-items: center;
 `
 const Line = styled.div`
-    width: ${isMobile? '100%' : '2px'};
+    width: ${isMobile? '100%' : '1px'};
     background-color: ${BORDER_GRAY};
-    height: ${isMobile? '2px' : '100%'};
+    height: ${isMobile? '2px' : '70%'};
     position: absolute;
-    top: ${isMobile? '50%' : '0%'};
+    top: ${isMobile? '50%' : '15%'};
     left: ${isMobile? '0%' : '50%'};
 `
 const TradeProgress = styled.div`
@@ -447,4 +473,6 @@ const Teams = styled.div`
     display: flex;
     flex-direction: ${isMobile? 'column' : 'row'};
     column-gap: 1rem;
+    overflow: ${isMobile ? 'none' : 'auto'};
+    height: ${isMobile ? 'auto' : '70vh'};
 `
