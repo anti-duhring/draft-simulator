@@ -8,13 +8,6 @@ import data from '../../../data/NFL_teams.json'
 
 const TeamInfo = () => {
     const currentTeam = useCurrentTeam(1);
-    console.log(currentTeam);
-
-    /*useEffect(() => {
-        if(!currentTeam) return
-        console.log(currentTeam.tradablePlayers.map(p => p.position).filter((p, i) => currentTeam.tradablePlayers.map(p => p.position).indexOf(p)==i));
-        
-    },[currentTeam])*/
 
     const Slice = () => {
         return (

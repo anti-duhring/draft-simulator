@@ -2,7 +2,6 @@ import {useState, useContext, useEffect, useRef} from 'react'
 import Select from 'react-select'
 import styled, { css } from "styled-components";
 import data from '../../../data/draft_picks.json'
-import teamsData from '../../../data/NFL_teams.json'
 import {DraftContext} from '../../../Context/DraftContext'
 import { getValueFromOffer } from '../../../services/Draft';
 import { useMyTeams } from '../../../hooks/useMyTeams';
@@ -13,6 +12,7 @@ import { GoSync, GoArrowBoth } from 'react-icons/go'
 import ProgressBar from '../../ProgressBar';
 import Button from '../../Button'
 import { useBotTeams } from '../../../hooks/useBotTeams';
+import { isMobile } from 'react-device-detect';
 
 const TradeScreen = (props) => {
     const {
@@ -124,10 +124,9 @@ const TradeScreen = (props) => {
             setOtherTeamID(prevTeamID => (prevTeamID ? botTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? myTeams[0].id : prevTeamID : myTeams[0].id));
 
         }
-    },[myTeams])
+    },[myTeams, currentPick])
     
     useEffect(() => {
-        
         setOtherTeamOffer([]);
         setCurrentTeamOffer([]);
     },[currentPick])
@@ -141,7 +140,7 @@ const TradeScreen = (props) => {
     const Slice = () => {
         return (
             <SliceContainer>
-            <IconContext.Provider value={{color: BORDER_GRAY,size:'1.3rem',style: { verticalAlign: 'middle', transform: 'rotate(90deg)', backgroundColor:'white' }}}>
+            <IconContext.Provider value={{color: BORDER_GRAY,size:isMobile? '1.3rem' : '1.5rem',style: { verticalAlign: 'middle', transform: isMobile ? 'rotate(90deg)' : 'rotate(0deg)', backgroundColor:'white' }}}>
                 <Line />
                 <GoArrowBoth />
             </IconContext.Provider>
@@ -229,8 +228,9 @@ const TradeScreen = (props) => {
 
     return ( 
         <Container>
+            <Teams>
             <OtherTeam>
-                {message}
+                {isMobile && message}
                 <Select 
                     options={options} 
                     value={options.find(item => item.value==otherTeamID)} 
@@ -254,6 +254,7 @@ const TradeScreen = (props) => {
                         ref={otherTeamPlayerSelectRef}
                         options={optionsTradablePlayers(otherTeamID)} 
                         isMulti={true}
+                        menuPlacement={isMobile ? 'bottom' : 'top'}
                         onChange={(newValue, actionMeta) => addPlayerToOffer(newValue, actionMeta, otherTeamID)}
                         isSearchable={false}
                         placeholder='Adicionar jogador'
@@ -288,12 +289,16 @@ const TradeScreen = (props) => {
                         ref={currentTeamPlayerSelectRef}
                         options={optionsTradablePlayers(currentTeam.id)}  
                         isMulti={true}
+                        menuPlacement={isMobile ? 'bottom' : 'top'}
                         onChange={(newValue, actionMeta) => addPlayerToOffer(newValue, actionMeta, currentTeam.id)}
                         isSearchable={false}
                         placeholder='Adicionar jogador'
                     />
                 </div>
-                <TradeProgress>
+            </CurrentTeam>
+            </Teams>
+            <Footer>
+            <TradeProgress>
                     <ProgressBar
                         //style={{flex:1}}
                         progress={
@@ -309,7 +314,7 @@ const TradeScreen = (props) => {
                 <div>
                     <Button onClick={offerTrade}>Propor troca</Button>
                 </div>
-            </CurrentTeam>
+            </Footer>
         </Container>
      );
 }
@@ -320,6 +325,9 @@ const Container = styled.div`
     padding: 0.5rem;
     width: 100%;
     overflow: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 `
 const OtherTeam = styled.div`
 
@@ -383,6 +391,11 @@ const PickItemContainer = styled.div((props) => css`
     flex-direction: column;
     background-color: ${props.isAvaliable ? 'transparent' : 'hsl(0, 0%, 95%)'};
     color: ${props.isAvaliable ? BLACK : 'hsl(0, 0%, 60%)'};
+    cursor: pointer;
+
+    &:hover {
+        color: ${ORANGE};
+    }
 `)
 const PickItemPick = styled.div`
     flex: 1;
@@ -391,7 +404,7 @@ const PickItemPick = styled.div`
 const PickItemLegend = styled.div((props) => css`
     color: ${GRAY}; 
     flex: 1;
-    font-size: .8rem;
+    font-size: .7rem;
     display: flex;
     flex-direction: column;
     .viaLegend {
@@ -402,13 +415,17 @@ const SliceContainer = styled.div`
     position: relative;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 const Line = styled.div`
-    width: 100%;
+    width: ${isMobile? '100%' : '2px'};
     background-color: ${BORDER_GRAY};
-    height: 2px;
+    height: ${isMobile? '2px' : '100%'};
     position: absolute;
-    top: 50%;
+    top: ${isMobile? '50%' : '0%'};
+    left: ${isMobile? '0%' : '50%'};
 `
 const TradeProgress = styled.div`
     display: flex;
@@ -418,4 +435,16 @@ const TradeProgress = styled.div`
 const TradeProgressLegend = styled.div`
    margin-left: .5rem;
    color: ${GRAY}
+`
+const Footer = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+`
+const Teams = styled.div`
+    display: flex;
+    flex-direction: ${isMobile? 'column' : 'row'};
+    column-gap: 1rem;
 `

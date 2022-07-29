@@ -33,6 +33,10 @@ export const DraftContextProvider = ({children}) => {
         return myPicks
     }
 
+    const isMyPick = () => {
+        return MyPicks().indexOf(currentPick)!=-1
+    }
+
     const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID) => {
         let newAllPicks = {...allPicks};
         let newFuturePicks = {...futurePicks};
@@ -207,6 +211,7 @@ export const DraftContextProvider = ({children}) => {
             picksPlayers,
             setPicksPlayers,
             MyPicks,
+            isMyPick,
             allPicks,
             tradeHistory,
             NFLseason,

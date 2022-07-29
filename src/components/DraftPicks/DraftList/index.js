@@ -70,7 +70,7 @@ const PickItemContainer = styled.div((props) => css`
     margin-bottom: .5rem;
     margin-left: .5rem;
     margin-right: .5rem;
-    width: ${isMobile ? '95%' : '50rem'};
+    width: ${isMobile ? '95%' : '100%'};
 `)
 const Status = styled.span((props) => css`
     margin-left: .5rem;

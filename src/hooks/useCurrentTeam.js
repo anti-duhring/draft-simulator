@@ -24,7 +24,7 @@ export const useCurrentTeam = (round) => {
         team.tradeHistory = [...tradeHistory?.filter(i =>  i.teams_involved.indexOf(item.id) != -1)]
 
         setCurrentTeam(team);
-    },[allPicks, tradablePlayers])
+    },[allPicks, tradablePlayers, currentPick])
 
     return currentTeam
 }

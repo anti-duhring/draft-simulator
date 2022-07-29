@@ -7,7 +7,7 @@ import SlideScreenMobile from "../SlideScreenMobile";
 import data from '../../../data/players.json'
 import { DraftContext } from "../../../Context/DraftContext";
 import { isMobile } from "react-device-detect";
-import ActionScreenDesktop from "../../ActionScreenDesktop/Container";
+import ActionScreenDesktop from "../ActionScreenDesktop/Container";
 
 //console.log(data.players.map(item => item.id));
 
@@ -19,7 +19,7 @@ const DraftPicksContainer = (props) => {
         currentPick,
         allPicks
     } = useContext(DraftContext);
-    const [tabToShow, setTabToShow] = useState('pick');
+    
 
     const backToDraftOrder = () => {
         setStep('order');
@@ -38,9 +38,9 @@ const DraftPicksContainer = (props) => {
             {currentPick <= allPicks[1].length && isMobile && 
             <>
             <Sticky>
-                <DraftMenu tabToShow={tabToShow} setTabToShow={setTabToShow} />
+                <DraftMenu />
             </Sticky>
-            <SlideScreenMobile tabToShow={tabToShow} setTabToShow={setTabToShow} />
+            <SlideScreenMobile />
             </>}
         </Container>
     )
@@ -49,7 +49,7 @@ const DraftPicksContainer = (props) => {
 export default DraftPicksContainer;
 
 const Container = styled.div`
-    width: ${isMobile ? '100%' : 'auto'};
+    width: ${isMobile ? '100%' : '80vw'};
     padding-bottom: 4rem;
 `
 const Sticky = styled.div`
@@ -60,4 +60,5 @@ const Sticky = styled.div`
 const Flex = styled.div`
     display: flex;
     flex-direction: row;
+    column-gap: 1.3rem;
 `

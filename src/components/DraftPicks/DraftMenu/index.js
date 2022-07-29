@@ -19,8 +19,6 @@ const DraftMenu = (props) => {
             <Button 
                 disabled={MyPicks().indexOf(currentPick)!= -1} 
                 onClick={() => {
-                    props.setTabToShow('team');
-                    props.setTabToShow('trade');
                     handleNextPick();
                 }} 
                 style={styleButton}
@@ -30,8 +28,6 @@ const DraftMenu = (props) => {
             <Button 
                 disabled={MyPicks().indexOf(currentPick)!= -1} 
                 onClick={() => {
-                    props.setTabToShow('team');
-                    props.setTabToShow('trade');
                     handleMyNextPick();
                 }} 
                 style={styleButton}

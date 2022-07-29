@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { IconContext } from "react-icons/lib";
 import { GoChevronUp, GoChevronDown } from 'react-icons/go'
@@ -9,49 +9,55 @@ import { ORANGE } from "../../../constants/Colors";
 import TeamInfo from "../TeamInfo";
 
 const SlideScreenMobile = (props) => {
-    const {MyPicks, currentPick} = useContext(DraftContext)
-    const isMyPick = MyPicks().indexOf(currentPick)!= -1;
+    const {
+        isMyPick
+    } = useContext(DraftContext)
 
+    const [tabToShow, setTabToShow] = useState(isMyPick() ? 'pick' : 'trade');
     const [showScreen, setShowScreen] = useState(false);
 
     const toggleShowScreen = () => {
         setShowScreen(showScreen ? false : true);
     }
 
+    useEffect(() => {
+        setTabToShow(isMyPick() ? 'pick' : 'trade')
+    },[isMyPick])
+
     return ( 
         <Container>
             <TitleTab onClick={toggleShowScreen}>
                 <IconContext.Provider value={{color: 'white',size:'1.5rem',style: { verticalAlign: 'middle' }}}>
-                    {isMyPick ? 'Fazer pick' : 'Oferecer troca'} {showScreen ? <GoChevronDown /> : <GoChevronUp />}
+                    {isMyPick() ? 'Fazer pick' : 'Oferecer troca'} {showScreen ? <GoChevronDown /> : <GoChevronUp />}
                 </IconContext.Provider>   
             </TitleTab>
             <ContentTab style={{display:'flex',height:showScreen ? '80vh' : '0'}}>
                 <TabLinkContainer>
-                    <TabLink 
-                        onClick={() => props.setTabToShow('pick')}
-                        isActive={props.tabToShow == 'pick'}
+                    {isMyPick() && <TabLink 
+                        onClick={() => setTabToShow('pick')}
+                        isActive={tabToShow == 'pick'}
                     >
                         Draftar jogador
-                    </TabLink>
+                    </TabLink>}
                     <TabLink 
-                        onClick={() => props.setTabToShow('trade')}
-                        isActive={props.tabToShow == 'trade'}
+                        onClick={() => setTabToShow('trade')}
+                        isActive={tabToShow == 'trade'}
                     >
                         Propor troca
                     </TabLink>
                     <TabLink 
-                        onClick={() => props.setTabToShow('team')}
-                        isActive={props.tabToShow == 'team'}
+                        onClick={() => setTabToShow('team')}
+                        isActive={tabToShow == 'team'}
                     >
                         Time
                     </TabLink>
                 </TabLinkContainer>
 
-                {props.tabToShow == 'pick' &&
+                {tabToShow == 'pick' &&
                 <PicksAvaliable toggleShowScreen={toggleShowScreen} />}
-                {props.tabToShow == 'trade' &&
+                {tabToShow == 'trade' &&
                 <TradeScreen />}
-                {props.tabToShow == 'team' &&
+                {tabToShow == 'team' &&
                 <TeamInfo />}
             </ContentTab>
         </Container>
