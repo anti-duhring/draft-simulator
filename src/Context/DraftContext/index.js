@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
 import { getFuturePicks, getPicks } from "../../services/Draft";
+import { compareOfferValue } from "../../services/Trade";
+import Alert from '../../components/Alert'
 
 export const DraftContext = createContext();
 
@@ -20,6 +22,12 @@ export const DraftContextProvider = ({children}) => {
     const [futurePicks, setFuturePicks] = useState(null);
     const [tradablePlayers, setTradablePlayers] = useState(null);
     const [tradeHistory, setTradeHistory] = useState([]);
+
+    const [alert, setAlert] = useState({
+        active: false,
+        message: '',
+        title: '',
+    })
     
     const MyPicks = () => {
         const myPicks = [];
@@ -37,7 +45,7 @@ export const DraftContextProvider = ({children}) => {
         return MyPicks().indexOf(currentPick)!=-1
     }
 
-    const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID) => {
+    const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID, offerValues) => {
         let newAllPicks = {...allPicks};
         let newFuturePicks = {...futurePicks};
         let newTradablePlayers = [...tradablePlayers];
@@ -55,6 +63,22 @@ export const DraftContextProvider = ({children}) => {
                 assets: [...currentTeamOffer]
             }
         };
+
+        if(!compareOfferValue(offerValues, isMyPick(), false)) {
+            setAlert({
+                active: true, 
+                title: `A proposta foi rejeitada pelo GM do ${isMyPick() ? data.teams.find(i => i.id==otherTeamID).nickname : data.teams.find(i => i.id==currentTeamID).nickname}`, 
+                message:`O valor da sua oferta foi muito baixo, tente incrementá-lo com algumas picks ou adicionar jogadores na negociação.`
+        })
+            return
+        } else if(compareOfferValue(offerValues, isMyPick(), false) == -1) {
+            setAlert({
+                active: true, 
+                title: `Oferta muito alta!`, 
+                message:`Sua oferta foi muito alta, isso talvez enfureça sua torcida e o dono do time. Retome as negociações com um valor um pouco mais baixo.`
+            })
+            return
+        }
 
         [...otherTeamOffer.filter(item => item.player_id), ...currentTeamOffer.filter(item => item.player_id)].map(player => {
             let thisPlayer = {...player};
@@ -223,6 +247,7 @@ export const DraftContextProvider = ({children}) => {
             handleOfferTrade,
             getPicksFromTeam,
             }}>
+                <Alert alert={alert} />
             {children}
         </DraftContext.Provider>
      );

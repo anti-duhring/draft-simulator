@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, ORANGE } from "../../../../constants/Colors";
+import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../../../../constants/Colors";
 import { DraftContext } from '../../../../Context/DraftContext'
 import Button from "../../../Button";
 import PicksAvaliable from "../../PicksAvaliable";
@@ -27,7 +27,7 @@ const ActionScreenDesktop = () => {
 
     return ( 
         <Container>
-            <Header>MENU DO GM</Header>
+            <Header>Painel do GM</Header>
             <Content>
             <TabLinkContainer>
                 <Tabs>
@@ -86,7 +86,7 @@ const Header = styled.div`
     border-radius: 5px 5px 0 0;
     color: white;
     width: 100%;
-    padding: .2rem 0 .2rem 0;
+    padding: .3rem 0 .3rem 0;
 `
 const Content = styled.div`
     border: 1px solid ${BORDER_GRAY};
@@ -106,6 +106,15 @@ const TabLink = styled.div((props) => css`
     flex: 1;
     padding: .5rem 0 .5rem 0;
     border-bottom: 1px solid ${props.isActive ? ORANGE : 'white'};
+    color: ${props.isActive ? ORANGE : DARK_BLACK};
+    font-size: .8rem;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+        color: ${ORANGE};
+        border-color: ${props.isActive ? ORANGE : LIGHT_ORANGE};
+    }
 `)
 const Tabs = styled.div`
     flex:2;
@@ -127,5 +136,6 @@ const ButtonStyle = {
     lineHeight:'32px', 
     paddingLeft:15, 
     paddingRight:15,
-    fontSize: 8
+    fontSize: 8,
+    borderRadius:5
 }

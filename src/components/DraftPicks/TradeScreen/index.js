@@ -19,7 +19,8 @@ const TradeScreen = (props) => {
     const {
         tradablePlayers,
         currentPick,
-        handleOfferTrade
+        handleOfferTrade,
+        isMyPick
     } = useContext(DraftContext);
 
     const myTeams = useMyTeams();
@@ -119,7 +120,11 @@ const TradeScreen = (props) => {
     }
 
     const offerTrade = () => {
-        handleOfferTrade(otherTeamOffer, otherTeamID, currentTeamOffer, currentTeam.id);
+        const offerValues = {
+            otherTeamOfferValue: getValueFromOffer(otherTeamOffer), 
+            currentTeamOfferValue: getValueFromOffer(currentTeamOffer)
+        }
+        handleOfferTrade(otherTeamOffer, otherTeamID, currentTeamOffer, currentTeam.id, offerValues);
 
         otherTeamPlayerSelectRef.current.clearValue();
         currentTeamPlayerSelectRef.current.clearValue();
@@ -326,15 +331,18 @@ const TradeScreen = (props) => {
             <Footer>
             <TradeProgress>
                     <ProgressBar
-                        //style={{flex:1}}
+                        style={{height:'.8rem'}}
                         progress={
                             (getValueFromOffer(otherTeamOffer) > 0 && getValueFromOffer(currentTeamOffer) > 0) ?
 
-                            (100 * getValueFromOffer(otherTeamOffer)) / (getValueFromOffer(currentTeamOffer)) : 0
+                            isMyPick()? 
+                            (100 * getValueFromOffer(currentTeamOffer)) / (getValueFromOffer(otherTeamOffer)) :
+                            (100 * getValueFromOffer(otherTeamOffer)) / (getValueFromOffer(currentTeamOffer))
+                            : 0
                         }
                     />
                     <TradeProgressLegend>
-                        Chance da troca ser aceita
+                        Chance da troca ser aceita pelo outro time
                     </TradeProgressLegend>
                 </TradeProgress>
                 <div>
@@ -420,7 +428,7 @@ const PickItemContainer = styled.div((props) => css`
     cursor: pointer;
 
     &:hover {
-        color: ${ORANGE};
+        color: ${props.isAvaliable ? ORANGE : 'hsl(0, 0%, 60%)'};
     }
 `)
 const PickItemPick = styled.div`
@@ -460,7 +468,8 @@ const TradeProgress = styled.div`
 `
 const TradeProgressLegend = styled.div`
    margin-left: .5rem;
-   color: ${GRAY}
+   color: ${GRAY};
+   font-size: .8rem;
 `
 const Footer = styled.div`
     height: 100%;

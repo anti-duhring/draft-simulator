@@ -31,10 +31,6 @@ const DraftPicksContainer = (props) => {
                 <DraftList />
                 {!isMobile && <ActionScreenDesktop />}
             </Flex>
-            <div className="footer">
-                <Button onClick={backToDraftOrder}>Voltar</Button>
-                <Button>Finalizar Draft</Button>
-            </div>
             {currentPick <= allPicks[1].length && isMobile && 
             <>
             <Sticky>

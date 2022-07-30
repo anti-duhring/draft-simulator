@@ -28,7 +28,7 @@ const DraftList = (props) => {
                 <Team>
                     <Logo src={currentTeam.team_logo_espn} />
                     <Status className="pick-status" otc={currentPick==pick}>
-                    {currentPick==pick ? 'On the clock' : currentPick > pick ? playerPick?.name : 'Aguardando'}
+                    {currentPick==pick ? 'On the clock' : currentPick > pick ? `${playerPick?.name} - ${playerPick?.position}` : 'Aguardando'}
                     </Status>
                 </Team>
             </PickItemContainer>
