@@ -2,6 +2,7 @@ import { useState, useContext } from "react"
 import DraftOrderContainer from "../DraftOrder/DraftOrderContainer"
 import DraftPicksContainer from "../DraftPicks/Container"
 import {DraftContext} from "../../Context/DraftContext"
+import styled from 'styled-components'
 
 const Home = () => {
     /*const [step, setStep] = useState('order');
@@ -10,7 +11,7 @@ const Home = () => {
     const {step} = useContext(DraftContext);
 
     return (
-        <>
+        <Container>
             {step=='order' && 
             <DraftOrderContainer />}
             {step=='picks' && 
@@ -22,8 +23,12 @@ const Home = () => {
                 myTeams={myTeams}
                 setMyTeams={setMyTeams} */
             />}
-        </>
+        </Container>
     )
 }
 
-export default Home
+export default Home;
+
+const Container = styled.div`
+    margin-top: 1rem;
+`

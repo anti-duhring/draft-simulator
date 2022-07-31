@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../../../../constants/Colors";
 import { DraftContext } from '../../../../Context/DraftContext'
+import { useCurrentTeam } from "../../../../hooks/useCurrentTeam";
 import Button from "../../../Button";
 import PicksAvaliable from "../../PicksAvaliable";
 import TeamInfo from "../../TeamInfo";
@@ -13,8 +14,11 @@ const ActionScreenDesktop = () => {
         handleNextPick,
         handleMyNextPick,
         currentPick,
-        allPicks
-    } = useContext(DraftContext)
+        allPicks,
+        MyPicks
+    } = useContext(DraftContext);
+    const currentTeam = useCurrentTeam(1);
+
     const [tabToShow, setTabToShow] = useState(isMyPick() ? 'pick' : 'trade');
 
     const toggleShowScreen = () => {
@@ -27,7 +31,7 @@ const ActionScreenDesktop = () => {
 
     return ( 
         <Container>
-            <Header>Painel do GM</Header>
+            <Header isMyPick={isMyPick()}>Painel do GM - {isMyPick() ? 'Sua pick' : `Negocie com o ${currentTeam?.nflData.team_nick}`}</Header>
             <Content>
             <TabLinkContainer>
                 <Tabs>
@@ -51,18 +55,26 @@ const ActionScreenDesktop = () => {
                 </TabLink>
                 </Tabs>
                     <TabActions>
-                    <Button style={ButtonStyle} onClick={handleNextPick}>
+                    <Button 
+                        disabled={MyPicks().indexOf(currentPick)!= -1}
+                        style={ButtonStyle} 
+                        onClick={handleNextPick}
+                    >
                         Próxima pick
-                        </Button>
-                        <Button style={ButtonStyle} onClick={handleMyNextPick}>
-                        Fast forward
+                    </Button>
+                    <Button 
+                        disabled={MyPicks().indexOf(currentPick)!= -1}
+                        style={ButtonStyle} 
+                        onClick={handleMyNextPick}
+                    >
+                        {MyPicks().find(pick => pick > currentPick && pick < 32) ? `Pular até a pick ${MyPicks().find(pick => pick > currentPick && pick < 32)}` : 'Pular até o final'}
                     </Button>
                 </TabActions>
             </TabLinkContainer>
-                    {tabToShow == 'trade' && currentPick <= allPicks[1].length && <TradeScreen />}
-                    {tabToShow == 'team' && currentPick <= allPicks[1].length && <TeamInfo />}
-                    {tabToShow == 'pick' && currentPick <= allPicks[1].length && <PicksAvaliable toggleShowScreen={toggleShowScreen} />}
-                    {currentPick > allPicks[1].length && 
+                    {tabToShow == 'trade' && currentPick > 0 && <TradeScreen />}
+                    {tabToShow == 'team' && currentPick > 0 && <TeamInfo />}
+                    {tabToShow == 'pick' && currentPick > 0 && <PicksAvaliable toggleShowScreen={toggleShowScreen} />}
+                    {currentPick == 0 && 
                         <div>
                             Draft finalizado!!
                         </div>
@@ -81,13 +93,13 @@ const Container = styled.div`
     position: sticky;
     top: 5px;
 `
-const Header = styled.div`
-    background-color: ${DARK_BLACK};
+const Header = styled.div((props) =>  css`
+    background-color: ${props.isMyPick? ORANGE : DARK_BLACK};
     border-radius: 5px 5px 0 0;
     color: white;
     width: 100%;
     padding: .3rem 0 .3rem 0;
-`
+`)
 const Content = styled.div`
     border: 1px solid ${BORDER_GRAY};
     box-shadow: 0 1px 3px rgb(22 24 26 / 10%), 0 5px 10px -3px rgb(22 24 26 / 5%);
@@ -130,6 +142,7 @@ const TabActions = styled.div`
     justify-content: center;
     align-items: center;
     column-gap: .3rem;
+    padding-right: .3rem;
 `
 const ButtonStyle = {
     height:30,

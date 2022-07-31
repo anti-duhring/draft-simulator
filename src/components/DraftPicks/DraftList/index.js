@@ -17,7 +17,7 @@ const DraftList = (props) => {
 
     const PickItem = ({team, pick, index}) => {
         const currentTeam = teams.find(item => item.team_id == team);
-        const playerPick = currentPick > pick ? data.players.find(item => item.id == picksPlayers[index]) : null;
+        const playerPick = data.players.find(item => item.id == picksPlayers[index]);
 
         return (
             <PickItemContainer className={`pick-${pick}`} otc={currentPick==pick} isMyPick={myTeams.indexOf(team) != -1}>
@@ -28,7 +28,7 @@ const DraftList = (props) => {
                 <Team>
                     <Logo src={currentTeam.team_logo_espn} />
                     <Status className="pick-status" otc={currentPick==pick}>
-                    {currentPick==pick ? 'On the clock' : currentPick > pick ? `${playerPick?.name} - ${playerPick?.position}` : 'Aguardando'}
+                    {currentPick==pick ? 'On the clock' : picksPlayers[index] ? `${playerPick?.name} - ${playerPick?.position}` : 'Aguardando'}
                     </Status>
                 </Team>
             </PickItemContainer>
@@ -70,7 +70,7 @@ const PickItemContainer = styled.div((props) => css`
     margin-bottom: .5rem;
     margin-left: .5rem;
     margin-right: .5rem;
-    width: ${isMobile ? '95%' : '100%'};
+    width: ${isMobile ? '95vw' : '100%'};
 `)
 const Status = styled.span((props) => css`
     margin-left: .5rem;
@@ -80,10 +80,12 @@ const Status = styled.span((props) => css`
 `)
 const Pick = styled.div`
     flex: 1;
+    border-right: 1px solid ${BORDER_GRAY};
+    margin-right: .5rem;
 
 `
 const Team = styled.div`
-    flex: 3;
+    flex: 4;
     display: flex;
     align-items: center;
 `

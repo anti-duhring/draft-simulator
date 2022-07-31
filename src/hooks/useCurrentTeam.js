@@ -14,6 +14,8 @@ export const useCurrentTeam = (round) => {
     const [currentTeam, setCurrentTeam] = useState(null);
 
     useEffect(() => {
+        if(currentPick<=0) return
+
         const team = {};
         const item = data.teams.find(item => item.id==allPicks[round][currentPick - 1].current_team_id);
         team.id = item.id;

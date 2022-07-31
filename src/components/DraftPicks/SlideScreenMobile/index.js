@@ -5,13 +5,15 @@ import { GoChevronUp, GoChevronDown } from 'react-icons/go'
 import PicksAvaliable from "../PicksAvaliable";
 import TradeScreen from '../TradeScreen'
 import { DraftContext } from "../../../Context/DraftContext";
-import { ORANGE } from "../../../constants/Colors";
+import { DARK_BLACK, ORANGE } from "../../../constants/Colors";
 import TeamInfo from "../TeamInfo";
+import { useCurrentTeam } from "../../../hooks/useCurrentTeam";
 
 const SlideScreenMobile = (props) => {
     const {
         isMyPick
     } = useContext(DraftContext)
+    const currentTeam = useCurrentTeam(1)
 
     const [tabToShow, setTabToShow] = useState(isMyPick() ? 'pick' : 'trade');
     const [showScreen, setShowScreen] = useState(false);
@@ -26,9 +28,9 @@ const SlideScreenMobile = (props) => {
 
     return ( 
         <Container>
-            <TitleTab onClick={toggleShowScreen}>
+            <TitleTab isMyPick={isMyPick()} onClick={toggleShowScreen}>
                 <IconContext.Provider value={{color: 'white',size:'1.5rem',style: { verticalAlign: 'middle' }}}>
-                    {isMyPick() ? 'Fazer pick' : 'Oferecer troca'} {showScreen ? <GoChevronDown /> : <GoChevronUp />}
+                    {isMyPick() ? 'Sua pick' : `Negocie com o ${currentTeam?.nflData.team_nick}`} {showScreen ? <GoChevronDown /> : <GoChevronUp />}
                 </IconContext.Provider>   
             </TitleTab>
             <ContentTab style={{display:'flex',height:showScreen ? '80vh' : '0'}}>
@@ -73,8 +75,8 @@ const Container = styled.div`
     width: 100%;
     margin-bottom: -1px;
 `
-const TitleTab = styled.div`
-    background-color: black;
+const TitleTab = styled.div((props) => css`
+    background-color: ${props.isMyPick ? ORANGE : DARK_BLACK};
     height: 2rem;
     color: white;   
     display: flex;
@@ -82,7 +84,7 @@ const TitleTab = styled.div`
     align-items: center;
     z-index: 999;
     cursor: pointer;
-`
+`)
 const ContentTab = styled.div`
     background-color: white;
     transition: height .5s;

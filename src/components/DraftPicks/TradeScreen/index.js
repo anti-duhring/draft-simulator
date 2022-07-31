@@ -14,6 +14,7 @@ import Button from '../../Button'
 import { useBotTeams } from '../../../hooks/useBotTeams';
 import { isMobile } from 'react-device-detect';
 import { defaultStyles, SelectTheme } from '../../../constants/SelectStyles';
+import { compareOfferValue, compareOfferValueInt } from '../../../services/Trade';
 
 const TradeScreen = (props) => {
     const {
@@ -33,7 +34,8 @@ const TradeScreen = (props) => {
 
     const [options, setOptions] = useState(null)
     const [tradesMade, setTradesMade] = useState(0);
-    const [message, setMessage] = useState('Selecione um dos seus times para compor a troca:');
+    const tradeWillBeAccepted = compareOfferValue({otherTeamOfferValue: getValueFromOffer(otherTeamOffer), currentTeamOfferValue: getValueFromOffer(currentTeamOffer)}, isMyPick());
+    const tradeWillBeAcceptedInt = compareOfferValueInt({otherTeamOfferValue: getValueFromOffer(otherTeamOffer), currentTeamOfferValue: getValueFromOffer(currentTeamOffer)}, isMyPick())
 
     const otherTeamPlayerSelectRef = useRef();
     const currentTeamPlayerSelectRef = useRef();
@@ -137,12 +139,10 @@ const TradeScreen = (props) => {
     useEffect(() => {
         if(!myTeams) return 
 
-        if(myTeams.map(i => i.id).indexOf(currentTeam.id) != -1) {
-            setMessage('Selecione um outro time para compor a troca:');
+        if(isMyPick()) {
             setOptions([...teamsOptions(botTeams)]);
             setOtherTeamID(prevTeamID => (prevTeamID ? myTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? botTeams[0].id : prevTeamID : botTeams[0].id));
         } else {
-            setMessage('Selecione um dos seus times para compor a troca:');
             setOptions([...teamsOptions(myTeams)]);
             setOtherTeamID(prevTeamID => (prevTeamID ? botTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? myTeams[0].id : prevTeamID : myTeams[0].id));
 
@@ -253,7 +253,6 @@ const TradeScreen = (props) => {
         <Container>
             <Teams>
             <OtherTeam>
-                {isMobile && message}
                 <Select 
                     options={options} 
                     theme={SelectTheme}
@@ -334,15 +333,17 @@ const TradeScreen = (props) => {
                         style={{height:'.8rem'}}
                         progress={
                             (getValueFromOffer(otherTeamOffer) > 0 && getValueFromOffer(currentTeamOffer) > 0) ?
-
-                            isMyPick()? 
-                            (100 * getValueFromOffer(currentTeamOffer)) / (getValueFromOffer(otherTeamOffer)) :
-                            (100 * getValueFromOffer(otherTeamOffer)) / (getValueFromOffer(currentTeamOffer))
-                            : 0
+                            tradeWillBeAcceptedInt
+                            : 
+                            0
                         }
                     />
                     <TradeProgressLegend>
-                        Chance da troca ser aceita pelo outro time
+                        {(getValueFromOffer(otherTeamOffer) > 0 && getValueFromOffer(currentTeamOffer) > 0) ?
+                         tradeWillBeAccepted==0?
+                         'O valor da sua oferta é muito baixo' : tradeWillBeAccepted == -1? 'Sua oferta é muito alta' : 'A troca provavelmente será aceita' :
+                         'Chance da troca ser aceita'
+                        }
                     </TradeProgressLegend>
                 </TradeProgress>
                 <div>

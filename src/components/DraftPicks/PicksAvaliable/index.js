@@ -169,6 +169,7 @@ const SearchContainer = styled.div`
     display: flex;
     flex-direction: row;
     padding: .5rem .5rem 0 .5rem;
+    column-gap: .5rem;
     /*position: fixed;
     background-color: white;
     width: 100%;*/
@@ -181,6 +182,7 @@ const SearchInput = styled.input`
     border-radius: 4px;
     outline: none;
     height: 38px;
+    width: 100%;
     &::placeholder {
         text-align: center;
     }

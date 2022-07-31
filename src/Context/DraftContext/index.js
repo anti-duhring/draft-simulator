@@ -64,14 +64,17 @@ export const DraftContextProvider = ({children}) => {
             }
         };
 
-        if(!compareOfferValue(offerValues, isMyPick(), false)) {
+        // IF THE BOT TEAM OFFER IS TOO HIGH
+        if(compareOfferValue(offerValues, isMyPick())==0) {
             setAlert({
                 active: true, 
                 title: `A proposta foi rejeitada pelo GM do ${isMyPick() ? data.teams.find(i => i.id==otherTeamID).nickname : data.teams.find(i => i.id==currentTeamID).nickname}`, 
                 message:`O valor da sua oferta foi muito baixo, tente incrementá-lo com algumas picks ou adicionar jogadores na negociação.`
         })
             return
-        } else if(compareOfferValue(offerValues, isMyPick(), false) == -1) {
+        }
+        // IF THE USER'S TEAM OFFER IS TOO HIGH
+        else if(compareOfferValue(offerValues, isMyPick()) == -1) {
             setAlert({
                 active: true, 
                 title: `Oferta muito alta!`, 
@@ -189,7 +192,7 @@ export const DraftContextProvider = ({children}) => {
             i++;
 
             if(i <= loopUntil) {
-                setCurrentPick(i);
+                setCurrentPick(prevPick => (prevPick >=32 ? 0 : i));
 
                 const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1 && newPlayers.indexOf(item.id) == -1);
 
@@ -209,7 +212,7 @@ export const DraftContextProvider = ({children}) => {
                 document.querySelector(`.pick-${loopUntil > 32 ? 32 : loopUntil}`).scrollIntoView({
                     behavior: 'smooth'
                 });
-                setCurrentPick(loopUntil);
+                //setCurrentPick();
             }
 
         }
