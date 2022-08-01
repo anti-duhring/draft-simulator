@@ -164,14 +164,13 @@ export const DraftContextProvider = ({children}) => {
       }
 
     const handleDraftPlayer = (player) => {
-        setCurrentPick(prevPick => prevPick + 1);
+        setCurrentPick(prevPick => prevPick == 32 ? 0 : prevPick + 1);
         setPicksPlayers(prevPicks => prevPicks ? ([...prevPicks,player.id]) : ([player.id]));
     }
 
     const handleNextPick = () => {
-        if(currentPick > draftOrder.length) return
 
-        setCurrentPick(prevPick => prevPick + 1);
+        setCurrentPick(prevPick => prevPick == 32 ? 0 : prevPick + 1);
 
         if(picksPlayers.length <= 0) {
             setPicksPlayers([dataPlayers.players[0].id])
