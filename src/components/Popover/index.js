@@ -17,6 +17,10 @@ const Popover = (props) => {
         setShowTooltip(false);
     }
 
+    const getPosition = () => {
+
+    }
+
     useEffect(() => {
         const storage = 'true'//localStorage.getItem(props.id);
 
@@ -39,17 +43,16 @@ const Popover = (props) => {
                     id={props.id} 
                     effect='solid' 
                     backgroundColor={ORANGE} 
-                    ref={modalRef}
-                    padding={`0px`}
+                    multiline={true}
                 >
                     <ToolTipContainer>
                         <Message>{props.message}</Message>
-                        <OKbutton onClick={() => closeTooltip()}>OK</OKbutton>
+
                     </ToolTipContainer>
                 </ReactTooltip>
             }
 
-            <div data-tip data-for={props.id}>
+            <div data-tip data-for={props.id} ref={modalRef}>
             {props.children}
             </div>
         </Container>

@@ -28,6 +28,7 @@ export const DraftContextProvider = ({children}) => {
         message: '',
         title: '',
     })
+    const [isJumpingTo, setIsJumpingTo] = useState(false)
     
     const MyPicks = () => {
         const myPicks = [];
@@ -187,7 +188,7 @@ export const DraftContextProvider = ({children}) => {
         const MyNextPick = allPicks[1].find(item => myTeams.indexOf(item.current_team_id) != -1 && item.pick > currentPick);
         let i = currentPick;
         let newPlayers = [];
-
+        setIsJumpingTo(true);
         const loop = (loopUntil) => {        
             i++;
 
@@ -207,6 +208,7 @@ export const DraftContextProvider = ({children}) => {
 
                 setTimeout(() => loop(loopUntil), waitToPick);
             } else {
+                setIsJumpingTo(false)
                 if(!MyNextPick) return 
 
                 document.querySelector(`.pick-${loopUntil > 32 ? 32 : loopUntil}`).scrollIntoView({
@@ -223,6 +225,7 @@ export const DraftContextProvider = ({children}) => {
         else if(!MyNextPick) {
             loop(33);
         }
+        
     }
 
     return ( 
@@ -243,6 +246,7 @@ export const DraftContextProvider = ({children}) => {
             tradeHistory,
             NFLseason,
             tradablePlayers,
+            isJumpingTo,
             handleDraftOrder,
             handleDraftPlayer,
             handleNextPick,

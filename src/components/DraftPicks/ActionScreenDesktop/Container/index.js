@@ -4,7 +4,6 @@ import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../.
 import { DraftContext } from '../../../../Context/DraftContext'
 import { useCurrentTeam } from "../../../../hooks/useCurrentTeam";
 import Button from "../../../Button";
-import Popover from "../../../Popover";
 import PicksAvaliable from "../../PicksAvaliable";
 import TeamInfo from "../../TeamInfo";
 import TradeScreen from '../../TradeScreen'
@@ -16,7 +15,8 @@ const ActionScreenDesktop = () => {
         handleMyNextPick,
         currentPick,
         allPicks,
-        MyPicks
+        MyPicks,
+        isJumpingTo
     } = useContext(DraftContext);
     const currentTeam = useCurrentTeam(1);
 
@@ -56,25 +56,24 @@ const ActionScreenDesktop = () => {
                 </TabLink>
                 </Tabs>
                     <TabActions>
-                    <Popover id="nextPick" position='left' message='Ao finalizar suas trocas clique neste botão para pular para a próxima pick'>
-                        <Button 
-                            disabled={MyPicks().indexOf(currentPick)!= -1}
-                            style={ButtonStyle} 
-                            onClick={handleNextPick}
-                        >
-                            Próxima pick
-                        </Button>
-                    </Popover>
-                    <Popover id="myNextPick" position='top' message='fodase'>
-                        <Button 
-                        disabled={MyPicks().indexOf(currentPick)!= -1}
+                    <Button 
+                        disabled={MyPicks().indexOf(currentPick)!= -1 || isJumpingTo}
                         style={ButtonStyle} 
-                        onClick={handleMyNextPick}
-                        >
-                            
-                            {MyPicks().find(pick => pick > currentPick && pick < 32) ? `Pular até a pick ${MyPicks().find(pick => pick > currentPick && pick < 32)}` : 'Pular até o final'}
-                        </Button>
-                    </Popover>
+                        onClick={handleNextPick}
+                    >
+                        Próxima pick
+                    </Button>
+                
+                
+                    <Button 
+                    disabled={MyPicks().indexOf(currentPick)!= -1 || isJumpingTo}
+                    style={ButtonStyle} 
+                    onClick={handleMyNextPick}
+                    >
+                        
+                        {MyPicks().find(pick => pick > currentPick && pick < 32) ? `Pular até a pick ${MyPicks().find(pick => pick > currentPick && pick < 32)}` : 'Pular até o final'}
+                    </Button>
+                    
                 </TabActions>
             </TabLinkContainer>
                     {tabToShow == 'trade' && currentPick > 0 && <TradeScreen />}
