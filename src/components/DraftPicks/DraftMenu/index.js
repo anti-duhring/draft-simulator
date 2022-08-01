@@ -4,36 +4,42 @@ import Button from "../../Button";
 import { IconContext } from "react-icons";
 import { GoChevronRight, GoChevronDown, GoSync } from 'react-icons/go'
 import { DraftContext } from '../../../Context/DraftContext'
+import Popover from '../../Popover';
 
 const DraftMenu = (props) => {
     const {
         MyPicks,
         currentPick,
         handleNextPick,
-        handleMyNextPick
+        handleMyNextPick,
+        isJumpingTo
     } = useContext(DraftContext);
 
     return (
         <Container>
             <IconContext.Provider value={{color: 'white',size:'2rem',style: { verticalAlign: 'middle' }}}>
-            <Button 
-                disabled={MyPicks().indexOf(currentPick)!= -1} 
-                onClick={() => {
-                    handleNextPick();
-                }} 
-                style={styleButton}
-            >
-                <GoChevronRight />
-            </Button>
-            <Button 
-                disabled={MyPicks().indexOf(currentPick)!= -1} 
-                onClick={() => {
-                    handleMyNextPick();
-                }} 
-                style={styleButton}
-            >
-                <GoChevronDown />
-            </Button>
+                <Popover id="nextPick" message="Ir para próxima pick" position="left">
+                    <Button 
+                    disabled={MyPicks().indexOf(currentPick)!= -1 || isJumpingTo} 
+                    onClick={() => {
+                        handleNextPick();
+                    }} 
+                    style={styleButton}
+                    >
+                        <GoChevronRight />
+                    </Button>
+                </Popover>
+                <Popover id="myNextPick" message={MyPicks().find(i => i > currentPick) ? `Pular para pick ${MyPicks().find(i => i > currentPick)}` : `Pular até o final`} position="left">
+                    <Button 
+                    disabled={MyPicks().indexOf(currentPick)!= -1 || isJumpingTo} 
+                    onClick={() => {
+                        handleMyNextPick();
+                    }} 
+                    style={styleButton}
+                    >
+                        <GoChevronDown />
+                    </Button>
+                </Popover>
             </IconContext.Provider>
         </Container>
     )

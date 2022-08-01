@@ -31,7 +31,12 @@ const DraftPicksContainer = (props) => {
                 <DraftList />
                 {!isMobile && <ActionScreenDesktop />}
             </Flex>
-            {currentPick <= allPicks[1].length && isMobile && 
+            <Footer>
+                <Button disabled={currentPick != 0} onClick={() => setStep('finish')}>
+                    Finalizar Draft
+                </Button>
+            </Footer>
+            {currentPick != 0 && isMobile && 
             <>
             <Sticky>
                 <DraftMenu />
@@ -57,4 +62,7 @@ const Flex = styled.div`
     display: flex;
     flex-direction: row;
     column-gap: 1.3rem;
+`
+const Footer = styled.div`
+
 `

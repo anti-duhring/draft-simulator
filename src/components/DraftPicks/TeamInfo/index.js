@@ -8,7 +8,7 @@ import data from '../../../data/NFL_teams.json'
 import { isMobile } from 'react-device-detect';
 
 const TeamInfo = () => {
-    const currentTeam = useCurrentTeam(1);
+    const [currentTeam, allOtherTeams] = useCurrentTeam(1);
 
     const Slice = () => {
         return (

@@ -11,27 +11,23 @@ const Popover = (props) => {
 
     const modalRef = useRef();
 
-    const [showTooltip, setShowTooltip] = useState(true); //localStorage.getItem(props.id) ? (localStorage.getItem(props.id) === 'true') : true
+    const [showTooltip, setShowTooltip] = useState(localStorage.getItem(props.id) ? (localStorage.getItem(props.id) === 'true') : true)
 
     const closeTooltip = () => {
         setShowTooltip(false);
     }
 
-    const getPosition = () => {
-
-    }
-
     useEffect(() => {
-        const storage = 'true'//localStorage.getItem(props.id);
+        const storage = localStorage.getItem(props.id);
 
         if(!storage || storage=='true') {
             ReactTooltip.show(document.querySelector(`[data-for=${props.id}]`))
             localStorage.setItem(props.id, 'false');
         }
         //modalRef.current.showTooltip();
-        /*setTimeout(() => {
+        setTimeout(() => {
             setShowTooltip(false)
-        },5000)*/
+        },10000)
     },[])
 
     return ( 
@@ -45,15 +41,15 @@ const Popover = (props) => {
                     backgroundColor={ORANGE} 
                     multiline={true}
                 >
-                    <ToolTipContainer>
+                    <ToolTipContainer onClick={closeTooltip}>
                         <Message>{props.message}</Message>
 
                     </ToolTipContainer>
                 </ReactTooltip>
             }
 
-            <div data-tip data-for={props.id} ref={modalRef}>
-            {props.children}
+            <div onClick={closeTooltip} data-tip data-for={props.id} ref={modalRef}>
+                {props.children}
             </div>
         </Container>
      );

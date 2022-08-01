@@ -3,6 +3,7 @@ import DraftOrderContainer from "../DraftOrder/DraftOrderContainer"
 import DraftPicksContainer from "../DraftPicks/Container"
 import {DraftContext} from "../../Context/DraftContext"
 import styled from 'styled-components'
+import GeneratedImage from "../GeneratedImage/Container"
 
 const Home = () => {
     /*const [step, setStep] = useState('order');
@@ -23,6 +24,8 @@ const Home = () => {
                 myTeams={myTeams}
                 setMyTeams={setMyTeams} */
             />}
+            {step=='finish' && 
+            <GeneratedImage />}
         </Container>
     )
 }

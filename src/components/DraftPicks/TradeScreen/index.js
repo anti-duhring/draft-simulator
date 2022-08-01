@@ -26,7 +26,7 @@ const TradeScreen = (props) => {
 
     const myTeams = useMyTeams();
     const botTeams = useBotTeams();
-    const currentTeam = useCurrentTeam(1);
+    const [currentTeam, allOtherTeams] = useCurrentTeam(1);
 
     const [otherTeamID, setOtherTeamID] = useState(null)
     const [otherTeamOffer, setOtherTeamOffer] = useState([]);
@@ -140,11 +140,11 @@ const TradeScreen = (props) => {
         if(!myTeams) return 
 
         if(isMyPick()) {
-            setOptions([...teamsOptions(botTeams)]);
-            setOtherTeamID(prevTeamID => (prevTeamID ? myTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? botTeams[0].id : prevTeamID : botTeams[0].id));
+            setOptions([...teamsOptions(allOtherTeams)]);
+            setOtherTeamID(prevTeamID => (prevTeamID ? myTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? allOtherTeams[0].id : prevTeamID : allOtherTeams[0].id));
         } else {
             setOptions([...teamsOptions(myTeams)]);
-            setOtherTeamID(prevTeamID => (prevTeamID ? botTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? myTeams[0].id : prevTeamID : myTeams[0].id));
+            setOtherTeamID(prevTeamID => (prevTeamID ? allOtherTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? myTeams[0].id : prevTeamID : myTeams[0].id));
 
         }
     },[myTeams, currentPick])

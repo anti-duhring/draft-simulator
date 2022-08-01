@@ -13,7 +13,7 @@ const SlideScreenMobile = (props) => {
     const {
         isMyPick
     } = useContext(DraftContext)
-    const currentTeam = useCurrentTeam(1)
+    const [currentTeam, allOtherTeams] = useCurrentTeam(1)
 
     const [tabToShow, setTabToShow] = useState(isMyPick() ? 'pick' : 'trade');
     const [showScreen, setShowScreen] = useState(false);
@@ -30,7 +30,7 @@ const SlideScreenMobile = (props) => {
         <Container>
             <TitleTab isMyPick={isMyPick()} onClick={toggleShowScreen}>
                 <IconContext.Provider value={{color: 'white',size:'1.5rem',style: { verticalAlign: 'middle' }}}>
-                    {isMyPick() ? 'Sua pick' : `Negocie com o ${currentTeam?.nflData.team_nick}`} {showScreen ? <GoChevronDown /> : <GoChevronUp />}
+                    {isMyPick() ? 'Você está On the Clock' : `Negocie com o ${currentTeam?.nflData.team_nick}`} {showScreen ? <GoChevronDown /> : <GoChevronUp />}
                 </IconContext.Provider>   
             </TitleTab>
             <ContentTab style={{display:'flex',height:showScreen ? '80vh' : '0'}}>

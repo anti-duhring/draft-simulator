@@ -18,7 +18,7 @@ const ActionScreenDesktop = () => {
         MyPicks,
         isJumpingTo
     } = useContext(DraftContext);
-    const currentTeam = useCurrentTeam(1);
+    const [currentTeam, allOtherTeams] = useCurrentTeam(1);
 
     const [tabToShow, setTabToShow] = useState(isMyPick() ? 'pick' : 'trade');
 
@@ -32,7 +32,7 @@ const ActionScreenDesktop = () => {
 
     return ( 
         <Container>
-            <Header isMyPick={isMyPick()}>Painel do GM - {isMyPick() ? 'Sua pick' : `Negocie com o ${currentTeam?.nflData.team_nick}`}</Header>
+            <Header isMyPick={isMyPick()}>Painel do GM - {isMyPick() ? 'Você está On the Clock' : `Negocie com o ${currentTeam?.nflData.team_nick}`}</Header>
             <Content>
             <TabLinkContainer>
                 <Tabs>
