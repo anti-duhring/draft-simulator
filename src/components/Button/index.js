@@ -27,7 +27,7 @@ const Btn = styled.button((props) => css`
     outline: 0;
     position: relative;
     cursor: pointer;
-    border-radius: 300px;
+    border-radius: 5px;//300px;
     white-space: nowrap;
     -moz-appearance: none;
     -webkit-appearance: none;

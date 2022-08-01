@@ -1,9 +1,10 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../../../../constants/Colors";
 import { DraftContext } from '../../../../Context/DraftContext'
 import { useCurrentTeam } from "../../../../hooks/useCurrentTeam";
 import Button from "../../../Button";
+import Popover from "../../../Popover";
 import PicksAvaliable from "../../PicksAvaliable";
 import TeamInfo from "../../TeamInfo";
 import TradeScreen from '../../TradeScreen'
@@ -55,20 +56,25 @@ const ActionScreenDesktop = () => {
                 </TabLink>
                 </Tabs>
                     <TabActions>
-                    <Button 
-                        disabled={MyPicks().indexOf(currentPick)!= -1}
-                        style={ButtonStyle} 
-                        onClick={handleNextPick}
-                    >
-                        Próxima pick
-                    </Button>
-                    <Button 
+                    <Popover id="nextPick" position='left' message='Ao finalizar suas trocas clique neste botão para pular para a próxima pick'>
+                        <Button 
+                            disabled={MyPicks().indexOf(currentPick)!= -1}
+                            style={ButtonStyle} 
+                            onClick={handleNextPick}
+                        >
+                            Próxima pick
+                        </Button>
+                    </Popover>
+                    <Popover id="myNextPick" position='top' message='fodase'>
+                        <Button 
                         disabled={MyPicks().indexOf(currentPick)!= -1}
                         style={ButtonStyle} 
                         onClick={handleMyNextPick}
-                    >
-                        {MyPicks().find(pick => pick > currentPick && pick < 32) ? `Pular até a pick ${MyPicks().find(pick => pick > currentPick && pick < 32)}` : 'Pular até o final'}
-                    </Button>
+                        >
+                            
+                            {MyPicks().find(pick => pick > currentPick && pick < 32) ? `Pular até a pick ${MyPicks().find(pick => pick > currentPick && pick < 32)}` : 'Pular até o final'}
+                        </Button>
+                    </Popover>
                 </TabActions>
             </TabLinkContainer>
                     {tabToShow == 'trade' && currentPick > 0 && <TradeScreen />}

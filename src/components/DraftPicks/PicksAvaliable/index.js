@@ -150,6 +150,9 @@ const PlayerContainer = styled.div`
     color: ${GRAY};
     margin-bottom: .5rem;
     cursor: pointer;
+    &:hover {
+        background-color: rgba(0,0,0,.03);
+    }
 `
 const Rank = styled.div`
     flex: 1;
