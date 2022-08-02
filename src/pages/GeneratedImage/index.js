@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import {DraftContext} from '../../context/DraftContext'
+import {DraftContext} from '../../Context/DraftContext'
 import { drawImageProp } from "../../services/GenerateImage";
 import dataPlayers from '../../data/players.json'
 import {useAllTeams} from '../../hooks/useAllTeams'

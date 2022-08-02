@@ -3,7 +3,7 @@ import Select from 'react-select'
 import data from '../../../data/players.json'
 import styled from "styled-components";
 import { BLACK, BORDER_GRAY, GRAY } from '../../../constants/Colors';
-import { DraftContext } from '../../../context/DraftContext';
+import { DraftContext } from '../../../Context/DraftContext';
 import { isMobile } from 'react-device-detect';
 import { defaultStyles, SelectTheme } from '../../../constants/SelectStyles';
 

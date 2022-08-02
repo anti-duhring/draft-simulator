@@ -3,7 +3,7 @@ import styled, {css} from "styled-components"
 import Button from "../../Button";
 import { IconContext } from "react-icons";
 import { GoChevronRight, GoChevronDown, GoSync } from 'react-icons/go'
-import { DraftContext } from '../../../context/DraftContext'
+import { DraftContext } from '../../../Context/DraftContext'
 import Popover from '../../Popover';
 
 const DraftMenu = (props) => {

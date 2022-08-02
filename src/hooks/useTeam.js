@@ -1,7 +1,7 @@
 import data from '../data/draft_picks.json'
 import teamsData from '../data/NFL_teams.json'
 import { useContext, useEffect, useState } from 'react'
-import { DraftContext } from '../context/DraftContext'
+import { DraftContext } from '../Context/DraftContext'
 
 export const useTeam = (id) => {
     const {

@@ -23,7 +23,7 @@ import styled from 'styled-components';
 import { isMobile } from 'react-device-detect';
 import FormHeader from '../../components/DraftOrder/FormHeader';
 import FormFooter from '../../components/DraftOrder/FormFooter';
-import { DraftContext } from '../../context/DraftContext'
+import { DraftContext } from '../../Context/DraftContext'
 
 const DraftOrder = (props) => {
   const {

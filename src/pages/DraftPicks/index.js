@@ -5,7 +5,7 @@ import DraftList from "../../components/DraftPicks/DraftList";
 import DraftMenu from "../../components/DraftPicks/DraftMenu";
 import SlideScreenMobile from "../../components/DraftPicks/SlideScreenMobile";
 import data from '../../data/players.json'
-import { DraftContext } from "../../context/DraftContext";
+import { DraftContext } from "../../Context/DraftContext";
 import { isMobile } from "react-device-detect";
 import ActionScreenDesktop from "../../components/DraftPicks/ActionScreenDesktop/Container";
 import { useNavigate } from "react-router-dom";

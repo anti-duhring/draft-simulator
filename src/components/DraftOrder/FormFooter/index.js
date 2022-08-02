@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react"
 import styled, { css } from "styled-components"
 import Button from "../../Button"
-import {DraftContext} from '../../../context/DraftContext'
+import {DraftContext} from '../../../Context/DraftContext'
 import {useNavigate} from 'react-router-dom'
 import { DARK_BLACK, GRAY, ORANGE } from "../../../constants/Colors"
 

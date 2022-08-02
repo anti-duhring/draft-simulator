@@ -4,7 +4,7 @@ import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../.
 import teams from '../../../data/NFL_teams.json'
 import './style.css'
 import { isMobile } from "react-device-detect"
-import {DraftContext} from '../../../context/DraftContext'
+import {DraftContext} from '../../../Context/DraftContext'
 
 const DraftList = (props) => {
     const {

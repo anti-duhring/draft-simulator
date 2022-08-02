@@ -4,7 +4,7 @@ import DraftOrder from './pages/DraftOrder';
 import DraftPicks from './pages/DraftPicks';
 import GeneratedImage from './pages/GeneratedImage';
 import { BrowserRouter, Switch, Route, Routes } from 'react-router-dom';
-import {DraftContextProvider} from './context/DraftContext'
+import {DraftContextProvider} from './Context/DraftContext'
 
 function App() {
   return (

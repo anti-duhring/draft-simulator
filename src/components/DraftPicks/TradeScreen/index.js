@@ -2,7 +2,7 @@ import {useState, useContext, useEffect, useRef} from 'react'
 import Select from 'react-select'
 import styled, { css } from "styled-components";
 import data from '../../../data/draft_picks.json'
-import {DraftContext} from '../../../context/DraftContext'
+import {DraftContext} from '../../../Context/DraftContext'
 import { getValueFromOffer } from '../../../services/Draft';
 import { useMyTeams } from '../../../hooks/useMyTeams';
 import { useCurrentTeam } from '../../../hooks/useCurrentTeam';
