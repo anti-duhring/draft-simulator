@@ -2,9 +2,9 @@ import { createContext } from "react";
 import { useState, useEffect } from "react";
 import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
-import { getFuturePicks, getPicks } from "../../services/Draft";
+import { getFuturePicks, getPicks, scrollToPick } from "../../services/Draft";
 import { compareOfferValue } from "../../services/Trade";
-import Alert from '../../components/Alert'
+import Alert from '../../components/Alert';
 
 export const DraftContext = createContext();
 
@@ -12,6 +12,7 @@ export const DraftContextProvider = ({children}) => {
     const NFLseason = 2023;
     const [waitToPick, setWaitToPick] = useState(500)
     const [step, setStep] = useState('order');
+    const [rounds, setRounds] = useState(1);
     const [draftOrder, setDraftOrder] = useState(data.teams);
     const [myTeams, setMyTeams] = useState([]);
 
@@ -84,6 +85,7 @@ export const DraftContextProvider = ({children}) => {
             return
         }
 
+        // CHANGE THE PICK'S OWNER
         [...otherTeamOffer.filter(item => item.player_id), ...currentTeamOffer.filter(item => item.player_id)].map(player => {
             let thisPlayer = {...player};
             let thisPlayerIndex = newTradablePlayers.findIndex(item => item == player);
@@ -93,6 +95,7 @@ export const DraftContextProvider = ({children}) => {
             newTradablePlayers[thisPlayerIndex] = thisPlayer;
         });
 
+        // CHANGE THE PLAYER'S OWNER
         [...otherTeamOffer.filter(item => !item.player_id),...currentTeamOffer.filter(item => !item.player_id)].map(pick => {
             let thisPick = pick;
             let thisPickIndex;
@@ -137,10 +140,11 @@ export const DraftContextProvider = ({children}) => {
         return myPicks
     }
 
-    const handleDraftOrder = (order, myTeams) => {
+    const handleDraftOrder = (order, myTeams, config) => {
         setStep('picks');
         setDraftOrder(order);
         setMyTeams(myTeams);
+        setRounds(config.rounds)
 
         const picks = {
             "1": getPicks(order, 1, NFLseason),
@@ -152,10 +156,9 @@ export const DraftContextProvider = ({children}) => {
             "7": getPicks(order, 7, NFLseason),
         }
 
-        const f_picks = {
-          "2024": getFuturePicks(order, 2024),
-          "2025": getFuturePicks(order, 2025),
-        }
+        const f_picks = {}
+        f_picks[NFLseason + 1] =  getFuturePicks(order, NFLseason + 1);
+        f_picks[NFLseason + 2] =  getFuturePicks(order, NFLseason + 2);
 
         setAllPicks(picks);
         setFuturePicks(f_picks);
@@ -163,21 +166,30 @@ export const DraftContextProvider = ({children}) => {
 
       }
 
+    const pickPlayer = (player, _current_pick) => {
+        const current_pick = _current_pick || currentPick;
+        let newAllPicks = {...allPicks}
+        newAllPicks[1][current_pick - 1].player_picked = {...player}
+        setPicksPlayers(prevPicks => prevPicks ? ([...prevPicks,player.id]) : ([player.id]));
+        setAllPicks(newAllPicks);
+    }
+
     const handleDraftPlayer = (player) => {
         setCurrentPick(prevPick => prevPick == 32 ? 0 : prevPick + 1);
-        setPicksPlayers(prevPicks => prevPicks ? ([...prevPicks,player.id]) : ([player.id]));
+        pickPlayer(player)
     }
 
     const handleNextPick = () => {
-
         setCurrentPick(prevPick => prevPick == 32 ? 0 : prevPick + 1);
 
         if(picksPlayers.length <= 0) {
-            setPicksPlayers([dataPlayers.players[0].id])
+            pickPlayer(dataPlayers.players[0]);
+            //setPicksPlayers([dataPlayers.players[0].id])
         } else {
             const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1);
 
-            setPicksPlayers(prevPicks => ([...prevPicks,playersAvaliable[0].id]));
+            //setPicksPlayers(prevPicks => ([...prevPicks,playersAvaliable[0].id]));
+            pickPlayer(playersAvaliable[0]);
         }
     }
 
@@ -185,37 +197,38 @@ export const DraftContextProvider = ({children}) => {
         if(currentPick >= draftOrder.length) return
 
         const MyNextPick = allPicks[1].find(item => myTeams.indexOf(item.current_team_id) != -1 && item.pick > currentPick);
-        let i = currentPick;
+        let i = currentPick - 1;
         let newPlayers = [];
         setIsJumpingTo(true);
+
+        // Loop until MyNextPick or until the last pick
         const loop = (loopUntil) => {        
             i++;
 
-            if(i <= loopUntil) {
-                setCurrentPick(prevPick => (prevPick >=32 ? 0 : i));
+            if(i < loopUntil) {
+                setCurrentPick(i);
 
                 const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1 && newPlayers.indexOf(item.id) == -1);
-
                 const playerToDraft = playersAvaliable[0];
 
-                setPicksPlayers(prevPicks => ([...prevPicks, playerToDraft.id ]));
+                pickPlayer(playerToDraft, i);
                 newPlayers.push(playerToDraft.id);
 
-                document.querySelector(`.pick-${ i > 1 ?i - 1 : 1}`).scrollIntoView({
-                    behavior: 'smooth'
-                });
-
+                scrollToPick(i > 1 ? i - 1 : 1)
                 setTimeout(() => loop(loopUntil), waitToPick);
+                
             } else {
                 setIsJumpingTo(false)
-                if(!MyNextPick) return 
 
-                document.querySelector(`.pick-${loopUntil > 32 ? 32 : loopUntil}`).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                //setCurrentPick();
+                if(!MyNextPick) {
+                    setCurrentPick(0);
+                    scrollToPick(32)
+                    
+                } else {
+                    setCurrentPick(MyNextPick.pick);
+                    scrollToPick(MyNextPick.pick)
+                }
             }
-
         }
 
         if(MyNextPick) {
@@ -246,6 +259,7 @@ export const DraftContextProvider = ({children}) => {
             NFLseason,
             tradablePlayers,
             isJumpingTo,
+            rounds,
             handleDraftOrder,
             handleDraftPlayer,
             handleNextPick,

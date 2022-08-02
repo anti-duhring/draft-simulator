@@ -4,7 +4,7 @@ import { IconContext } from "react-icons/lib";
 import { GoChevronUp, GoChevronDown } from 'react-icons/go'
 import PicksAvaliable from "../PicksAvaliable";
 import TradeScreen from '../TradeScreen'
-import { DraftContext } from "../../../Context/DraftContext";
+import { DraftContext } from "../../../context/DraftContext";
 import { DARK_BLACK, ORANGE } from "../../../constants/Colors";
 import TeamInfo from "../TeamInfo";
 import { useCurrentTeam } from "../../../hooks/useCurrentTeam";

@@ -1,8 +1,10 @@
 import './App.css';
 import Body from './components/Wrapper/Body'
-import Home from './components/Home';
+import DraftOrder from './pages/DraftOrder';
+import DraftPicks from './pages/DraftPicks';
+import GeneratedImage from './pages/GeneratedImage';
 import { BrowserRouter, Switch, Route, Routes } from 'react-router-dom';
-import {DraftContextProvider} from './Context/DraftContext'
+import {DraftContextProvider} from './context/DraftContext'
 
 function App() {
   return (
@@ -11,7 +13,9 @@ function App() {
       <Body>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<DraftOrder />} />
+            <Route path='/draft' element={<DraftPicks />} />
+            <Route path='/myDraft' element={<GeneratedImage />} />
           </Routes>
         </BrowserRouter>
       </Body>

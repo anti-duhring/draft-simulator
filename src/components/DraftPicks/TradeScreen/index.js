@@ -2,7 +2,7 @@ import {useState, useContext, useEffect, useRef} from 'react'
 import Select from 'react-select'
 import styled, { css } from "styled-components";
 import data from '../../../data/draft_picks.json'
-import {DraftContext} from '../../../Context/DraftContext'
+import {DraftContext} from '../../../context/DraftContext'
 import { getValueFromOffer } from '../../../services/Draft';
 import { useMyTeams } from '../../../hooks/useMyTeams';
 import { useCurrentTeam } from '../../../hooks/useCurrentTeam';
@@ -21,7 +21,8 @@ const TradeScreen = (props) => {
         tradablePlayers,
         currentPick,
         handleOfferTrade,
-        isMyPick
+        isMyPick,
+        NFLseason
     } = useContext(DraftContext);
 
     const myTeams = useMyTeams();
@@ -268,7 +269,7 @@ const TradeScreen = (props) => {
                                 key={`otherTeam${index}`}
                                 team="otherTeam" 
                                 typePicks={index > 0? 'futurePick' : 'currentPick'}
-                                season={2023 + index} 
+                                season={NFLseason + index} 
                             />
                         )
                     })
@@ -307,7 +308,7 @@ const TradeScreen = (props) => {
                                 key={`currentTeam${index}`}
                                 team="currentTeam" 
                                 typePicks={index > 0? 'futurePick' : 'currentPick'}
-                                season={2023 + index} 
+                                season={NFLseason + index} 
                             />
                         )
                     })
@@ -485,4 +486,18 @@ const Teams = styled.div`
     column-gap: 1rem;
     overflow: ${isMobile ? 'none' : 'auto'};
     height: ${isMobile ? 'auto' : '70vh'};
+    &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	    border-radius: 10px;
+	    background-color: #F5F5F5;
+    }
+    &::-webkit-scrollbar {
+        width: 12px;
+	    background-color: #F5F5F5;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+	    background-color: ${DARK_BLACK};
+    }
 `

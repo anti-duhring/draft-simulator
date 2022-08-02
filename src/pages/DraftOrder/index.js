@@ -16,15 +16,16 @@ import {
   verticalListSortingStrategy,
   rectSortingStrategy
 } from '@dnd-kit/sortable';
-import SortableItem from '../SortableItem';
-import data from '../../../data/draft_picks.json'
+//import SortableItem from '../SortableItem';
+import SortableItem from '../../components/DraftOrder/SortableItem';
+import data from '../../data/draft_picks.json'
 import styled from 'styled-components';
 import { isMobile } from 'react-device-detect';
-import FormHeader from '../FormHeader';
-import FormFooter from '../FormFooter';
-import { DraftContext } from '../../../Context/DraftContext';
+import FormHeader from '../../components/DraftOrder/FormHeader';
+import FormFooter from '../../components/DraftOrder/FormFooter';
+import { DraftContext } from '../../context/DraftContext'
 
-const DraftOrderContainer = (props) => {
+const DraftOrder = (props) => {
   const {
     myTeams,
     setMyTeams,
@@ -57,15 +58,6 @@ const DraftOrderContainer = (props) => {
     setCheckbox(checkbox ? false : true);
     setMyTeams(checkbox ? [] : draftOrder.map(e => e.franchise_id))
   }
-
-  /*const handleDraftOrder = () => {
-    console.log(teams, selectedTeams);
-    props.setStep('picks');
-    props.setDraftOrder(teams);
-    props.setMyTeams(selectedTeams);
-
-    return teams + selectedTeams
-  }*/
 
   return (
   <Container>
@@ -101,7 +93,7 @@ const DraftOrderContainer = (props) => {
   </Container>
 )}
 
-export default DraftOrderContainer;
+export default DraftOrder;
 
 const Grid = styled.div`
   display: grid;

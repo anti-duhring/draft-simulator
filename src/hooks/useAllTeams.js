@@ -1,7 +1,7 @@
 import data from '../data/draft_picks.json'
 import teamsData from '../data/NFL_teams.json'
 import { useContext, useEffect, useState } from 'react'
-import { DraftContext } from '../Context/DraftContext'
+import { DraftContext } from '../context/DraftContext'
 
 export const useAllTeams = () => {
     const {
@@ -14,6 +14,8 @@ export const useAllTeams = () => {
     const [dataTeams, setDataTeams] = useState(null);
 
     useEffect(() => {
+        if(!allPicks) return 
+        
         const arr = []
         data.teams.map(item => {
             const team = {}

@@ -1,34 +1,34 @@
-import { useEffect, useContext } from "react"
+import { useEffect, useContext, useState } from "react"
 import styled, { css } from "styled-components"
-import { BLACK, BORDER_GRAY, GRAY, ORANGE } from "../../../constants/Colors"
+import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../../../constants/Colors"
 import teams from '../../../data/NFL_teams.json'
-import data from '../../../data/players.json'
 import './style.css'
 import { isMobile } from "react-device-detect"
-import {DraftContext} from '../../../Context/DraftContext'
+import {DraftContext} from '../../../context/DraftContext'
 
 const DraftList = (props) => {
     const {
         currentPick,
         picksPlayers,
         myTeams,
-        allPicks
+        allPicks,
+        rounds
     } = useContext(DraftContext);
+    const [round, setRound] = useState(1)
 
     const PickItem = ({team, pick, index}) => {
         const currentTeam = teams.find(item => item.team_id == team);
-        const playerPick = data.players.find(item => item.id == picksPlayers[index]);
 
         return (
-            <PickItemContainer className={`pick-${pick}`} otc={currentPick==pick} isMyPick={myTeams.indexOf(team) != -1}>
+            <PickItemContainer className={`pick-${pick.pick}`} otc={currentPick==pick.pick} isMyPick={myTeams.indexOf(team) != -1}>
                 <Pick>
                     <span className="pick-legend">Pick</span>
-                    <span className="pick-number">{pick}</span>
+                    <span className="pick-number">{pick.pick}</span>
                 </Pick>
                 <Team>
                     <Logo src={currentTeam.team_logo_espn} />
-                    <Status className="pick-status" otc={currentPick==pick}>
-                    {currentPick==pick ? 'On the clock' : picksPlayers[index] ? `${playerPick?.name} - ${playerPick?.position}` : 'Aguardando'}
+                    <Status className="pick-status" otc={currentPick==pick.pick}>
+                    {currentPick==pick.pick ? 'On the Clock' : pick.player_picked ? `${pick.player_picked.name} - ${pick.player_picked.position}` : 'Aguardando...'}
                     </Status>
                 </Team>
             </PickItemContainer>
@@ -37,13 +37,27 @@ const DraftList = (props) => {
 
     return (
         <Container>
+            {!isMobile && rounds > 1 && <TabRounds>
+                <TabRoundItem 
+                    onClick={() => setRound(1)}
+                    isActive={round==1}
+                    round={1}
+                >Round 1</TabRoundItem>
+                <TabRoundItem 
+                    onClick={() => setRound(2)}
+                    isActive={round==2}
+                    round={2}
+                >Round 2</TabRoundItem>
+            </TabRounds>}
+            <AllPicksContainer>
             {
-                allPicks[1].map((pick, index) => {
+                allPicks[round].map((pick, index) => {
                     return (
-                        <PickItem key={index} team={pick.current_team_id} pick={pick.pick} index={index} />
+                        <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
                     )
                 })
             }
+            </AllPicksContainer>
         </Container>
     )
 }
@@ -51,6 +65,29 @@ const DraftList = (props) => {
 export default DraftList;
 
 const Container = styled.div`
+    flex:1;
+`
+const TabRounds = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-bottom: .5rem;
+`
+const TabRoundItem = styled.div((props) => css`
+    flex: 1;
+    color: white;
+    background-color: ${props.isActive ? DARK_BLACK : 'rgba(0,0,0,.2)'};
+    border-radius: ${props.round == 1 ? '5px 0 0 5px' : '0 5px 5px 0'};
+    cursor: pointer;
+    padding: .2rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: .3s;
+    font-size: .8rem;
+    &:hover {
+        background-color: ${ORANGE};
+    }
+`)
+const AllPicksContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;

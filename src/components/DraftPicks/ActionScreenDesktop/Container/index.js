@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../../../../constants/Colors";
-import { DraftContext } from '../../../../Context/DraftContext'
+import { DraftContext } from '../../../../context/DraftContext'
 import { useCurrentTeam } from "../../../../hooks/useCurrentTeam";
 import Button from "../../../Button";
 import PicksAvaliable from "../../PicksAvaliable";

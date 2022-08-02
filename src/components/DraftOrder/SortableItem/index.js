@@ -5,7 +5,7 @@ import './style.css'
 import teams from '../../../data/NFL_teams.json'
 import styled, { css } from 'styled-components';
 import { isMobile } from 'react-device-detect';
-import {DraftContext} from '../../../Context/DraftContext';
+import {DraftContext} from '../../../context/DraftContext';
 
 const SortableItem = (props) => {
   const { myTeams, setMyTeams } = useContext(DraftContext)

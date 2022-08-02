@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { BORDER_GRAY, GRAY } from '../../../constants/Colors';
+import { BORDER_GRAY, DARK_BLACK, GRAY } from '../../../constants/Colors';
 import {useCurrentTeam} from '../../../hooks/useCurrentTeam'
 import { IconContext } from "react-icons";
 import { GoSync, GoArrowBoth } from 'react-icons/go'
@@ -137,6 +137,20 @@ const Container = styled.div`
     padding-top: .5rem;
     overflow: auto;
     height: ${isMobile ? 'auto' : '82vh'};
+    &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	    border-radius: 10px;
+	    background-color: #F5F5F5;
+    }
+    &::-webkit-scrollbar {
+        width: 12px;
+	    background-color: #F5F5F5;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+	    background-color: ${DARK_BLACK};
+    }
 `
 const Logo = styled.img`
     width: 5rem;

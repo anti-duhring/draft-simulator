@@ -1,18 +1,19 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import {DraftContext} from '../../../Context/DraftContext'
-import { drawImageProp } from "../../../services/GenerateImage";
-import dataPlayers from '../../../data/players.json'
-import {useAllTeams} from '../../../hooks/useAllTeams'
+import {DraftContext} from '../../context/DraftContext'
+import { drawImageProp } from "../../services/GenerateImage";
+import dataPlayers from '../../data/players.json'
+import {useAllTeams} from '../../hooks/useAllTeams'
 import styled, {css} from "styled-components";
 import { isMobile } from "react-device-detect";
+import {useNavigate} from 'react-router-dom'
 
 const GeneratedImage = () => {
+    const navigate = useNavigate();
     const {
         allPicks,
         picksPlayers
     } = useContext(DraftContext);
     const teams = useAllTeams();
-
     const canvasRef = useRef();
     const downloadRef = useRef();
 
@@ -71,6 +72,20 @@ const GeneratedImage = () => {
 
         generateImage();
     },[teams]);
+
+    useEffect(() => {
+        if(!allPicks){
+            navigate('/');
+        }
+    },[])
+
+    if(!allPicks) {
+        return (
+            <div>
+                Você será redirecionado...
+            </div>
+        )
+    }
 
     return ( 
         <div>

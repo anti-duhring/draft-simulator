@@ -1,17 +1,18 @@
-import { useState, useContext } from "react";
-import Button from "../../Button"
+import { useState, useContext, useEffect } from "react";
+import Button from "../../components/Button";
 import styled from "styled-components";
-import DraftList from "../DraftList";
-import DraftMenu from "../DraftMenu";
-import SlideScreenMobile from "../SlideScreenMobile";
-import data from '../../../data/players.json'
-import { DraftContext } from "../../../Context/DraftContext";
+import DraftList from "../../components/DraftPicks/DraftList";
+import DraftMenu from "../../components/DraftPicks/DraftMenu";
+import SlideScreenMobile from "../../components/DraftPicks/SlideScreenMobile";
+import data from '../../data/players.json'
+import { DraftContext } from "../../context/DraftContext";
 import { isMobile } from "react-device-detect";
-import ActionScreenDesktop from "../ActionScreenDesktop/Container";
+import ActionScreenDesktop from "../../components/DraftPicks/ActionScreenDesktop/Container";
+import { useNavigate } from "react-router-dom";
 
 //console.log(data.players.map(item => item.id));
 
-const DraftPicksContainer = (props) => {
+const DraftPicks = (props) => {
     data.players.sort((a, b) => a.pff_rank - b.pff_rank);
     const {
         step, 
@@ -19,11 +20,23 @@ const DraftPicksContainer = (props) => {
         currentPick,
         allPicks
     } = useContext(DraftContext);
+    let navigate = useNavigate();
     
 
     const backToDraftOrder = () => {
         setStep('order');
     }
+
+    useEffect(() => {
+        if(!allPicks) {
+            navigate('/'); 
+        }
+    },[])
+
+    if(!allPicks) {
+        return <div>Você será redirecionado...</div>
+    }
+
 
     return (
         <Container>
@@ -32,7 +45,7 @@ const DraftPicksContainer = (props) => {
                 {!isMobile && <ActionScreenDesktop />}
             </Flex>
             <Footer>
-                <Button disabled={currentPick != 0} onClick={() => setStep('finish')}>
+                <Button disabled={currentPick != 0} onClick={() => navigate('/myDraft')}>
                     Finalizar Draft
                 </Button>
             </Footer>
@@ -47,7 +60,7 @@ const DraftPicksContainer = (props) => {
     )
 }
 
-export default DraftPicksContainer;
+export default DraftPicks;
 
 const Container = styled.div`
     width: ${isMobile ? '100%' : '80vw'};

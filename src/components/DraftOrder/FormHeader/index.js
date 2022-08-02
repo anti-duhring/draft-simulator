@@ -58,6 +58,7 @@ const InputCheckbox = styled.input`
   cursor: pointer;
   height: 0;
   width: 0;
+  border-radius: 5px;
   &:checked ~ .checkmark {
     background-color: #f65e1b !important;
   }
@@ -84,6 +85,7 @@ const Checkmark = styled.span`
   height: 25px;
   width: 25px;
   background-color: #eee;
+  border-radius: 5px;
   &::after {
     content: "";
     position: absolute;

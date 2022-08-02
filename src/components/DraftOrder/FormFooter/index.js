@@ -1,16 +1,41 @@
 import { useState, useEffect, useContext } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Button from "../../Button"
-import {DraftContext} from '../../../Context/DraftContext'
+import {DraftContext} from '../../../context/DraftContext'
+import {useNavigate} from 'react-router-dom'
+import { DARK_BLACK, GRAY, ORANGE } from "../../../constants/Colors"
 
 const FormFooter = (props) => {
+  let navigate = useNavigate();
   const { 
     handleDraftOrder,
     myTeams,
     draftOrder
   } = useContext(DraftContext);
+  const [rounds, setRounds] = useState(1)
+
+  const startDraft = () => {
+    handleDraftOrder(draftOrder, myTeams, {rounds: rounds});
+    navigate('/draft')
+  }
 
     return (
+      <Wrapper>
+        <Rounds>
+          <RoundsLegend>
+            Rounds
+          </RoundsLegend>
+          <RoundsInputWrapper>
+            <RoundsInput
+              onClick={() => setRounds(1)}
+              isActive={rounds==1}
+            >1</RoundsInput>
+            <RoundsInput
+              onClick={() => setRounds(2)}
+              isActive={rounds==2}
+            >2</RoundsInput>
+          </RoundsInputWrapper>
+        </Rounds>
         <Container>
         <LegendFooter>
           Clique no
@@ -19,13 +44,18 @@ const FormFooter = (props) => {
           </SVG>
           para arrastar
         </LegendFooter>
-        <Button onClick={() => handleDraftOrder(draftOrder, myTeams)} disabled={myTeams.length > 0 ? false : true}>Começar Draft</Button>
+        <Button onClick={startDraft} disabled={myTeams.length > 0 ? false : true}>Começar Draft</Button>
       </Container>
+      </Wrapper>
     )
 }
 
 export default FormFooter
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 const Container = styled.div`
     display: flex;
     justify-content: flex-end;
@@ -38,8 +68,39 @@ const LegendFooter = styled.div`
     align-items: center;
     flex: 1;
     font-size: .75rem;
-    color: #7b8187;
+    color: ${GRAY};
 `
 const SVG = styled.svg`
     margin: 5px;
 `
+const Rounds = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding-right: 10px;
+  padding-left: 10px;
+  align-items: center;
+  margin-bottom: .5rem;
+`
+const RoundsLegend = styled.div`
+  flex: 1;
+  text-align: left;
+  //font-size: .75rem;
+  //color: ${GRAY};
+  font-weight: bold;
+`
+const RoundsInputWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`
+const RoundsInput = styled.div((props) => css`
+  background-color: ${props.isActive ? DARK_BLACK : 'white'};
+  color: ${props.isActive ? 'white' : DARK_BLACK};
+  width: 2rem;
+  height: 1.7rem;
+  margin-left: .7rem;
+  border: none;
+  border-radius: 5px;
+  line-height: 1.5rem;
+`)
