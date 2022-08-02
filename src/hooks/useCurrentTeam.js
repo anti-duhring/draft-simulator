@@ -19,7 +19,7 @@ export const useCurrentTeam = (round) => {
 
         const arr = [];
         const team = {};
-        const item = data.teams.find(item => item.id==allPicks[round][currentPick - 1].current_team_id);
+        const item = data.teams.find(item => item.id==[...allPicks[1], ...allPicks[2]][currentPick - 1].current_team_id);
         team.id = item.id;
         team.pffData = {...item};
         team.nflData = {...teamsData.find(i => i.team_id == item.id)};
@@ -29,9 +29,11 @@ export const useCurrentTeam = (round) => {
 
         setCurrentTeam(team);
 
-        data.teams.filter(i => i.id != allPicks[round][currentPick - 1].current_team_id).map(item => {
+        const teamsAlreadyMapped = [];
+        data.teams.filter(i => i.id != [...allPicks[1], ...allPicks[2]][currentPick - 1].current_team_id && teamsAlreadyMapped.indexOf(i.id)==-1).map(item => {
             const team = {}
             team.id = item.id;
+            teamsAlreadyMapped.push(item.id);
             team.pffData = {...data.teams.find(i => i.id==item.id)};
             team.nflData = {...teamsData.find(i => i.team_id == item.id)};
             team.picks = [...getPicksFromTeam(item.id)];

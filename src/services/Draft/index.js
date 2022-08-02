@@ -1,7 +1,4 @@
 import data from '../../data/draft_picks.json'
-import teamsData from '../../data/NFL_teams.json'
-import { useContext, useEffect, useState } from 'react'
-import { DraftContext } from '../../context/DraftContext'
 
 export const getFuturePicks = (order, season) => {
     let rounds = {
@@ -104,7 +101,10 @@ export const myTeamsData = (myTeams) => {
 }
 
 export const scrollToPick = (pick) => {
-    document.querySelector(`.pick-${pick}`).scrollIntoView({
+    const pickItem = document.querySelector(`.pick-${pick}`);
+    if(!pickItem) return
+
+    pickItem.scrollIntoView({
         behavior: 'smooth'
     });
 }

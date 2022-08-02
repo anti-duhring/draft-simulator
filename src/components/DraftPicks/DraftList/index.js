@@ -50,8 +50,13 @@ const DraftList = (props) => {
                 >Round 2</TabRoundItem>
             </TabRounds>}
             <AllPicksContainer>
-            {
+            { !isMobile?
                 allPicks[round].map((pick, index) => {
+                    return (
+                        <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
+                    )
+                }) :
+                [...allPicks[1], ...allPicks[2]].map((pick, index) => {
                     return (
                         <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
                     )

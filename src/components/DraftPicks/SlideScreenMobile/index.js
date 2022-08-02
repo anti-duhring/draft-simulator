@@ -11,7 +11,8 @@ import { useCurrentTeam } from "../../../hooks/useCurrentTeam";
 
 const SlideScreenMobile = (props) => {
     const {
-        isMyPick
+        isMyPick,
+        currentPick
     } = useContext(DraftContext)
     const [currentTeam, allOtherTeams] = useCurrentTeam(1)
 
@@ -30,7 +31,8 @@ const SlideScreenMobile = (props) => {
         <Container>
             <TitleTab isMyPick={isMyPick()} onClick={toggleShowScreen}>
                 <IconContext.Provider value={{color: 'white',size:'1.5rem',style: { verticalAlign: 'middle' }}}>
-                    {isMyPick() ? 'Você está On the Clock' : `Negocie com o ${currentTeam?.nflData.team_nick}`} {showScreen ? <GoChevronDown /> : <GoChevronUp />}
+                    Pick {currentPick} - 
+                    {isMyPick() ? ' Você está On the Clock' : ` Negocie com o ${currentTeam?.nflData.team_nick}`} {showScreen ? <GoChevronDown /> : <GoChevronUp />}
                 </IconContext.Provider>   
             </TitleTab>
             <ContentTab style={{display:'flex',height:showScreen ? '80vh' : '0'}}>

@@ -13,6 +13,7 @@ export const DraftContextProvider = ({children}) => {
     const [waitToPick, setWaitToPick] = useState(500)
     const [step, setStep] = useState('order');
     const [rounds, setRounds] = useState(1);
+    const [totalPicksToDraft, setTotalPicksToDraft] = useState(32 * rounds);
     const [draftOrder, setDraftOrder] = useState(data.teams);
     const [myTeams, setMyTeams] = useState([]);
 
@@ -144,7 +145,8 @@ export const DraftContextProvider = ({children}) => {
         setStep('picks');
         setDraftOrder(order);
         setMyTeams(myTeams);
-        setRounds(config.rounds)
+        setRounds(config.rounds);
+        setTotalPicksToDraft(32 * config.rounds);
 
         const picks = {
             "1": getPicks(order, 1, NFLseason),
@@ -169,34 +171,37 @@ export const DraftContextProvider = ({children}) => {
     const pickPlayer = (player, _current_pick) => {
         const current_pick = _current_pick || currentPick;
         let newAllPicks = {...allPicks}
-        newAllPicks[1][current_pick - 1].player_picked = {...player}
+        let picksFromRoundOneAndTwo = [...newAllPicks[1], ...newAllPicks[2]]
+
+        picksFromRoundOneAndTwo[current_pick - 1].player_picked = {...player}
+        newAllPicks[1] = picksFromRoundOneAndTwo.filter(i => i.round==1)
+        newAllPicks[2] = picksFromRoundOneAndTwo.filter(i => i.round==2)
+        
         setPicksPlayers(prevPicks => prevPicks ? ([...prevPicks,player.id]) : ([player.id]));
         setAllPicks(newAllPicks);
     }
 
     const handleDraftPlayer = (player) => {
-        setCurrentPick(prevPick => prevPick == 32 ? 0 : prevPick + 1);
+        setCurrentPick(prevPick => prevPick == totalPicksToDraft ? 0 : prevPick + 1);
         pickPlayer(player)
     }
 
     const handleNextPick = () => {
-        setCurrentPick(prevPick => prevPick == 32 ? 0 : prevPick + 1);
+        setCurrentPick(prevPick => prevPick == totalPicksToDraft ? 0 : prevPick + 1);
 
         if(picksPlayers.length <= 0) {
             pickPlayer(dataPlayers.players[0]);
-            //setPicksPlayers([dataPlayers.players[0].id])
+
         } else {
             const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1);
 
-            //setPicksPlayers(prevPicks => ([...prevPicks,playersAvaliable[0].id]));
             pickPlayer(playersAvaliable[0]);
         }
     }
 
     const handleMyNextPick = () => {
-        if(currentPick >= draftOrder.length) return
 
-        const MyNextPick = allPicks[1].find(item => myTeams.indexOf(item.current_team_id) != -1 && item.pick > currentPick);
+        const MyNextPick = [...allPicks[1],...allPicks[2]].find(item => myTeams.indexOf(item.current_team_id) != -1 && item.pick > currentPick && item.round <= rounds);
         let i = currentPick - 1;
         let newPlayers = [];
         setIsJumpingTo(true);
@@ -235,7 +240,7 @@ export const DraftContextProvider = ({children}) => {
             loop(MyNextPick.pick);
         }
         else if(!MyNextPick) {
-            loop(33);
+            loop(totalPicksToDraft + 1);
         }
         
     }

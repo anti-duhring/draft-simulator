@@ -16,6 +16,7 @@ const ActionScreenDesktop = () => {
         currentPick,
         allPicks,
         MyPicks,
+        rounds,
         isJumpingTo
     } = useContext(DraftContext);
     const [currentTeam, allOtherTeams] = useCurrentTeam(1);
@@ -32,7 +33,7 @@ const ActionScreenDesktop = () => {
 
     return ( 
         <Container>
-            <Header isMyPick={isMyPick()}>Painel do GM - {isMyPick() ? 'Você está On the Clock' : `Negocie com o ${currentTeam?.nflData.team_nick}`}</Header>
+            <Header isMyPick={isMyPick()}>Pick {currentPick} - {isMyPick() ? 'Você está On the Clock' : `Negocie com o ${currentTeam?.nflData.team_nick}`}</Header>
             <Content>
             <TabLinkContainer>
                 <Tabs>
@@ -71,7 +72,7 @@ const ActionScreenDesktop = () => {
                     onClick={handleMyNextPick}
                     >
                         
-                        {MyPicks().find(pick => pick > currentPick && pick < 32) ? `Pular até a pick ${MyPicks().find(pick => pick > currentPick && pick < 32)}` : 'Pular até o final'}
+                        {MyPicks().find(pick => pick > currentPick && pick <= 32 * rounds) ? `Pular até a pick ${MyPicks().find(pick => pick > currentPick && pick <= 32 * rounds)}` : 'Pular até o final'}
                     </Button>
                     
                 </TabActions>
