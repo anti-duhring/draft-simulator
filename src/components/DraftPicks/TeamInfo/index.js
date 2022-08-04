@@ -133,7 +133,7 @@ const TeamInfo = () => {
 export default TeamInfo;
 
 const Container = styled.div`
-    width: 100%;
+    width: ${isMobile? '100vw' : '100%'};
     padding-top: .5rem;
     overflow: auto;
     height: ${isMobile ? 'auto' : '82vh'};

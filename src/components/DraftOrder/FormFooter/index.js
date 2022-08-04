@@ -3,7 +3,8 @@ import styled, { css } from "styled-components"
 import Button from "../../Button"
 import {DraftContext} from '../../../Context/DraftContext'
 import {useNavigate} from 'react-router-dom'
-import { DARK_BLACK, GRAY, ORANGE } from "../../../constants/Colors"
+import { BORDER_GRAY, DARK_BLACK, GRAY, ORANGE } from "../../../constants/Colors"
+import { isMobile } from "react-device-detect"
 
 const FormFooter = (props) => {
   let navigate = useNavigate();
@@ -79,7 +80,9 @@ const Rounds = styled.div`
   padding-right: 10px;
   padding-left: 10px;
   align-items: center;
+  justify-content: center;
   margin-bottom: .5rem;
+  height: 3rem;
 `
 const RoundsLegend = styled.div`
   flex: 1;
@@ -96,11 +99,18 @@ const RoundsInputWrapper = styled.div`
 `
 const RoundsInput = styled.div((props) => css`
   background-color: ${props.isActive ? DARK_BLACK : 'white'};
-  color: ${props.isActive ? 'white' : DARK_BLACK};
-  width: 2rem;
-  height: 1.7rem;
+  color: ${props.isActive ? 'white' : GRAY};
+  padding: .3rem .7rem .3rem .7rem;
   margin-left: .7rem;
   border: none;
   border-radius: 5px;
-  line-height: 1.5rem;
+  //line-height: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: .2s;
+  &:hover {
+    background-color: ${props.isActive ? DARK_BLACK : !isMobile? BORDER_GRAY : DARK_BLACK};
+  }
 `)

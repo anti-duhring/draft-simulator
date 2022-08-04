@@ -56,7 +56,13 @@ const DraftList = (props) => {
                         <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
                     )
                 }) :
-                [...allPicks[1], ...allPicks[2]].map((pick, index) => {
+                rounds > 1 ? 
+                [...allPicks[1],...allPicks[2]].map((pick, index) => {
+                    return (
+                        <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
+                    )
+                }) :
+                allPicks[1].map((pick, index) => {
                     return (
                         <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
                     )

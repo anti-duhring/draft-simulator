@@ -359,7 +359,7 @@ export default TradeScreen;
 
 const Container = styled.div`
     padding: 0.5rem;
-    width: 100%;
+    width: ${isMobile? '100vw' : '100%'};
     overflow:  ${isMobile ? 'auto' : 'none'};
     height: ${isMobile ? '100%' : 'auto'};
     display: flex;

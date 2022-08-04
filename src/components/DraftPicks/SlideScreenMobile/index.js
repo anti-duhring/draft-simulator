@@ -8,6 +8,7 @@ import { DraftContext } from "../../../Context/DraftContext";
 import { DARK_BLACK, ORANGE } from "../../../constants/Colors";
 import TeamInfo from "../TeamInfo";
 import { useCurrentTeam } from "../../../hooks/useCurrentTeam";
+import {useSwipeable} from 'react-swipeable'
 
 const SlideScreenMobile = (props) => {
     const {
@@ -17,11 +18,39 @@ const SlideScreenMobile = (props) => {
     const [currentTeam, allOtherTeams] = useCurrentTeam(1)
 
     const [tabToShow, setTabToShow] = useState(isMyPick() ? 'pick' : 'trade');
+    const [activeIndex, setActiveIndex] = useState(0);
     const [showScreen, setShowScreen] = useState(false);
 
     const toggleShowScreen = () => {
         setShowScreen(showScreen ? false : true);
     }
+
+    const swipeLeft = () => {
+        console.log('Left', activeIndex);
+        const maxIndex = isMyPick()? 2 : 1;
+        if(activeIndex < maxIndex) {
+            setActiveIndex(prevIndex => prevIndex + 1)
+        }
+    }
+
+    const swipeRight = () => {
+        console.log('Right', activeIndex);
+
+        if(activeIndex >= 1) {
+            setActiveIndex(prevIndex => prevIndex - 1)
+        }
+    }
+
+    const handlers = useSwipeable({
+        //onSwiped: (eventData) => console.log("User Swiped!", eventData),
+        onSwipedLeft: swipeLeft,
+        onSwipedRight: swipeRight,
+        swipeDuration: 500,
+        preventScrollOnSwipe: true,
+        trackMouse: true,
+        trackTouch: true,
+        delta: 20,
+      });
 
     useEffect(() => {
         setTabToShow(isMyPick() ? 'pick' : 'trade')
@@ -35,34 +64,50 @@ const SlideScreenMobile = (props) => {
                     {isMyPick() ? ' Você está On the Clock' : ` Negocie com o ${currentTeam?.nflData.team_nick}`} {showScreen ? <GoChevronDown /> : <GoChevronUp />}
                 </IconContext.Provider>   
             </TitleTab>
-            <ContentTab style={{display:'flex',height:showScreen ? '80vh' : '0'}}>
+            <ContentTab 
+                {...handlers}
+                style={{display:'flex',height:showScreen ? '80vh' : '0'}}
+            >
                 <TabLinkContainer>
-                    {isMyPick() && <TabLink 
-                        onClick={() => setTabToShow('pick')}
+                    {isMyPick() && 
+                    <TabLink 
+                        onClick={() => setActiveIndex(0)}
                         isActive={tabToShow == 'pick'}
+                        index={0}
+                        activeIndex={activeIndex}
                     >
                         Draftar jogador
                     </TabLink>}
                     <TabLink 
-                        onClick={() => setTabToShow('trade')}
+                        onClick={() => setActiveIndex(isMyPick() ? 1 : 0)}
                         isActive={tabToShow == 'trade'}
+                        index={isMyPick() ? 1 : 0}
+                        activeIndex={activeIndex}
                     >
                         Propor troca
                     </TabLink>
                     <TabLink 
-                        onClick={() => setTabToShow('team')}
+                        onClick={() => setActiveIndex(isMyPick() ? 2 : 1)}
                         isActive={tabToShow == 'team'}
+                        index={isMyPick() ? 2 : 1}
+                        activeIndex={activeIndex}
                     >
                         Time
                     </TabLink>
                 </TabLinkContainer>
-
-                {tabToShow == 'pick' &&
-                <PicksAvaliable toggleShowScreen={toggleShowScreen} />}
-                {tabToShow == 'trade' &&
-                <TradeScreen />}
-                {tabToShow == 'team' &&
-                <TeamInfo />}
+                <SwipeContainer style={{width: `${isMyPick() ? '300' : '200'}vw`,transform:`translateX(-${activeIndex * (isMyPick() ? 33.33 : 50)}%)`}}>
+                    {isMyPick() && 
+                    <Inner>
+                        <PicksAvaliable toggleShowScreen={toggleShowScreen} />
+                    </Inner>}
+                    <Inner>
+                        <TradeScreen />
+                    </Inner>
+                    <Inner>
+                        <TeamInfo />
+                    </Inner>
+                    
+                </SwipeContainer>
             </ContentTab>
         </Container>
      );
@@ -105,5 +150,15 @@ const TabLinkContainer = styled.div`
 const TabLink = styled.div((props) => css`
     flex: 1;
     padding: .5rem 0 .5rem 0;
-    border-bottom: 1px solid ${props.isActive ? ORANGE : 'white'};
+    border-bottom: 1px solid ${props.index == props.activeIndex ? ORANGE : 'white'};
+    color: ${props.index == props.activeIndex ? ORANGE : DARK_BLACK};
 `)
+const Inner = styled.div`
+    flex: 1;
+    overflow-y: auto;
+`
+const SwipeContainer = styled.div`
+    display: flex;
+    overflow-y: auto;
+    transition: transform .3s;
+`
