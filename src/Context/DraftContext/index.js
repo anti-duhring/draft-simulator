@@ -177,30 +177,31 @@ export const DraftContextProvider = ({children}) => {
         // Loop until MyNextPick or until the last pick
         const loop = (loopUntil) => {        
             i++;
+            // function that detect if the next pick is in the next round to change the pagination automatically
             hasToGoToSecondRound(i, setCurrentRound, 33)
 
             if(i < loopUntil) {
                 setCurrentPick(i);
 
+                // Making the team bot chose a player to draft
                 const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1 && newPlayers.indexOf(item.id) == -1);
                 const playerToDraft = playersAvaliable[0];
-
                 pickPlayer(playerToDraft, i);
                 newPlayers.push(playerToDraft.id);
 
                 scrollToPick(i > 1 ? i - 1 : 1)
+
+                // Do the loop again 
                 setTimeout(() => loop(loopUntil), waitToPick);
                 
             } else {
                 setIsJumpingTo(false)
 
+                // if it was the last pick the draft must finish
                 if(!MyNextPick) {
                     setCurrentPick(0);
-                    scrollToPick(32)
-                    
                 } else {
                     setCurrentPick(MyNextPick.pick);
-                    scrollToPick(MyNextPick.pick)
                 }
             }
             
@@ -209,7 +210,7 @@ export const DraftContextProvider = ({children}) => {
         if(MyNextPick) {
             loop(MyNextPick.pick);
         }
-        else if(!MyNextPick) {
+        else {
             loop(totalPicksToDraft + 1);
         }
         

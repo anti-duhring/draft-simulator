@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useLayoutEffect } from 'react'
+import { isMobile } from 'react-device-detect';
 
 export const useIntersection = (element, rootMargin) => {
     const [isVisible, setState] = useState(false);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        if(!isMobile) return
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                // if (entry.isIntersecting) {
@@ -14,9 +17,9 @@ export const useIntersection = (element, rootMargin) => {
             }, { rootMargin }
         );
 
-        element.current && observer.observe(element.current);
+        element.current && observer.observe(element?.current);
 
-        return () => observer.unobserve(element.current);
+        return () => observer.unobserve(element?.current);
     }, []);
 
     return isVisible;

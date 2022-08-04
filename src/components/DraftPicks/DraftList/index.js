@@ -20,14 +20,11 @@ const DraftList = (props) => {
     const round1Ref = useRef();
     const round2Ref = useRef();
     const round1InViewport = useIntersection(round1Ref, '0px');
-    const round2InViewport = useIntersection(round2Ref, '0px');
     let roundPagination = 1;
 
     if(round1InViewport) {
-        console.log('Round1 in viewport')
         roundPagination = 1;
     } else {
-        console.log('Round2 in viewport');
         roundPagination = 2;
     }
 
@@ -52,7 +49,7 @@ const DraftList = (props) => {
 
     return (
         <Container>
-            {isMobile &&
+            {isMobile && rounds > 1 &&
                 <RoundPagination>
                     <RoundPaginationLegend>
                         ROUND {roundPagination}
