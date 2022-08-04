@@ -145,7 +145,12 @@ const TradeScreen = (props) => {
             setOtherTeamID(prevTeamID => (prevTeamID ? myTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? allOtherTeams[0].id : prevTeamID : allOtherTeams[0].id));
         } else {
             setOptions([...teamsOptions(myTeams)]);
-            setOtherTeamID(prevTeamID => (prevTeamID ? allOtherTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? myTeams[0].id : prevTeamID : myTeams[0].id));
+            setOtherTeamID(prevTeamID => (prevTeamID ? myTeams.map(i => i.id).indexOf(prevTeamID) == -1 ? myTeams[0].id : prevTeamID : myTeams[0].id));
+            /*{
+                console.log(allOtherTeams.map(i => i.id).indexOf(prevTeamID));
+
+                return (prevTeamID ? allOtherTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? myTeams[0].id : prevTeamID : myTeams[0].id)
+            });*/
 
         }
     },[myTeams, currentPick])
@@ -486,7 +491,7 @@ const Teams = styled.div`
     column-gap: 1rem;
     overflow: ${isMobile ? 'none' : 'auto'};
     height: ${isMobile ? 'auto' : '70vh'};
-    &::-webkit-scrollbar-track {
+    /*&::-webkit-scrollbar-track {
         box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	    border-radius: 10px;
@@ -499,5 +504,5 @@ const Teams = styled.div`
     &::-webkit-scrollbar-thumb {
         border-radius: 10px;
 	    background-color: ${DARK_BLACK};
-    }
+    }*/
 `

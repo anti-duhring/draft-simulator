@@ -2,9 +2,7 @@ import { createContext } from "react";
 import { useState, useEffect } from "react";
 import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
-import { getFuturePicks, getPicks, scrollToPick } from "../../services/Draft";
-import { compareOfferValue } from "../../services/Trade";
-import Alert from '../../components/Alert';
+import { changePicksOwners, changePlayersOwners, getFuturePicks, getPicks, hasToGoToSecondRound, scrollToPick } from "../../services/Draft";
 
 export const DraftContext = createContext();
 
@@ -18,6 +16,7 @@ export const DraftContextProvider = ({children}) => {
     const [myTeams, setMyTeams] = useState([]);
 
     const [currentPick, setCurrentPick] = useState(1);
+    const [currentRound, setCurrentRound] = useState(1);
     const [picksPlayers, setPicksPlayers] = useState([]);
 
     const [allPicks, setAllPicks] = useState(null);
@@ -25,11 +24,6 @@ export const DraftContextProvider = ({children}) => {
     const [tradablePlayers, setTradablePlayers] = useState(null);
     const [tradeHistory, setTradeHistory] = useState([]);
 
-    const [alert, setAlert] = useState({
-        active: false,
-        message: '',
-        title: '',
-    })
     const [isJumpingTo, setIsJumpingTo] = useState(false)
     
     const MyPicks = () => {
@@ -49,9 +43,26 @@ export const DraftContextProvider = ({children}) => {
     }
 
     const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID, offerValues) => {
-        let newAllPicks = {...allPicks};
-        let newFuturePicks = {...futurePicks};
-        let newTradablePlayers = [...tradablePlayers];
+        const [newAllPicks, newFuturePicks] = changePicksOwners(
+            [...otherTeamOffer.filter(item => !item.player_id),...currentTeamOffer.filter(item => !item.player_id)],
+            NFLseason,
+            {
+                otherTeamID: otherTeamID, 
+                currentTeamID: currentTeamID
+            },
+            {
+                newAllPicks: {...allPicks},
+                newFuturePicks: {...futurePicks}
+            }
+        )
+        const newTradablePlayers = changePlayersOwners(
+            [...otherTeamOffer.filter(item => item.player_id), ...currentTeamOffer.filter(item => item.player_id)],
+            {
+                otherTeamID: otherTeamID, 
+                currentTeamID: currentTeamID
+            },
+            tradablePlayers
+        );
         const tradeResume = {
             id: tradeHistory.length + 1,
             teams_involved: [otherTeamID, currentTeamID],
@@ -67,56 +78,8 @@ export const DraftContextProvider = ({children}) => {
             }
         };
 
-        // IF THE BOT TEAM OFFER IS TOO HIGH
-        if(compareOfferValue(offerValues, isMyPick())==0) {
-            setAlert({
-                active: true, 
-                title: `A proposta foi rejeitada pelo GM do ${isMyPick() ? data.teams.find(i => i.id==otherTeamID).nickname : data.teams.find(i => i.id==currentTeamID).nickname}`, 
-                message:`O valor da sua oferta foi muito baixo, tente incrementá-lo com algumas picks ou adicionar jogadores na negociação.`
-        })
-            return
-        }
-        // IF THE USER'S TEAM OFFER IS TOO HIGH
-        else if(compareOfferValue(offerValues, isMyPick()) == -1) {
-            setAlert({
-                active: true, 
-                title: `Oferta muito alta!`, 
-                message:`Sua oferta foi muito alta, isso talvez enfureça sua torcida e o dono do time. Retome as negociações com um valor um pouco mais baixo.`
-            })
-            return
-        }
-
-        // CHANGE THE PICK'S OWNER
-        [...otherTeamOffer.filter(item => item.player_id), ...currentTeamOffer.filter(item => item.player_id)].map(player => {
-            let thisPlayer = {...player};
-            let thisPlayerIndex = newTradablePlayers.findIndex(item => item == player);
-
-            thisPlayer.franchise_id = thisPlayer.franchise_id == otherTeamID ? currentTeamID : otherTeamID;
-
-            newTradablePlayers[thisPlayerIndex] = thisPlayer;
-        });
-
-        // CHANGE THE PLAYER'S OWNER
-        [...otherTeamOffer.filter(item => !item.player_id),...currentTeamOffer.filter(item => !item.player_id)].map(pick => {
-            let thisPick = pick;
-            let thisPickIndex;
-
-            thisPick.original_team_id = thisPick.current_team_id;
-            thisPick.current_team_id = thisPick.current_team_id == otherTeamID ? currentTeamID : otherTeamID;
-
-            if(pick.season == NFLseason) {
-                thisPickIndex = newAllPicks[pick.round].findIndex(item => item == pick);
-
-                newAllPicks[pick.round][thisPickIndex] = thisPick;
-
-            } else {
-                thisPickIndex = newFuturePicks[pick.season][pick.round].findIndex(item => item == pick);
-
-                newFuturePicks[pick.season][pick.round][thisPickIndex] = thisPick;
-            }
-        });
-        setAllPicks(prevAllPicks => newAllPicks);
-        setFuturePicks(prevFuturePicks => newFuturePicks);
+        setAllPicks(newAllPicks);
+        setFuturePicks(newFuturePicks);
         setTradablePlayers(newTradablePlayers);
         setTradeHistory(prevHistory => ([...prevHistory,tradeResume]))
     }
@@ -182,11 +145,15 @@ export const DraftContextProvider = ({children}) => {
     }
 
     const handleDraftPlayer = (player) => {
+        hasToGoToSecondRound(currentPick, setCurrentRound, 32)
+
         setCurrentPick(prevPick => prevPick == totalPicksToDraft ? 0 : prevPick + 1);
         pickPlayer(player)
     }
 
     const handleNextPick = () => {
+        hasToGoToSecondRound(currentPick, setCurrentRound, 32)
+
         setCurrentPick(prevPick => prevPick == totalPicksToDraft ? 0 : prevPick + 1);
 
         if(picksPlayers.length <= 0) {
@@ -197,6 +164,7 @@ export const DraftContextProvider = ({children}) => {
 
             pickPlayer(playersAvaliable[0]);
         }
+
     }
 
     const handleMyNextPick = () => {
@@ -209,6 +177,7 @@ export const DraftContextProvider = ({children}) => {
         // Loop until MyNextPick or until the last pick
         const loop = (loopUntil) => {        
             i++;
+            hasToGoToSecondRound(i, setCurrentRound, 33)
 
             if(i < loopUntil) {
                 setCurrentPick(i);
@@ -234,6 +203,7 @@ export const DraftContextProvider = ({children}) => {
                     scrollToPick(MyNextPick.pick)
                 }
             }
+            
         }
 
         if(MyNextPick) {
@@ -265,6 +235,8 @@ export const DraftContextProvider = ({children}) => {
             tradablePlayers,
             isJumpingTo,
             rounds,
+            currentRound,
+            setCurrentRound,
             handleDraftOrder,
             handleDraftPlayer,
             handleNextPick,
@@ -272,7 +244,6 @@ export const DraftContextProvider = ({children}) => {
             handleOfferTrade,
             getPicksFromTeam,
             }}>
-                <Alert alert={alert} />
             {children}
         </DraftContext.Provider>
      );

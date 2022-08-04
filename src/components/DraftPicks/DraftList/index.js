@@ -12,9 +12,10 @@ const DraftList = (props) => {
         picksPlayers,
         myTeams,
         allPicks,
-        rounds
+        rounds,
+        currentRound,
+        setCurrentRound
     } = useContext(DraftContext);
-    const [round, setRound] = useState(1)
 
     const PickItem = ({team, pick, index}) => {
         const currentTeam = teams.find(item => item.team_id == team);
@@ -39,19 +40,19 @@ const DraftList = (props) => {
         <Container>
             {!isMobile && rounds > 1 && <TabRounds>
                 <TabRoundItem 
-                    onClick={() => setRound(1)}
-                    isActive={round==1}
+                    onClick={() => setCurrentRound(1)}
+                    isActive={currentRound==1}
                     round={1}
                 >Round 1</TabRoundItem>
                 <TabRoundItem 
-                    onClick={() => setRound(2)}
-                    isActive={round==2}
+                    onClick={() => setCurrentRound(2)}
+                    isActive={currentRound==2}
                     round={2}
                 >Round 2</TabRoundItem>
             </TabRounds>}
             <AllPicksContainer>
             { !isMobile?
-                allPicks[round].map((pick, index) => {
+                allPicks[currentRound].map((pick, index) => {
                     return (
                         <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
                     )
@@ -85,8 +86,10 @@ const TabRounds = styled.div`
 `
 const TabRoundItem = styled.div((props) => css`
     flex: 1;
-    color: white;
-    background-color: ${props.isActive ? DARK_BLACK : 'rgba(0,0,0,.2)'};
+    color: ${props.isActive ? 'white' : DARK_BLACK};
+    border: 1px solid ${DARK_BLACK};
+    border-left: ${props.round == 1 ? `1px solid ${DARK_BLACK}`: `none`};
+    background-color: ${props.isActive ? DARK_BLACK : 'white'};
     border-radius: ${props.round == 1 ? '5px 0 0 5px' : '0 5px 5px 0'};
     cursor: pointer;
     padding: .2rem;
@@ -95,7 +98,7 @@ const TabRoundItem = styled.div((props) => css`
     transition: .3s;
     font-size: .8rem;
     &:hover {
-        background-color: ${ORANGE};
+        background-color: ${props.isActive ? DARK_BLACK : 'rgba(0,0,0,.1)'};
     }
 `)
 const AllPicksContainer = styled.div`

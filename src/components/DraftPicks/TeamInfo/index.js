@@ -137,7 +137,7 @@ const Container = styled.div`
     padding-top: .5rem;
     overflow: auto;
     height: ${isMobile ? 'auto' : '82vh'};
-    &::-webkit-scrollbar-track {
+    /*&::-webkit-scrollbar-track {
         box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	    border-radius: 10px;
@@ -150,7 +150,7 @@ const Container = styled.div`
     &::-webkit-scrollbar-thumb {
         border-radius: 10px;
 	    background-color: ${DARK_BLACK};
-    }
+    }*/
 `
 const Logo = styled.img`
     width: 5rem;

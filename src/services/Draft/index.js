@@ -108,3 +108,50 @@ export const scrollToPick = (pick) => {
         behavior: 'smooth'
     });
 }
+
+export const changeBGColor = (cssClass, color) => {
+    document.querySelector(cssClass).style.backgroundColor = color
+}
+
+export const hasToGoToSecondRound = (currentPick, setCurrentRound, pick) => {
+    if(currentPick==pick) setCurrentRound(2)
+}
+
+export const changePlayersOwners = (offer,teams, tradablePlayers) => {
+    let newTradablePlayers = [...tradablePlayers];
+
+    offer.map(player => {
+        let thisPlayer = {...player};
+        let thisPlayerIndex = newTradablePlayers.findIndex(item => item == player);
+
+        thisPlayer.franchise_id = thisPlayer.franchise_id == teams.otherTeamID ? teams.currentTeamID : teams.otherTeamID;
+
+        newTradablePlayers[thisPlayerIndex] = thisPlayer;
+    });
+
+    return newTradablePlayers
+}
+
+export const changePicksOwners = (offer, season, teams, picks) => {
+    let newAllPicks = {...picks.newAllPicks};
+    let newFuturePicks = {...picks.newFuturePicks};
+    offer.map(pick => {
+        let thisPick = pick;
+        let thisPickIndex;
+
+        thisPick.original_team_id = thisPick.current_team_id;
+        thisPick.current_team_id = thisPick.current_team_id == teams.otherTeamID ? teams.currentTeamID : teams.otherTeamID;
+
+        if(pick.season == season) {
+            thisPickIndex = newAllPicks[pick.round].findIndex(item => item == pick);
+
+            newAllPicks[pick.round][thisPickIndex] = thisPick;
+
+        } else {
+            thisPickIndex = newFuturePicks[pick.season][pick.round].findIndex(item => item == pick);
+
+            newFuturePicks[pick.season][pick.round][thisPickIndex] = thisPick;
+        }
+    });
+    return [newAllPicks, newFuturePicks]
+}

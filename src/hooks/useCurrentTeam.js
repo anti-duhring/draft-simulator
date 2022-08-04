@@ -9,7 +9,8 @@ export const useCurrentTeam = (round) => {
         allPicks,
         getPicksFromTeam,
         tradablePlayers,
-        tradeHistory
+        tradeHistory,
+        isMyPick
     } = useContext(DraftContext)
     const [currentTeam, setCurrentTeam] = useState(null);
     const [allOtherTeams, setAllOtherTeams] = useState(null)

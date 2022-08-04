@@ -6,6 +6,7 @@ import { BLACK, BORDER_GRAY, GRAY } from '../../../constants/Colors';
 import { DraftContext } from '../../../Context/DraftContext';
 import { isMobile } from 'react-device-detect';
 import { defaultStyles, SelectTheme } from '../../../constants/SelectStyles';
+import { changeBGColor } from '../../../services/Draft';
 
 const options = [
     { value: 'QB', label: 'QB' },
@@ -81,12 +82,13 @@ const PicksAvaliable = (props) => {
 
     const PlayerItem = ({player}) => {
         return (
-            <PlayerContainer className={`player-${player.pff_rank}`} onPointerDown={() => {
-                document.querySelector(`.player-${player.pff_rank}`).style.backgroundColor = BORDER_GRAY
-            }} onPointerUp={() => {
-                props.toggleShowScreen();
-                handleDraftPlayer(player)
-            }}>
+            <PlayerContainer 
+                className={`player-${player.pff_rank}`}  
+                onPointerUp={() => {
+                    props.toggleShowScreen();
+                    handleDraftPlayer(player)
+                }}
+            >
                 <Rank>
                    Rank <Mark>{player.pff_rank}</Mark>
                 </Rank>
@@ -152,6 +154,9 @@ const PlayerContainer = styled.div`
     cursor: pointer;
     &:hover {
         background-color: rgba(0,0,0,.03);
+    }
+    &:active {
+        background-color: ${BORDER_GRAY};
     }
 `
 const Rank = styled.div`
