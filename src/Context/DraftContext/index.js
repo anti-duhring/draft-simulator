@@ -237,6 +237,7 @@ export const DraftContextProvider = ({children}) => {
             rounds,
             currentRound,
             setCurrentRound,
+            setTradeHistory,
             handleDraftOrder,
             handleDraftPlayer,
             handleNextPick,

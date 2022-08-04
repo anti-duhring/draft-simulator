@@ -30,7 +30,11 @@ const DraftOrder = (props) => {
     myTeams,
     setMyTeams,
     draftOrder,
-    setDraftOrder
+    setDraftOrder,
+    setCurrentPick,
+    setCurrentRound,
+    setPicksPlayers,
+    setTradeHistory
   } = useContext(DraftContext);
   const [checkbox, setCheckbox] = useState(false);
   const sensors = useSensors(
@@ -58,6 +62,13 @@ const DraftOrder = (props) => {
     setCheckbox(checkbox ? false : true);
     setMyTeams(checkbox ? [] : draftOrder.map(e => e.franchise_id))
   }
+
+  useEffect(() => {
+    setCurrentPick(1)
+    setCurrentRound(1) 
+    setPicksPlayers([]) 
+    setTradeHistory([])
+  },[])
 
   return (
   <Container>

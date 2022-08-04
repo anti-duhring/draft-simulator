@@ -140,17 +140,13 @@ const TradeScreen = (props) => {
     useEffect(() => {
         if(!myTeams) return 
 
+        // When some trade happen...
         if(isMyPick()) {
             setOptions([...teamsOptions(allOtherTeams)]);
             setOtherTeamID(prevTeamID => (prevTeamID ? myTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? allOtherTeams[0].id : prevTeamID : allOtherTeams[0].id));
         } else {
             setOptions([...teamsOptions(myTeams)]);
             setOtherTeamID(prevTeamID => (prevTeamID ? myTeams.map(i => i.id).indexOf(prevTeamID) == -1 ? myTeams[0].id : prevTeamID : myTeams[0].id));
-            /*{
-                console.log(allOtherTeams.map(i => i.id).indexOf(prevTeamID));
-
-                return (prevTeamID ? allOtherTeams.map(i => i.id).indexOf(prevTeamID) != -1 ? myTeams[0].id : prevTeamID : myTeams[0].id)
-            });*/
 
         }
     },[myTeams, currentPick])
