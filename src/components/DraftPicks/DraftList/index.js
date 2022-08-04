@@ -1,10 +1,11 @@
-import { useEffect, useContext, useState } from "react"
+import { useEffect, useContext, useState, useRef } from "react"
 import styled, { css } from "styled-components"
 import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../../../constants/Colors"
 import teams from '../../../data/NFL_teams.json'
 import './style.css'
 import { isMobile } from "react-device-detect"
-import {DraftContext} from '../../../Context/DraftContext'
+import {DraftContext} from '../../../Context/DraftContext';
+import {useIntersection} from '../../../hooks/useIntersection'
 
 const DraftList = (props) => {
     const {
@@ -16,6 +17,19 @@ const DraftList = (props) => {
         currentRound,
         setCurrentRound
     } = useContext(DraftContext);
+    const round1Ref = useRef();
+    const round2Ref = useRef();
+    const round1InViewport = useIntersection(round1Ref, '0px');
+    const round2InViewport = useIntersection(round2Ref, '0px');
+    let roundPagination = 1;
+
+    if(round1InViewport) {
+        console.log('Round1 in viewport')
+        roundPagination = 1;
+    } else {
+        console.log('Round2 in viewport');
+        roundPagination = 2;
+    }
 
     const PickItem = ({team, pick, index}) => {
         const currentTeam = teams.find(item => item.team_id == team);
@@ -38,6 +52,13 @@ const DraftList = (props) => {
 
     return (
         <Container>
+            {isMobile &&
+                <RoundPagination>
+                    <RoundPaginationLegend>
+                        ROUND {roundPagination}
+                    </RoundPaginationLegend>
+                </RoundPagination>
+            }
             {!isMobile && rounds > 1 && <TabRounds>
                 <TabRoundItem 
                     onClick={() => setCurrentRound(1)}
@@ -58,11 +79,27 @@ const DraftList = (props) => {
                     )
                 }) :
                 rounds > 1 ? 
-                [...allPicks[1],...allPicks[2]].map((pick, index) => {
-                    return (
-                        <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
-                    )
-                }) :
+                <>
+                <div className="round1" ref={round1Ref}>
+                    {
+                        allPicks[1].map((pick, index) => {
+                            return (
+                                <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
+                            )
+                        })
+                    }
+                </div>
+                <div className="round2" ref={round2Ref}>
+                    {
+                        allPicks[2].map((pick, index) => {
+                            return (
+                                <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
+                            )
+                        })
+                    }
+                </div>
+                </>
+                 :
                 allPicks[1].map((pick, index) => {
                     return (
                         <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
@@ -143,4 +180,22 @@ const Team = styled.div`
 const Logo = styled.img`
     width: 2rem;
     height: 2rem;
+`
+const RoundPagination = styled.div`
+    position: sticky;
+    top: .3rem;
+    display: flex;
+    justify-content: flex-end;
+`
+const RoundPaginationLegend = styled.div`
+    background-color: ${DARK_BLACK};
+    color: white;
+    width: 5rem;
+    margin: .3rem .6rem .3rem .6rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-size: .7rem;
 `

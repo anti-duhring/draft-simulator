@@ -84,7 +84,7 @@ const PicksAvaliable = (props) => {
         return (
             <PlayerContainer 
                 className={`player-${player.pff_rank}`}  
-                onPointerUp={() => {
+                onClick={() => {
                     props.toggleShowScreen();
                     handleDraftPlayer(player)
                 }}
