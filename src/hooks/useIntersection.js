@@ -6,6 +6,7 @@ export const useIntersection = (element, rootMargin) => {
 
     useLayoutEffect(() => {
         if(!isMobile) return
+        if(!element.current) return
 
         const observer = new IntersectionObserver(
             ([entry]) => {
