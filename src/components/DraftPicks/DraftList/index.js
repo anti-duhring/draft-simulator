@@ -2,7 +2,6 @@ import { useEffect, useContext, useState, useRef } from "react"
 import styled, { css } from "styled-components"
 import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../../../constants/Colors"
 import teams from '../../../data/NFL_teams.json'
-import './style.css'
 import { isMobile } from "react-device-detect"
 import {DraftContext} from '../../../Context/DraftContext';
 import {useIntersection} from '../../../hooks/useIntersection'
@@ -144,18 +143,23 @@ const AllPicksContainer = styled.div`
 
 const PickItemContainer = styled.div((props) => css`
     display: flex;
-    background-color: white;
+    background-color: ${props.otc? ORANGE : 'white'};
     border: 1px solid ${props.otc ? ORANGE : BORDER_GRAY};
     border-right: ${props.isMyPick ? `7px solid ${ORANGE}` : ''};
     box-shadow: 0 1px 3px rgb(22 24 26 / 10%), 0 5px 10px -3px rgb(22 24 26 / 5%);
     border-radius: 5px;
     height: 3rem;
     align-items: center;
-    color: ${GRAY};
+    color: ${props.otc? 'white' : GRAY};
     margin-bottom: .5rem;
     margin-left: .5rem;
     margin-right: .5rem;
     width: ${isMobile ? '95vw' : '100%'};
+    .pick-number {
+        margin-left: .5rem;
+        font-weight: bold;
+        color: ${props.otc? 'white' : BLACK} ;
+    }
 `)
 const Status = styled.span((props) => css`
     margin-left: .5rem;
@@ -167,7 +171,6 @@ const Pick = styled.div`
     flex: 1;
     border-right: 1px solid ${BORDER_GRAY};
     margin-right: .5rem;
-
 `
 const Team = styled.div`
     flex: 4;

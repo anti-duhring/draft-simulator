@@ -17,31 +17,36 @@ const GeneratedImage = () => {
     const canvasRef = useRef();
     const downloadRef = useRef();
 
-    const generateText = (ctx) => {
-
-        ctx.font = 'bold 40px arial';
-        ctx.fillStyle = "white";
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 3; 
-        
-        ctx.strokeText(`MOCK DRAFT DO 1º ROUND`, (ctx.canvas.height / 4), 45);
-
-        ctx.fillText(`MOCK DRAFT DO 1º ROUND`, (ctx.canvas.height / 4) , 45);
+    const generateText = (ctx, canvas) => {
+        const bodyImageHeight = (ctx.canvas.height - 160);
+        const paddingTop = 130;
+        const halfTeamsLength = 17;
 
         allPicks[1].map((pick, index) => {
             const playerPick = dataPlayers.players.find(item => item.id == picksPlayers[index]);
             const team = teams?.find(i => i.id == pick.current_team_id);
-            const x = index <=15? 20 : (ctx.canvas.height / 2) + 10;
-            const y = index <=15? (ctx.canvas.height / 17) * (index + 1) + 40 : (ctx.canvas.height / 17) * (index - 15) + 40;
 
-            ctx.font = 'bold 35px arial';
-            ctx.fillStyle = "white";
+            let logo = new Image();
+            logo.src = team.nflData.team_logo_espn;
+            logo.crossOrigin="anonymous"
+
+            const x = index <=15? 20 : (ctx.canvas.height / 2) + 10;
+            const y = index <=15 ? (bodyImageHeight / halfTeamsLength) * (index + 1) + paddingTop : (bodyImageHeight / halfTeamsLength) * (index - 15) + paddingTop;
+
+            ctx.font = 'bold 35px myFont';
+            ctx.fillStyle = "#0a0a0a";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 3; 
             
-            ctx.strokeText(`#${pick.pick} ${team.nflData.team_abbr} - ${playerPick?.name}`, x, y);
+            //ctx.strokeText(`#${pick.pick} ${team.nflData.team_abbr} - ${playerPick?.name}`, x, y);
 
-            ctx.fillText(`#${pick.pick} ${team.nflData.team_abbr} - ${playerPick?.name}`, x , y);
+            ctx.fillText(`${playerPick?.name} - ${playerPick?.position}`, x + 100 , y);
+            
+            logo.addEventListener("load", () => {
+                ctx.drawImage(logo, x , y - 50, 80,80);
+                downloadRef.current.href = canvas.toDataURL("image/png");
+            })
+            //ctx.drawImage(, x, y);
             
         })
     }
@@ -49,21 +54,24 @@ const GeneratedImage = () => {
     const generateImage = () => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d'); 
+        const myFont = new FontFace('myFont', 'url(/NiveauGroteskBold.otf)');
 
-        let img = new Image();
+        myFont.load().then((font) => {
+            document.fonts.add(font);
 
-        img.src = '/otc_bg.jpg';
-        img.addEventListener("load", () => {
-            const dpr = window.devicePixelRatio;
-            canvas.width = img.width;
-            canvas.height = img.height;
+            let img = new Image();
+            img.src = '/draft-bg.png';
+            img.addEventListener("load", () => {
+                const dpr = window.devicePixelRatio;
+                canvas.width = img.width;
+                canvas.height = img.height;
+    
+                drawImageProp(ctx, img, 0, 0, ctx.canvas.width, ctx.canvas.height, 0.5, 0.5)
+                generateText(ctx, canvas);
+                
 
-            //ctx.drawImage(img, 0, 0, img.width,    img.height,0, 0, canvas.width, canvas.height);
-            drawImageProp(ctx, img, 0, 0, ctx.canvas.width, ctx.canvas.height, 0.5, 0.5)
-            generateText(ctx);
-            downloadRef.current.href = canvas.toDataURL("image/jpg");
-            /*ctx.font = 'bold 20px arial';
-            ctx.fillText('Hello world', 50, 90);*/
+            });
+
         });
     }
 
