@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
 import { changePicksOwners, changePlayersOwners, getFuturePicks, getPicks, hasToGoToSecondRound, scrollToPick } from "../../services/Draft";
+import { compareOfferValue } from "../../services/Trade";
 
 export const DraftContext = createContext();
 
@@ -42,7 +43,11 @@ export const DraftContextProvider = ({children}) => {
         return MyPicks().indexOf(currentPick)!=-1
     }
 
-    const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID, offerValues) => {
+    const handleOfferTrade = (otherTeamOffer, otherTeamID, currentTeamOffer, currentTeamID, offerValues, forceTrade) => {
+        // CHECK IF THE TRADE IS FAIR
+        const offerValue = compareOfferValue(offerValues,isMyPick(), forceTrade);
+        if(offerValue!=1) return
+
         const [newAllPicks, newFuturePicks] = changePicksOwners(
             [...otherTeamOffer.filter(item => !item.player_id),...currentTeamOffer.filter(item => !item.player_id)],
             NFLseason,
@@ -77,7 +82,6 @@ export const DraftContextProvider = ({children}) => {
                 assets: [...currentTeamOffer]
             }
         };
-
         setAllPicks(newAllPicks);
         setFuturePicks(newFuturePicks);
         setTradablePlayers(newTradablePlayers);

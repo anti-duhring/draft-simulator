@@ -1,5 +1,5 @@
 export const compareOfferValue = (offerValues, isMyPick, forceTrade) => {
-    if(forceTrade) return true
+    if(forceTrade && offerValues.currentTeamOfferValue > 0 && offerValues.otherTeamOfferValue > 0) return 1
 
     let myOffer = 0;
     let botOffer = 0;
@@ -14,7 +14,7 @@ export const compareOfferValue = (offerValues, isMyPick, forceTrade) => {
 
     if(botOffer >= myOffer) {
         return 0
-    } else if (myOffer > botOffer * 2) {
+    } else if (myOffer > botOffer * 1.2) {
         return -1
     } else {
         return 1

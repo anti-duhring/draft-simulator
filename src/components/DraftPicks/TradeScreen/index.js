@@ -28,15 +28,14 @@ const TradeScreen = (props) => {
     const myTeams = useMyTeams();
     const botTeams = useBotTeams();
     const [currentTeam, allOtherTeams] = useCurrentTeam(1);
-
     const [otherTeamID, setOtherTeamID] = useState(null)
     const [otherTeamOffer, setOtherTeamOffer] = useState([]);
     const [currentTeamOffer, setCurrentTeamOffer] = useState([]);
-
     const [options, setOptions] = useState(null)
-    const [tradesMade, setTradesMade] = useState(0);
-    const tradeWillBeAccepted = compareOfferValue({otherTeamOfferValue: getValueFromOffer(otherTeamOffer), currentTeamOfferValue: getValueFromOffer(currentTeamOffer)}, isMyPick());
-    const tradeWillBeAcceptedInt = compareOfferValueInt({otherTeamOfferValue: getValueFromOffer(otherTeamOffer), currentTeamOfferValue: getValueFromOffer(currentTeamOffer)}, isMyPick())
+    const [forceTrade, setForceTrade] = useState(false);
+
+    const tradeWillBeAccepted = compareOfferValue({otherTeamOfferValue: getValueFromOffer(otherTeamOffer), currentTeamOfferValue: getValueFromOffer(currentTeamOffer)}, isMyPick(), forceTrade);
+    const tradeWillBeAcceptedInt = compareOfferValueInt({otherTeamOfferValue: getValueFromOffer(otherTeamOffer), currentTeamOfferValue: getValueFromOffer(currentTeamOffer)}, isMyPick(), forceTrade)
 
     const otherTeamPlayerSelectRef = useRef();
     const currentTeamPlayerSelectRef = useRef();
@@ -127,14 +126,13 @@ const TradeScreen = (props) => {
             otherTeamOfferValue: getValueFromOffer(otherTeamOffer), 
             currentTeamOfferValue: getValueFromOffer(currentTeamOffer)
         }
-        handleOfferTrade(otherTeamOffer, otherTeamID, currentTeamOffer, currentTeam.id, offerValues);
+        handleOfferTrade(otherTeamOffer, otherTeamID, currentTeamOffer, currentTeam.id, offerValues, forceTrade);
 
         otherTeamPlayerSelectRef.current.clearValue();
         currentTeamPlayerSelectRef.current.clearValue();
 
         setOtherTeamOffer([]);
         setCurrentTeamOffer([]);
-        setTradesMade(prevTrades => (prevTrades + 1))
     }
 
     useEffect(() => {
@@ -348,9 +346,24 @@ const TradeScreen = (props) => {
                         }
                     </TradeProgressLegend>
                 </TradeProgress>
-                <div>
-                    <Button onClick={offerTrade}>Propor troca</Button>
-                </div>
+                <ButtonContainer>
+                    <div className='button-flex'>
+                        <Button 
+                            disabled={tradeWillBeAccepted!=1}
+                            onClick={offerTrade}
+                        >Propor troca</Button>
+                    </div>
+                    <CheckboxFlex> 
+                        <label htmlFor="forceTrade">Forçar troca</label>
+                        <InputCheckbox 
+                            type="checkbox" 
+                            id="forceTrade" 
+                            checked={forceTrade}
+                            onChange={() => setForceTrade(prevCheck => prevCheck ? false : true)}
+                        />
+                        <Checkmark className='checkmark'></Checkmark>
+                    </CheckboxFlex>
+                </ButtonContainer>
             </Footer>
         </Container>
      );
@@ -501,4 +514,65 @@ const Teams = styled.div`
         border-radius: 10px;
 	    background-color: ${DARK_BLACK};
     }*/
+`
+const ButtonContainer = styled.div`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    .button-flex {
+        display: flex;
+        flex: 1;
+    }
+`
+const CheckboxFlex = styled.div`
+    position: relative;
+    flex: 1;
+    text-align: right;
+    label {
+        color: ${GRAY};
+        font-size: .8rem;
+        margin-right: 2rem;
+        cursor: pointer;
+    }
+    label:hover ~ .checkmark {
+        background-color: ${isMobile? '#eee' : '#ccc'};
+    }
+`
+const InputCheckbox = styled.input`
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  border-radius: 5px;
+  &:checked ~ .checkmark {
+    background-color: #f65e1b !important;
+  }
+  &:checked ~ .checkmark::after {
+    display: block;
+  }
+`
+const Checkmark = styled.span`
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 5px;
+  cursor: pointer;
+  &::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 8px;
+    top: 2px;
+    width: 9px;
+    height: 15px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
 `
