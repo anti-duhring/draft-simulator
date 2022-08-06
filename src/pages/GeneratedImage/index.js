@@ -6,6 +6,8 @@ import {useAllTeams} from '../../hooks/useAllTeams'
 import styled, {css} from "styled-components";
 import { isMobile } from "react-device-detect";
 import {useNavigate} from 'react-router-dom'
+import {GRAY, ORANGE} from '../../constants/Colors'
+import { ThreeCircles } from "react-loader-spinner";
 
 const GeneratedImage = () => {
     const navigate = useNavigate();
@@ -16,6 +18,7 @@ const GeneratedImage = () => {
     const teams = useAllTeams();
     const canvasRef = useRef();
     const downloadRef = useRef();
+    const [isLoading, setIsLoading] = useState(true)
 
     const generateText = (ctx, canvas) => {
         const bodyImageHeight = (ctx.canvas.height - 160);
@@ -25,12 +28,13 @@ const GeneratedImage = () => {
         allPicks[1].map((pick, index) => {
             const playerPick = dataPlayers.players.find(item => item.id == picksPlayers[index]);
             const team = teams?.find(i => i.id == pick.current_team_id);
+            const teamVia = pick.original_team_id != pick.current_team_id ? teams?.find(i => i.id == pick.original_team_id) : null;
 
             let logo = new Image();
             logo.src = team.nflData.team_logo_espn;
             logo.crossOrigin="anonymous"
 
-            const x = index <=15? 20 : (ctx.canvas.height / 2) + 10;
+            const x = index <=15? 20 : (ctx.canvas.height / 2) - 150;
             const y = index <=15 ? (bodyImageHeight / halfTeamsLength) * (index + 1) + paddingTop : (bodyImageHeight / halfTeamsLength) * (index - 15) + paddingTop;
 
             ctx.font = 'bold 35px myFont';
@@ -40,13 +44,23 @@ const GeneratedImage = () => {
             
             //ctx.strokeText(`#${pick.pick} ${team.nflData.team_abbr} - ${playerPick?.name}`, x, y);
 
-            ctx.fillText(`${playerPick?.name} - ${playerPick?.position}`, x + 100 , y);
-            
+            ctx.fillText(`${playerPick?.name} - ${playerPick?.position}`, x + 180 , y);
+
+            ctx.fillStyle = ORANGE; 
+            ctx.fillText(`${pick.pick}`, x + 80 , y + 5);
+
+            if(pick.original_team_id != pick.current_team_id) {
+                ctx.font = 'bold 20px arial';
+                ctx.fillStyle = GRAY;
+                ctx.fillText(`VIA ${teamVia?.nflData.team_abbr}`, x , y - 45);
+            }
+
             logo.addEventListener("load", () => {
-                ctx.drawImage(logo, x , y - 50, 80,80);
+                ctx.drawImage(logo, 0, 0, logo.width , logo.height, x + 10 , y - 34, 50, 50);
                 downloadRef.current.href = canvas.toDataURL("image/png");
+
+                if(index = 32 - 1) setIsLoading(false)
             })
-            //ctx.drawImage(, x, y);
             
         })
     }
@@ -102,7 +116,21 @@ const GeneratedImage = () => {
             </div>
             <div>
                 <a ref={downloadRef} href="/" download={true}>
-                    <Canvas ref={canvasRef} id="canvas"></Canvas>
+                    <Canvas isLoading={isLoading} ref={canvasRef} id="canvas"></Canvas>
+                    <Loading isLoading={isLoading}>
+                    <ThreeCircles
+                        height="100"
+                        width="100"
+                        color={ORANGE}
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        ariaLabel="three-circles-rotating"
+                        outerCircleColor=""
+                        innerCircleColor=""
+                        middleCircleColor=""
+                    />
+                    </Loading>
                 </a>
             </div>
         </div>
@@ -111,6 +139,16 @@ const GeneratedImage = () => {
  
 export default GeneratedImage;
 
-const Canvas = styled.canvas`
+const Canvas = styled.canvas((props) => css`
     width: ${isMobile ? '90vw' : '40vw'};
-`
+    filter: drop-shadow(2px 4px 6px black);
+    display: ${props.isLoading ? 'none' : 'auto'};
+`)
+const Loading = styled.div((props) => css`
+    display: ${props.isLoading ? 'flex' : 'none'};
+    width: ${isMobile ? '90vw' : '40vw'};
+    height: 20vh;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-end;
+`)

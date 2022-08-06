@@ -5,6 +5,7 @@ import teams from '../../../data/NFL_teams.json'
 import { isMobile } from "react-device-detect"
 import {DraftContext} from '../../../Context/DraftContext';
 import {useIntersection} from '../../../hooks/useIntersection'
+import { Watch } from "react-loader-spinner"
 
 const DraftList = (props) => {
     const {
@@ -32,7 +33,7 @@ const DraftList = (props) => {
 
         return (
             <PickItemContainer className={`pick-${pick.pick}`} otc={currentPick==pick.pick} isMyPick={myTeams.indexOf(team) != -1}>
-                <Pick>
+                <Pick className="pick-container">
                     <span className="pick-legend">Pick</span>
                     <span className="pick-number">{pick.pick}</span>
                 </Pick>
@@ -40,7 +41,22 @@ const DraftList = (props) => {
                     <Logo src={currentTeam.team_logo_espn} />
                     <Status className="pick-status" otc={currentPick==pick.pick}>
                     {currentPick==pick.pick ? 'On the Clock' : pick.player_picked ? `${pick.player_picked.name} - ${pick.player_picked.position}` : 'Aguardando...'}
+                    
                     </Status>
+                    <div className="watch-cotainer">
+                        {currentPick==pick.pick &&
+                        <Watch
+                            height="25"
+                            width="25"
+                            radius="48"
+                            color='white'
+                            ariaLabel="watch-loading"
+                            wrapperStyle={{}}
+                            wrapperClassName=""
+                            visible={true}
+                        />
+                        }
+                    </div>
                 </Team>
             </PickItemContainer>
         )
@@ -160,6 +176,9 @@ const PickItemContainer = styled.div((props) => css`
         font-weight: bold;
         color: ${props.otc? 'white' : BLACK} ;
     }
+    .pick-container {
+        border-color: ${props.otc? 'white' : BORDER_GRAY};
+    }
 `)
 const Status = styled.span((props) => css`
     margin-left: .5rem;
@@ -176,6 +195,9 @@ const Team = styled.div`
     flex: 4;
     display: flex;
     align-items: center;
+    .watch-cotainer {
+        margin-left: 1rem;
+    }
 `
 const Logo = styled.img`
     width: 2rem;

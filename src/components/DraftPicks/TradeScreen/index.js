@@ -361,7 +361,9 @@ const TradeScreen = (props) => {
                             checked={forceTrade}
                             onChange={() => setForceTrade(prevCheck => prevCheck ? false : true)}
                         />
-                        <Checkmark className='checkmark'></Checkmark>
+                        <Checkmark onClick={() => setForceTrade(prevCheck => prevCheck ? false : true)} className='checkmark'>
+
+                        </Checkmark>
                     </CheckboxFlex>
                 </ButtonContainer>
             </Footer>
@@ -574,5 +576,8 @@ const Checkmark = styled.span`
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+  &:hover {
+    background-color: ${isMobile? '#eee' : '#ccc'};
   }
 `

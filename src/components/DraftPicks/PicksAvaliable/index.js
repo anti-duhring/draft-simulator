@@ -110,7 +110,8 @@ const PicksAvaliable = (props) => {
                         isMulti={true} 
                         options={options} 
                         onChange={handleSelect} 
-                        placeholder='Posições' 
+                        placeholder='Posições'
+                        isSearchable={false} 
                     />
                 </SearchBox>
                 <SearchBox>

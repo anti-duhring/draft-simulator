@@ -18,7 +18,8 @@ const DraftPicks = (props) => {
         step, 
         setStep,
         currentPick,
-        allPicks
+        allPicks,
+        setCurrentPick
     } = useContext(DraftContext);
     let navigate = useNavigate();
     
@@ -31,6 +32,7 @@ const DraftPicks = (props) => {
         if(!allPicks) {
             navigate('/'); 
         }
+        if(currentPick==0) navigate('/');
     },[])
 
     if(!allPicks) {
@@ -77,5 +79,5 @@ const Flex = styled.div`
     column-gap: 1.3rem;
 `
 const Footer = styled.div`
-
+    margin-top: 1rem;
 `
