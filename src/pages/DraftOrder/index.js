@@ -18,7 +18,6 @@ import {
 } from '@dnd-kit/sortable';
 //import SortableItem from '../SortableItem';
 import SortableItem from '../../components/DraftOrder/SortableItem';
-import data from '../../data/draft_picks.json'
 import styled from 'styled-components';
 import { isMobile } from 'react-device-detect';
 import FormHeader from '../../components/DraftOrder/FormHeader';

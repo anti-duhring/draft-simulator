@@ -1,10 +1,11 @@
 import { useEffect, useContext, useState, useRef } from "react"
 import styled, { css } from "styled-components"
 import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY, LIGHT_ORANGE, ORANGE } from "../../../constants/Colors"
-import teams from '../../../data/NFL_teams.json'
+//import teams from '../../../data/NFL_teams.json'
 import { isMobile } from "react-device-detect"
 import {DraftContext} from '../../../Context/DraftContext';
 import {useIntersection} from '../../../hooks/useIntersection'
+import {useAllTeams} from '../../../hooks/useAllTeams'
 import { Watch } from "react-loader-spinner"
 
 const DraftList = (props) => {
@@ -17,6 +18,7 @@ const DraftList = (props) => {
         currentRound,
         setCurrentRound
     } = useContext(DraftContext);
+    const allTeams = useAllTeams();
     const round1Ref = useRef();
     const round2Ref = useRef();
     const round1InViewport = useIntersection(round1Ref, '0px');
@@ -28,8 +30,16 @@ const DraftList = (props) => {
         roundPagination = 2;
     }
 
+    if(!allTeams) {
+        return (
+            <div>
+                <p>Loading...</p>
+            </div>
+        )
+    }
+
     const PickItem = ({team, pick, index}) => {
-        const currentTeam = teams.find(item => item.team_id == team);
+        const currentTeam = allTeams.find(item => item.id == team);
 
         return (
             <PickItemContainer className={`pick-${pick.pick}`} otc={currentPick==pick.pick} isMyPick={myTeams.indexOf(team) != -1}>
@@ -38,7 +48,7 @@ const DraftList = (props) => {
                     <span className="pick-number">{pick.pick}</span>
                 </Pick>
                 <Team>
-                    <Logo src={currentTeam.team_logo_espn} />
+                    <Logo src={currentTeam.nflData.team_logo_espn} />
                     <Status className="pick-status" otc={currentPick==pick.pick}>
                     {currentPick==pick.pick ? 'On the Clock' : pick.player_picked ? `${pick.player_picked.name} - ${pick.player_picked.position}` : 'Aguardando...'}
                     

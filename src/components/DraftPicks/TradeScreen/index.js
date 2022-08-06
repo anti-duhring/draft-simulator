@@ -1,7 +1,7 @@
 import {useState, useContext, useEffect, useRef} from 'react'
 import Select from 'react-select'
 import styled, { css } from "styled-components";
-import data from '../../../data/draft_picks.json'
+//import data from '../../../data/draft_picks.json'
 import {DraftContext} from '../../../Context/DraftContext'
 import { getValueFromOffer } from '../../../services/Draft';
 import { useMyTeams } from '../../../hooks/useMyTeams';
@@ -12,6 +12,7 @@ import { GoSync, GoArrowBoth } from 'react-icons/go'
 import ProgressBar from '../../ProgressBar';
 import Button from '../../Button'
 import { useBotTeams } from '../../../hooks/useBotTeams';
+//import {useAllTeams} from '../../../hooks/useAllTeams'
 import { isMobile } from 'react-device-detect';
 import { defaultStyles, SelectTheme } from '../../../constants/SelectStyles';
 import { compareOfferValue, compareOfferValueInt } from '../../../services/Trade';
@@ -25,6 +26,7 @@ const TradeScreen = (props) => {
         NFLseason
     } = useContext(DraftContext);
 
+    //const allTeams = useAllTeams();
     const myTeams = useMyTeams();
     const botTeams = useBotTeams();
     const [currentTeam, allOtherTeams] = useCurrentTeam(1);
@@ -173,7 +175,7 @@ const TradeScreen = (props) => {
 
     const PickItem = ({pick, isAvaliable, team}) => {
         const teamID = team == 'otherTeam' ? otherTeamID : currentTeam.id;
-        const viaTeamData = data.teams.find(team => team.franchise_id==pick.original_team_id);
+        const viaTeamData = [currentTeam,...allOtherTeams].find(team => team.id==pick.original_team_id);
 
         return (
             <PickItemContainer 
@@ -185,7 +187,7 @@ const TradeScreen = (props) => {
                 <PickItemLegend>
                     <span>pick</span>
                     {pick.original_team_id != teamID && 
-                    <span className='viaLegend'>via {viaTeamData.abbreviation}</span>
+                    <span className='viaLegend'>via {viaTeamData.pffData.abbreviation}</span>
                     }
                 </PickItemLegend>
             </PickItemContainer>
@@ -194,7 +196,7 @@ const TradeScreen = (props) => {
 
     const FuturePickItem = ({pick, team}) => {
         const teamID = team == 'otherTeam' ? otherTeamID : currentTeam.id;
-        const viaTeamData = data.teams.find(team => team.franchise_id==pick.original_team_id);
+        const viaTeamData = [currentTeam,...allOtherTeams].find(team => team.id==pick.original_team_id);
 
         return (
             <PickItemContainer 
@@ -206,7 +208,7 @@ const TradeScreen = (props) => {
                 <PickItemLegend futurePick={true}>
                     <span>round</span>
                     {pick.original_team_id != teamID && 
-                    <span className='viaLegend'>via {viaTeamData.abbreviation}</span>
+                    <span className='viaLegend'>via {viaTeamData.pffData.abbreviation}</span>
                     }
                 </PickItemLegend>
             </PickItemContainer>

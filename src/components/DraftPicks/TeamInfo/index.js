@@ -4,7 +4,7 @@ import { BORDER_GRAY, DARK_BLACK, GRAY } from '../../../constants/Colors';
 import {useCurrentTeam} from '../../../hooks/useCurrentTeam'
 import { IconContext } from "react-icons";
 import { GoSync, GoArrowBoth } from 'react-icons/go'
-import data from '../../../data/NFL_teams.json'
+//import data from '../../../data/NFL_teams.json'
 import { isMobile } from 'react-device-detect';
 
 const TeamInfo = () => {
@@ -69,7 +69,7 @@ const TeamInfo = () => {
     const TradeHistory = ({trade}) => {
         const received = trade.assets_received_1.current_owner == currentTeam.id ? trade.assets_received_1.assets : trade.assets_received_2.assets;
         const given = trade.assets_received_1.prev_owner == currentTeam.id ? trade.assets_received_1.assets : trade.assets_received_2.assets;
-        const otherTeam = data.find(team => team.team_id==trade.teams_involved.find(i => i!=currentTeam.id));
+        const otherTeam = [currentTeam,...allOtherTeams].find(team => team.id==trade.teams_involved.find(i => i!=currentTeam.id));
 
         return (
             <TradeHistoryContainer> 
