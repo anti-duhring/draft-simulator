@@ -23,6 +23,7 @@ export const DraftContextProvider = ({children}) => {
     const [allPicks, setAllPicks] = useState(null);
     const [futurePicks, setFuturePicks] = useState(null);
     const [tradablePlayers, setTradablePlayers] = useState(null);
+    const [draftNeeds, setDraftNeeds] = useState(null);
     const [tradeHistory, setTradeHistory] = useState([]);
 
     const [isJumpingTo, setIsJumpingTo] = useState(false)
@@ -220,6 +221,17 @@ export const DraftContextProvider = ({children}) => {
         
     }
 
+    const getDraftNeeds = async() => {
+        let needs;
+        fetch('https://draft-simulator-api.anti-duhring.repl.co/needs')
+        .then(response => response.json())
+        .then(data => setDraftNeeds(data))
+    }
+
+    useEffect(() => {
+        getDraftNeeds()
+    },[])
+
     return ( 
         <DraftContext.Provider value={{
             step, 
@@ -243,6 +255,7 @@ export const DraftContextProvider = ({children}) => {
             currentRound,
             setCurrentRound,
             setTradeHistory,
+            draftNeeds,
             handleDraftOrder,
             handleDraftPlayer,
             handleNextPick,

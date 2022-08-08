@@ -10,7 +10,8 @@ export const useMyTeams = () => {
         tradablePlayers,
         allPicks,
         currentPick,
-        tradeHistory
+        tradeHistory,
+        draftNeeds
     } = useContext(DraftContext)
     const [dataTeams, setDataTeams] = useState(null);
     const round = 1;
@@ -24,7 +25,8 @@ export const useMyTeams = () => {
             team.nflData = {...teamsData.find(i => i.team_id == item)};
             team.picks = [...getPicksFromTeam(item)];
             team.tradablePlayers = [...tradablePlayers.filter(player => player.franchise_id==item)]
-            team.tradeHistory = [...tradeHistory?.filter(i =>  i.teams_involved.indexOf(item.id) != -1)]
+            team.tradeHistory = [...tradeHistory?.filter(i =>  i.teams_involved.indexOf(item) != -1)]
+            team.draftNeeds = draftNeeds[team.nflData.id]
     
             arr.push(team)
         });

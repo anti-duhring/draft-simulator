@@ -100,6 +100,17 @@ const TeamInfo = () => {
                     {currentTeam.nflData.team_division}
     </NameTeam>*/}
             </Header>
+            <Needs>
+                <Title>
+                    Needs <div className='length'>{currentTeam.draftNeeds?.length}</div>
+                </Title>
+                <div className="needs-list">
+                    {
+                        currentTeam.draftNeeds?.map(item => item).join(', ')
+                    }
+                    {console.log(currentTeam)}
+                </div>
+            </Needs>
             <Players>
                 <Title>
                     Jogadores trocáveis <div className='length'>{currentTeam.tradablePlayers.length}</div>
@@ -169,6 +180,7 @@ const Players = styled.div`
     flex-direction: column;
     padding: 0 .5rem 0 .5rem;
     align-items: flex-start;
+    margin-top: .5rem;
 `
 const Title = styled.div`
     font-weight: bold;
@@ -249,4 +261,13 @@ const Line = styled.div`
     width: 2px;
     position: absolute;
     left: 50%;
+`
+const Needs = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 0 .5rem 0 .5rem;
+    align-items: flex-start;
+    .needs-list {
+        text-indent: 1rem;
+    }
 `
