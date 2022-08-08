@@ -11,7 +11,6 @@ import { Watch } from "react-loader-spinner"
 const DraftList = (props) => {
     const {
         currentPick,
-        picksPlayers,
         myTeams,
         allPicks,
         rounds,
@@ -53,7 +52,8 @@ const DraftList = (props) => {
                     {currentPick==pick.pick ? 'On the Clock' : pick.player_picked ? `${pick.player_picked.name} - ${pick.player_picked.position}` : 'Aguardando...'}
                     
                     </Status>
-                    <div className="watch-cotainer">
+                    
+                    {/*<div className="watch-cotainer">
                         {currentPick==pick.pick &&
                         <Watch
                             height="25"
@@ -66,7 +66,7 @@ const DraftList = (props) => {
                             visible={true}
                         />
                         }
-                    </div>
+                    </div>*/}
                 </Team>
             </PickItemContainer>
         )

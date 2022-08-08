@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { useState, useEffect } from "react";
 import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
-import { changePicksOwners, changePlayersOwners, getFuturePicks, getPicks, hasToGoToSecondRound, scrollToPick } from "../../services/Draft";
+import { changePicksOwners, changePlayersOwners, chosePlayerToDraft, getFuturePicks, getPicks, hasToGoToSecondRound, scrollToPick } from "../../services/Draft";
 import { compareOfferValue } from "../../services/Trade";
 
 export const DraftContext = createContext();
@@ -13,6 +13,7 @@ export const DraftContextProvider = ({children}) => {
     const [step, setStep] = useState('order');
     const [rounds, setRounds] = useState(1);
     const [totalPicksToDraft, setTotalPicksToDraft] = useState(32 * rounds);
+    const picksPerRound = 32;
     const [draftOrder, setDraftOrder] = useState(data.teams);
     const [myTeams, setMyTeams] = useState([]);
 
@@ -25,7 +26,6 @@ export const DraftContextProvider = ({children}) => {
     const [tradablePlayers, setTradablePlayers] = useState(null);
     const [draftNeeds, setDraftNeeds] = useState(null);
     const [tradeHistory, setTradeHistory] = useState([]);
-
     const [isJumpingTo, setIsJumpingTo] = useState(false)
     
     const MyPicks = () => {
@@ -114,7 +114,7 @@ export const DraftContextProvider = ({children}) => {
         setDraftOrder(order);
         setMyTeams(myTeams);
         setRounds(config.rounds);
-        setTotalPicksToDraft(32 * config.rounds);
+        setTotalPicksToDraft(picksPerRound * config.rounds);
 
         const picks = {
             "1": getPicks(order, 1, NFLseason),
@@ -150,25 +150,21 @@ export const DraftContextProvider = ({children}) => {
     }
 
     const handleDraftPlayer = (player) => {
-        hasToGoToSecondRound(currentPick, setCurrentRound, 32)
+        hasToGoToSecondRound(currentPick, setCurrentRound, totalPicksToDraft)
 
         setCurrentPick(prevPick => prevPick == totalPicksToDraft ? 0 : prevPick + 1);
         pickPlayer(player)
     }
 
     const handleNextPick = () => {
-        hasToGoToSecondRound(currentPick, setCurrentRound, 32)
-
+        hasToGoToSecondRound(currentPick, setCurrentRound, totalPicksToDraft)
         setCurrentPick(prevPick => prevPick == totalPicksToDraft ? 0 : prevPick + 1);
+        
+        const currentTeamID = [...allPicks[1],...allPicks[2]][currentPick - 1].current_team_id;
+        const currentTeamNeeds = draftNeeds[currentTeamID]
+        const playerToPick = chosePlayerToDraft(picksPlayers, dataPlayers.players, currentTeamNeeds);
 
-        if(picksPlayers.length <= 0) {
-            pickPlayer(dataPlayers.players[0]);
-
-        } else {
-            const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1);
-
-            pickPlayer(playersAvaliable[0]);
-        }
+        pickPlayer(playerToPick);
 
     }
 
@@ -183,14 +179,16 @@ export const DraftContextProvider = ({children}) => {
         const loop = (loopUntil) => {        
             i++;
             // function that detect if the next pick is in the next round to change the pagination automatically
-            hasToGoToSecondRound(i, setCurrentRound, 33)
+            hasToGoToSecondRound(i, setCurrentRound, totalPicksToDraft)
 
             if(i < loopUntil) {
                 setCurrentPick(i);
 
+                const currentTeamID = [...allPicks[1],...allPicks[2]][i - 1].current_team_id;
+                const currentTeamNeeds = draftNeeds[currentTeamID]
+                
                 // Making the team bot chose a player to draft
-                const playersAvaliable = dataPlayers.players.filter(item => picksPlayers.indexOf(item.id)==-1 && newPlayers.indexOf(item.id) == -1);
-                const playerToDraft = playersAvaliable[0];
+                const playerToDraft = chosePlayerToDraft([...picksPlayers, ...newPlayers], dataPlayers.players, currentTeamNeeds);
                 pickPlayer(playerToDraft, i);
                 newPlayers.push(playerToDraft.id);
 

@@ -26,7 +26,7 @@ export const useMyTeams = () => {
             team.picks = [...getPicksFromTeam(item)];
             team.tradablePlayers = [...tradablePlayers.filter(player => player.franchise_id==item)]
             team.tradeHistory = [...tradeHistory?.filter(i =>  i.teams_involved.indexOf(item) != -1)]
-            team.draftNeeds = draftNeeds[team.nflData.id]
+            team.draftNeeds = draftNeeds[item]
     
             arr.push(team)
         });

@@ -41,6 +41,60 @@ export const getPicks = (order, round, season) => {
     return arr;
 }
 
+export const chosePlayerToDraft = (playersAlreadyChosed, allPlayers, DraftNeeds) => {
+    const positions = {
+        "CB": ["CB"],
+        "OT": ["T"],
+        "TE": ["TE"],
+        "IOL": ["G", "C"],
+        "LB": ["LB"],
+        "QB": ["QB"],
+        "EDGE": ["ED"],
+        "DL": ["DI"],
+        "RB": ["HB"],
+        "S": ["S"],
+        "WR": ["WR"]
+    }
+    let needValues = {}
+
+    // Create value for each team need. First need has more value than second need and so on
+    DraftNeeds.map((need, index) => {
+        for(let i = 0; i < positions[need].length; i++) {
+            needValues[positions[need][i]] = 100/(index + 1)
+        }
+        
+    })
+    console.log(needValues)
+
+    const playersAvaliable = allPlayers.filter(item => playersAlreadyChosed.indexOf(item.id)==-1);
+
+    // Create a new array containing the player and his need value, which is based on what position this player are. 
+    // Players in high positions has more value, because of that the value is based either on the "needValues" of his position and his index
+    let playersValueList = playersAvaliable.map((player, index) => {
+        if(needValues[player.position]) {
+            // Value of the player whose position IS needed
+            return {
+                player: player, 
+                value: needValues[player.position] / (index + 1)
+            }
+        } else {
+            // Value of the player whose position is NOT needed
+            return {
+                player: player,
+                value: 1 / (index + 1)
+            }
+        }
+    })
+
+    // Sort "playersValueList" based on values
+    playersValueList.sort((a, b) => b.value - a.value)
+
+    //console.log(playersValueList)
+
+    const playerToDraft = playersValueList[0].player;
+    return playerToDraft
+}
+
 export const getValueFromFuturePicks = (round) => {
     let i = {
         "1": { value: 0, count: 0 },
@@ -113,8 +167,10 @@ export const changeBGColor = (cssClass, color) => {
     document.querySelector(cssClass).style.backgroundColor = color
 }
 
-export const hasToGoToSecondRound = (currentPick, setCurrentRound, pick) => {
-    if(currentPick==pick) setCurrentRound(2)
+export const hasToGoToSecondRound = (currentPick, setCurrentRound, totalPicksToDraft) => {
+    if(totalPicksToDraft == 32) return 
+
+    if(currentPick==32) setCurrentRound(2)
 }
 
 export const changePlayersOwners = (offer,teams, tradablePlayers) => {

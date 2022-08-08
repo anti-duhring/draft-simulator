@@ -108,7 +108,6 @@ const TeamInfo = () => {
                     {
                         currentTeam.draftNeeds?.map(item => item).join(', ')
                     }
-                    {console.log(currentTeam)}
                 </div>
             </Needs>
             <Players>
