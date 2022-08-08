@@ -11,7 +11,8 @@ const FormFooter = (props) => {
   const { 
     handleDraftOrder,
     myTeams,
-    draftOrder
+    draftOrder,
+    draftNeeds
   } = useContext(DraftContext);
   const [rounds, setRounds] = useState(1)
 
@@ -45,7 +46,7 @@ const FormFooter = (props) => {
           </SVG>
           para arrastar
         </LegendFooter>
-        <Button onClick={startDraft} disabled={myTeams.length > 0 ? false : true}>Começar Draft</Button>
+        <Button onClick={startDraft} disabled={myTeams.length > 0 && draftNeeds ? false : true}>Começar Draft</Button>
       </Container>
       </Wrapper>
     )

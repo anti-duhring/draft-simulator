@@ -41,7 +41,7 @@ export const getPicks = (order, round, season) => {
     return arr;
 }
 
-export const chosePlayerToDraft = (playersAlreadyChosed, allPlayers, DraftNeeds) => {
+export const chosePlayerToDraft = (playersAlreadyChosed, allPlayers, needsObject, currentObject) => {
     const positions = {
         "CB": ["CB"],
         "OT": ["T"],
@@ -55,18 +55,37 @@ export const chosePlayerToDraft = (playersAlreadyChosed, allPlayers, DraftNeeds)
         "S": ["S"],
         "WR": ["WR"]
     }
+    const currentTeamNeeds = needsObject.draftNeeds[currentObject.currentTeamID]
     let needValues = {}
 
     // Create value for each team need. First need has more value than second need and so on
-    DraftNeeds.map((need, index) => {
+    currentTeamNeeds.map((need, index) => {
         for(let i = 0; i < positions[need].length; i++) {
             needValues[positions[need][i]] = 100/(index + 1)
         }
         
     })
-    console.log(needValues)
+    //console.log(needValues)
 
     const playersAvaliable = allPlayers.filter(item => playersAlreadyChosed.indexOf(item.id)==-1);
+    const playersFilteredByNeedsAndADP = playersAvaliable.filter(p => p.adp <= currentObject.currentPick && needValues[p.position]);
+
+    // If there is at least one player who have an ADP less or equal than the currennt pick so pick the first player
+    if(playersFilteredByNeedsAndADP.length) {
+        let newDraftNeeds = {...needsObject.draftNeeds}
+
+        playersFilteredByNeedsAndADP.sort((a, b) => a.adp - b.adp)
+        
+        // Find what position is this player based on the object "positions"
+        const playerToPickPositionIndex = Object.entries(positions).map(key => key[1]).findIndex(key => key.indexOf(playersFilteredByNeedsAndADP[0]) != -1);
+        const playerToPickPosition = Object.keys(positions)[playerToPickPositionIndex];
+
+        // Remove this need 
+        newDraftNeeds[currentObject.currentTeamID] = currentTeamNeeds.filter(n => n != playerToPickPosition)
+
+        //needsObject.setDraftNeeds(newDraftNeeds)
+        return playersFilteredByNeedsAndADP[0]
+    }
 
     // Create a new array containing the player and his need value, which is based on what position this player are. 
     // Players in high positions has more value, because of that the value is based either on the "needValues" of his position and his index
@@ -75,21 +94,19 @@ export const chosePlayerToDraft = (playersAlreadyChosed, allPlayers, DraftNeeds)
             // Value of the player whose position IS needed
             return {
                 player: player, 
-                value: needValues[player.position] / (index + 1)
+                value: needValues[player.position] - (index + 1)
             }
         } else {
             // Value of the player whose position is NOT needed
             return {
                 player: player,
-                value: 1 / (index + 1)
+                value: 1 - (index + 1)
             }
         }
     })
-
     // Sort "playersValueList" based on values
     playersValueList.sort((a, b) => b.value - a.value)
 
-    //console.log(playersValueList)
 
     const playerToDraft = playersValueList[0].player;
     return playerToDraft

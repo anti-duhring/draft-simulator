@@ -160,9 +160,15 @@ export const DraftContextProvider = ({children}) => {
         hasToGoToSecondRound(currentPick, setCurrentRound, totalPicksToDraft)
         setCurrentPick(prevPick => prevPick == totalPicksToDraft ? 0 : prevPick + 1);
         
-        const currentTeamID = [...allPicks[1],...allPicks[2]][currentPick - 1].current_team_id;
-        const currentTeamNeeds = draftNeeds[currentTeamID]
-        const playerToPick = chosePlayerToDraft(picksPlayers, dataPlayers.players, currentTeamNeeds);
+        const needsObject = {
+            setDraftNeeds: setDraftNeeds,
+            draftNeeds: draftNeeds
+        }
+        const currentObject = {
+            currentTeamID: [...allPicks[1],...allPicks[2]][currentPick - 1].current_team_id,
+            currentPick: currentPick
+        }
+        const playerToPick = chosePlayerToDraft(picksPlayers, dataPlayers.players, needsObject, currentObject);
 
         pickPlayer(playerToPick);
 
@@ -184,11 +190,16 @@ export const DraftContextProvider = ({children}) => {
             if(i < loopUntil) {
                 setCurrentPick(i);
 
-                const currentTeamID = [...allPicks[1],...allPicks[2]][i - 1].current_team_id;
-                const currentTeamNeeds = draftNeeds[currentTeamID]
-                
+                const needsObject = {
+                    setDraftNeeds: setDraftNeeds,
+                    draftNeeds: draftNeeds
+                }
+                const currentObject = {
+                    currentTeamID: [...allPicks[1],...allPicks[2]][i - 1].current_team_id,
+                    currentPick: i
+                }
                 // Making the team bot chose a player to draft
-                const playerToDraft = chosePlayerToDraft([...picksPlayers, ...newPlayers], dataPlayers.players, currentTeamNeeds);
+                const playerToDraft = chosePlayerToDraft([...picksPlayers, ...newPlayers], dataPlayers.players, needsObject, currentObject);
                 pickPlayer(playerToDraft, i);
                 newPlayers.push(playerToDraft.id);
 

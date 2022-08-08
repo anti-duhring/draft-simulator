@@ -26,7 +26,6 @@ import { DraftContext } from '../../Context/DraftContext'
 
 const DraftOrder = (props) => {
   const {
-    myTeams,
     setMyTeams,
     draftOrder,
     setDraftOrder,
