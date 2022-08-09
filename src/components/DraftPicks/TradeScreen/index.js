@@ -74,7 +74,7 @@ const TradeScreen = (props) => {
                 value: team.id,
                 label:(
                     <Option>
-                        <OptionLogo src={`${team.nflData.team_abbr}.png`} /> <OptionName>{team.nflData.team_nick}</OptionName>
+                        <OptionLogo src={`/${team.nflData.team_abbr}.png`} /> <OptionName>{team.nflData.team_nick}</OptionName>
                         <OptionPick>- Próxima pick {team.picks.find(p => p.pick > currentPick).pick}</OptionPick>
                     </Option>
                 )
