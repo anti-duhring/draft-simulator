@@ -7,6 +7,8 @@ import {DraftContext} from '../../../Context/DraftContext';
 import {useIntersection} from '../../../hooks/useIntersection'
 import {useAllTeams} from '../../../hooks/useAllTeams'
 import { Watch } from "react-loader-spinner"
+import { BulletList } from "react-content-loader";
+import ContentLoader from 'react-content-loader'
 
 const DraftList = (props) => {
     const {
@@ -29,15 +31,25 @@ const DraftList = (props) => {
         roundPagination = 2;
     }
 
-    if(!allTeams) {
-        return (
-            <div>
-                <p>Loading...</p>
-            </div>
-        )
-    }
 
     const PickItem = ({team, pick, index}) => {
+        if(!allTeams)  {
+            return (
+                <PickItemContainer className={`pick-${pick.pick}`}  isMyPick={myTeams.indexOf(team) != -1}>
+                    <ContentLoader 
+                        speed={2}
+                        width={400}
+                        height={50}
+                        backgroundColor="#f3f3f3"
+                        foregroundColor="#ecebeb"
+                    >
+                        <rect x="10" y="15" rx="5" ry="5" width="70" height="20" /> 
+                        <rect x="90" y="15" rx="5" ry="5" width="200" height="20" />
+                    </ContentLoader>
+                </PickItemContainer>
+            )
+        }
+
         const currentTeam = allTeams.find(item => item.id == team);
 
         return (
@@ -47,7 +59,7 @@ const DraftList = (props) => {
                     <span className="pick-number">{pick.pick}</span>
                 </Pick>
                 <Team>
-                    <Logo src={currentTeam.nflData.team_logo_espn} />
+                    <Logo src={`/${currentTeam.nflData.team_abbr}.png`} />
                     <Status className="pick-status" otc={currentPick==pick.pick}>
                     {currentPick==pick.pick ? 'On the Clock' : pick.player_picked ? `${pick.player_picked.name} - ${pick.player_picked.position}` : 'Aguardando...'}
                     
@@ -94,40 +106,33 @@ const DraftList = (props) => {
                 >Round 2</TabRoundItem>
             </TabRounds>}
             <AllPicksContainer>
-            { !isMobile?
+            { !isMobile &&
                 allPicks[currentRound].map((pick, index) => {
-                    return (
-                        <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
-                    )
-                }) :
-                rounds > 1 ? 
-                <>
-                <div className="round1" ref={round1Ref}>
-                    {
-                        allPicks[1].map((pick, index) => {
-                            return (
-                                <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
-                            )
-                        })
-                    }
-                </div>
-                <div className="round2" ref={round2Ref}>
-                    {
-                        allPicks[2].map((pick, index) => {
-                            return (
-                                <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
-                            )
-                        })
-                    }
-                </div>
-                </>
-                 :
-                allPicks[1].map((pick, index) => {
                     return (
                         <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
                     )
                 })
             }
+            
+            <div className="round1" ref={round1Ref}>
+                {   isMobile && 
+                    allPicks[1].map((pick, index) => {
+                        return (
+                            <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
+                        )
+                    })
+                }
+            </div>
+            <div className="round2" ref={round2Ref}>
+                {   isMobile && rounds > 1 &&
+                    allPicks[2].map((pick, index) => {
+                        return (
+                            <PickItem key={index} team={pick.current_team_id} pick={pick} index={index} />
+                        )
+                    })
+                }
+            </div>
+                
             </AllPicksContainer>
         </Container>
     )

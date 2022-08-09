@@ -4,7 +4,7 @@ import { BORDER_GRAY, DARK_BLACK, GRAY } from '../../../constants/Colors';
 import {useCurrentTeam} from '../../../hooks/useCurrentTeam'
 import { IconContext } from "react-icons";
 import { GoSync, GoArrowBoth } from 'react-icons/go'
-//import data from '../../../data/NFL_teams.json'
+import ContentLoader from 'react-content-loader'
 import { isMobile } from 'react-device-detect';
 
 const TeamInfo = () => {
@@ -83,11 +83,35 @@ const TeamInfo = () => {
         )
     }
 
+    const Skeleton = () => {
+       return (
+            <ContentLoader 
+            speed={2}
+            width={500}
+            height={400}
+            backgroundColor="#f3f3f3"
+            foregroundColor="#ecebeb"
+            style={{float: 'left'}}
+          >
+            <rect x="7" y="101" rx="5" ry="5" width="100" height="20" /> 
+            <rect x="40" y="131" rx="5" ry="5" width="220" height="20" /> 
+            <rect x="7" y="161" rx="5" ry="5" width="200" height="20" /> 
+            <rect x="40" y={191} rx="5" ry="5" width="70" height="20" /> 
+            <rect x="40" y="221" rx="5" ry="5" width="200" height="20" /> 
+            <rect x="40" y="251" rx="5" ry="5" width="200" height="20" /> 
+            <rect x="40" y="281" rx="5" ry="5" width="200" height="20" /> 
+            <rect x="40" y={311} rx="5" ry="5" width="70" height="20" /> 
+            <rect x="40" y="341" rx="5" ry="5" width="200" height="20" /> 
+            <rect x="40" y="371" rx="5" ry="5" width="200" height="20" /> 
+            <rect x="40" y="401" rx="5" ry="5" width="200" height="20" /> 
+            <rect x="150" y="6" rx="6" ry="6" width="275" height="82" />
+          </ContentLoader>
+        )
+    }
+
     if(!currentTeam) {
         return (
-            <div>
-                Loading...
-            </div>
+            <Skeleton />
         )
     }
     return ( 

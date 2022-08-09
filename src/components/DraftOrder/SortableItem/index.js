@@ -9,7 +9,7 @@ import {DraftContext} from '../../../Context/DraftContext';
 
 const SortableItem = (props) => {
   const { myTeams, setMyTeams } = useContext(DraftContext)
-  const logo = teams.filter(team => team.team_abbr == props.team.abbreviation)[0]?.team_logo_espn;
+  const logo = `/${teams.filter(team => team.team_abbr == props.team.abbreviation)[0]?.team_abbr}.png`;
   const [pressadle, setPressadle] = useState(0);
   const {
     attributes,

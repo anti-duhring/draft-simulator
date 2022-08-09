@@ -31,7 +31,7 @@ const GeneratedImage = () => {
             const teamVia = pick.original_team_id != pick.current_team_id ? teams?.find(i => i.id == pick.original_team_id) : null;
 
             let logo = new Image();
-            logo.src = team.nflData.team_logo_espn;
+            logo.src = `/${team.nflData.team_abbr}.png`;
             logo.crossOrigin="anonymous"
 
             const x = index <=15? 20 : (ctx.canvas.height / 2) - 150;
@@ -47,7 +47,8 @@ const GeneratedImage = () => {
             ctx.fillText(`${playerPick?.name} - ${playerPick?.position}`, x + 180 , y);
 
             ctx.fillStyle = ORANGE; 
-            ctx.fillText(`${pick.pick}`, x + 80 , y + 5);
+            ctx.font = 'bold 45px myFont';
+            ctx.fillText(`${pick.pick}`, x + 75 , y + 5);
 
             if(pick.original_team_id != pick.current_team_id) {
                 ctx.font = 'bold 20px arial';
