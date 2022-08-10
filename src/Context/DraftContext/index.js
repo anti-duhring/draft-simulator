@@ -166,7 +166,8 @@ export const DraftContextProvider = ({children}) => {
         }
         const currentObject = {
             currentTeamID: [...allPicks[1],...allPicks[2]][currentPick - 1].current_team_id,
-            currentPick: currentPick
+            currentPick: currentPick,
+            allPicks: getPicksFromTeam([...allPicks[1],...allPicks[2]][currentPick - 1].current_team_id)
         }
         const playerToPick = chosePlayerToDraft(picksPlayers, dataPlayers.players, needsObject, currentObject);
 
@@ -196,7 +197,8 @@ export const DraftContextProvider = ({children}) => {
                 }
                 const currentObject = {
                     currentTeamID: [...allPicks[1],...allPicks[2]][i - 1].current_team_id,
-                    currentPick: i
+                    currentPick: i,
+                    allPicks: getPicksFromTeam([...allPicks[1],...allPicks[2]][i - 1].current_team_id)
                 }
                 // Making the team bot chose a player to draft
                 const playerToDraft = chosePlayerToDraft([...picksPlayers, ...newPlayers], dataPlayers.players, needsObject, currentObject);

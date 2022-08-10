@@ -57,6 +57,20 @@ export const chosePlayerToDraft = (playersAlreadyChosed, allPlayers, needsObject
     }
     const currentTeamNeeds = needsObject.draftNeeds[currentObject.currentTeamID]
     let needValues = {}
+    let needsAlreadyPicked = currentObject.allPicks.map(i => i.player_picked?.position)
+
+    // Needs filtered excluding position of players that was already picked up
+    let draftNeedsFiltered = currentTeamNeeds.map((need, index) => {
+        for(let i = 0; i < positions[need].length; i++) {
+            return positions[need][i]
+        }
+        
+    }).filter(n => needsAlreadyPicked.indexOf(n) == -1)
+
+    // If the team has no needs return the best player avaliable
+    if(!currentTeamNeeds) {
+       return allPlayers.filter(item => playersAlreadyChosed.indexOf(item.id)==-1)[0]
+    }
 
     // Create value for each team need. First need has more value than second need and so on
     currentTeamNeeds.map((need, index) => {
@@ -65,32 +79,24 @@ export const chosePlayerToDraft = (playersAlreadyChosed, allPlayers, needsObject
         }
         
     })
-    //console.log(needValues)
 
     const playersAvaliable = allPlayers.filter(item => playersAlreadyChosed.indexOf(item.id)==-1);
-    const playersFilteredByNeedsAndADP = playersAvaliable.filter(p => p.adp <= currentObject.currentPick && needValues[p.position]);
+
+    const playersFilteredByNeedsAndADP = playersAvaliable.filter(p => p.adp <= currentObject.currentPick && draftNeedsFiltered.indexOf(p.position) != -1);
 
     // If there is at least one player who have an ADP less or equal than the currennt pick so pick the first player
     if(playersFilteredByNeedsAndADP.length) {
-        let newDraftNeeds = {...needsObject.draftNeeds}
 
         playersFilteredByNeedsAndADP.sort((a, b) => a.adp - b.adp)
-        
-        // Find what position is this player based on the object "positions"
-        const playerToPickPositionIndex = Object.entries(positions).map(key => key[1]).findIndex(key => key.indexOf(playersFilteredByNeedsAndADP[0]) != -1);
-        const playerToPickPosition = Object.keys(positions)[playerToPickPositionIndex];
 
-        // Remove this need 
-        newDraftNeeds[currentObject.currentTeamID] = currentTeamNeeds.filter(n => n != playerToPickPosition)
-
-        //needsObject.setDraftNeeds(newDraftNeeds)
         return playersFilteredByNeedsAndADP[0]
     }
 
+    // If there's not
     // Create a new array containing the player and his need value, which is based on what position this player are. 
     // Players in high positions has more value, because of that the value is based either on the "needValues" of his position and his index
     let playersValueList = playersAvaliable.map((player, index) => {
-        if(needValues[player.position]) {
+        if(draftNeedsFiltered.indexOf(player.position) != -1) {
             // Value of the player whose position IS needed
             return {
                 player: player, 
@@ -107,8 +113,9 @@ export const chosePlayerToDraft = (playersAlreadyChosed, allPlayers, needsObject
     // Sort "playersValueList" based on values
     playersValueList.sort((a, b) => b.value - a.value)
 
-
+    // Pick the best player
     const playerToDraft = playersValueList[0].player;
+
     return playerToDraft
 }
 
@@ -187,7 +194,7 @@ export const changeBGColor = (cssClass, color) => {
 export const hasToGoToSecondRound = (currentPick, setCurrentRound, totalPicksToDraft) => {
     if(totalPicksToDraft == 32) return 
 
-    if(currentPick==32) setCurrentRound(2)
+    if(currentPick==33) setCurrentRound(2)
 }
 
 export const changePlayersOwners = (offer,teams, tradablePlayers) => {
