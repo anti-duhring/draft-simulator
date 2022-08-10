@@ -117,12 +117,9 @@ const TeamInfo = () => {
     return ( 
         <Container>
             <Header>
-                <Logo src={currentTeam.nflData.team_logo_espn} />
-                <WordMark src={currentTeam.nflData.team_wordmark} />
-                {/*<NameTeam>
-                    {currentTeam.nflData.team_name}
-                    {currentTeam.nflData.team_division}
-    </NameTeam>*/}
+                {/*<Logo src={currentTeam.nflData.team_logo_espn} />
+                <WordMark src={currentTeam.nflData.team_wordmark} />*/}
+
             </Header>
             <Needs>
                 <Title>

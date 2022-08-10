@@ -9,7 +9,7 @@ export const DraftContext = createContext();
 
 export const DraftContextProvider = ({children}) => {
     const NFLseason = 2023;
-    const [waitToPick, setWaitToPick] = useState(500)
+    const [waitToPick, setWaitToPick] = useState(1000)
     const [step, setStep] = useState('order');
     const [rounds, setRounds] = useState(1);
     const [totalPicksToDraft, setTotalPicksToDraft] = useState(32 * rounds);
@@ -237,6 +237,10 @@ export const DraftContextProvider = ({children}) => {
         fetch('https://draft-simulator-api.anti-duhring.repl.co/needs')
         .then(response => response.json())
         .then(data => setDraftNeeds(data))
+        .catch(error => {
+            console.log('Error:',error)
+            document.location.reload(true)
+        })
     }
 
     useEffect(() => {

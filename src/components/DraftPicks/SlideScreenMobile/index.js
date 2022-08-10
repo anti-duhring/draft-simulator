@@ -26,7 +26,6 @@ const SlideScreenMobile = (props) => {
     }
 
     const swipeLeft = () => {
-        console.log('Left', activeIndex);
         const maxIndex = isMyPick()? 2 : 1;
         if(activeIndex < maxIndex) {
             setActiveIndex(prevIndex => prevIndex + 1)
@@ -34,8 +33,6 @@ const SlideScreenMobile = (props) => {
     }
 
     const swipeRight = () => {
-        console.log('Right', activeIndex);
-
         if(activeIndex >= 1) {
             setActiveIndex(prevIndex => prevIndex - 1)
         }
@@ -95,7 +92,7 @@ const SlideScreenMobile = (props) => {
                         Time
                     </TabLink>
                 </TabLinkContainer>
-                <SwipeContainer style={{width: `${isMyPick() ? '300' : '200'}vw`,transform:`translateX(-${activeIndex * (isMyPick() ? 33.33 : 50)}%)`}}>
+                {showScreen? <SwipeContainer style={{width: `${isMyPick() ? '300' : '200'}vw`,transform:`translateX(-${activeIndex * (isMyPick() ? 33.33 : 50)}%)`}}>
                     {isMyPick() && 
                     <Inner>
                         <PicksAvaliable toggleShowScreen={toggleShowScreen} />
@@ -107,7 +104,8 @@ const SlideScreenMobile = (props) => {
                         <TeamInfo />
                     </Inner>
                     
-                </SwipeContainer>
+                </SwipeContainer> :
+                <div>Loading...</div>}
             </ContentTab>
         </Container>
      );
@@ -134,7 +132,7 @@ const TitleTab = styled.div((props) => css`
 `)
 const ContentTab = styled.div`
     background-color: white;
-    transition: height .5s;
+    transition: height 1s;
     //height: 80vh;
     padding: 0;//.5rem;
     /*overflow: auto;*/
