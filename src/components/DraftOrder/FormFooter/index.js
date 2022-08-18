@@ -46,7 +46,14 @@ const FormFooter = (props) => {
           </SVG>
           para arrastar
         </LegendFooter>
-        <Button onClick={startDraft} disabled={myTeams.length > 0 && draftNeeds ? false : true}>Começar Draft</Button>
+        <Button 
+          onClick={startDraft} 
+          disabled={
+            myTeams.length 
+            && draftNeeds ? false : true 
+            && draftOrder? true : false 
+          }
+        >Começar Draft</Button>
       </Container>
       </Wrapper>
     )

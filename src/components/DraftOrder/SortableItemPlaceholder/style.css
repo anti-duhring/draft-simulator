@@ -1,0 +1,33 @@
+.team-item {
+    border-radius: 5px;
+    background-color: white;
+    display: flex;
+    border-color: #dce0e5;
+    transition: border-color 0.3s;
+    cursor: pointer;
+}
+
+/*.team-item:hover {
+    border: 1px solid #f65e1b!important;
+}*/
+.svg-drag-handler {
+    flex: 0 0 auto;
+    margin: auto;
+    height: 100%;
+    overflow: visible;
+    fill: #919eab;
+    transition: fill 0.3s;
+}
+.btt-drag-handler {
+    border: none;
+    outline: none;
+    appearance: none;
+    background-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    border-radius: 5px;
+}

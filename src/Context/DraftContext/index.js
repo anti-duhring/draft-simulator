@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import { useState, useEffect } from "react";
-import data from '../../data/draft_picks.json'
+import { API_BASE_URL } from "../../constants/DaftSimulatorAPI";
+//import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
 import { changePicksOwners, changePlayersOwners, chosePlayerToDraft, getFuturePicks, getPicks, hasToGoToSecondRound, scrollToPick } from "../../services/Draft";
 import { compareOfferValue } from "../../services/Trade";
@@ -9,12 +10,14 @@ export const DraftContext = createContext();
 
 export const DraftContextProvider = ({children}) => {
     const NFLseason = 2023;
+    const [data, setData] = useState(null);
+
     const [waitToPick, setWaitToPick] = useState(1000)
     const [step, setStep] = useState('order');
     const [rounds, setRounds] = useState(1);
     const [totalPicksToDraft, setTotalPicksToDraft] = useState(32 * rounds);
     const picksPerRound = 32;
-    const [draftOrder, setDraftOrder] = useState(data.teams);
+    const [draftOrder, setDraftOrder] = useState(null);
     const [myTeams, setMyTeams] = useState([]);
 
     const [currentPick, setCurrentPick] = useState(1);
@@ -234,18 +237,49 @@ export const DraftContextProvider = ({children}) => {
 
     const getDraftNeeds = async() => {
         let needs;
-        fetch('https://draft-simulator-api.anti-duhring.repl.co/needs')
+        fetch(`${API_BASE_URL}/needs`)
         .then(response => response.json())
         .then(data => setDraftNeeds(data))
         .catch(error => {
             console.log('Error:',error)
-            document.location.reload(true)
+            //document.location.reload(true)
+        })
+    }
+
+    const getDataPicks = async() => {
+        fetch(`${API_BASE_URL}/draft-picks`)
+        .then(response => response.json())
+        .then(data => {
+
+            // Each team has to have an id property 
+            let newTeamsArray = data.teams.map(team => {
+                return {...team,id: team.franchise_id}
+            })
+            data.teams = newTeamsArray;
+
+            setData(data);
+
+            data.teams.sort((a, b) => data.draft_order.indexOf(a.id) - data.draft_order.indexOf(b.id));
+
+            setDraftOrder(data.teams);
+        })
+        .catch(err => {
+            console.log('Error', err);
         })
     }
 
     useEffect(() => {
-        getDraftNeeds()
+        getDraftNeeds();
+        getDataPicks();
     },[])
+
+    /*if(!data) {
+        return (
+            <div>
+                Loading...
+            </div>
+        )
+    }*/
 
     return ( 
         <DraftContext.Provider value={{
@@ -277,6 +311,7 @@ export const DraftContextProvider = ({children}) => {
             handleMyNextPick,
             handleOfferTrade,
             getPicksFromTeam,
+            data
             }}>
             {children}
         </DraftContext.Provider>

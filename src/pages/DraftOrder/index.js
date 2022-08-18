@@ -23,6 +23,7 @@ import { isMobile } from 'react-device-detect';
 import FormHeader from '../../components/DraftOrder/FormHeader';
 import FormFooter from '../../components/DraftOrder/FormFooter';
 import { DraftContext } from '../../Context/DraftContext'
+import SortableItemPlaceholder from '../../components/DraftOrder/SortableItemPlaceholder';
 
 const DraftOrder = (props) => {
   const {
@@ -78,11 +79,11 @@ const DraftOrder = (props) => {
   >
 
     <SortableContext 
-        items={draftOrder}
+        items={draftOrder ?? new Array(32).fill(0)}
         strategy={rectSortingStrategy}
     >
       <Grid>
-      {
+      { draftOrder?
         draftOrder.map((team,index) => {
           return (
             <SortableItem 
@@ -91,6 +92,14 @@ const DraftOrder = (props) => {
               team={team} 
               index={index} 
               setCheckbox={setCheckbox} 
+            />
+          )
+        }) :
+        new Array(32).fill(0).map((i, index) => {
+          return (
+            <SortableItemPlaceholder
+              key={index}
+              index={index}
             />
           )
         })

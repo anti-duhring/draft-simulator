@@ -1,0 +1,1 @@
+export const API_BASE_URL = 'https://draft-simulator-api.anti-duhring.repl.co'
