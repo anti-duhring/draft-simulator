@@ -12,7 +12,8 @@ const FormFooter = (props) => {
     handleDraftOrder,
     myTeams,
     draftOrder,
-    draftNeeds
+    draftNeeds,
+    NFLPicks
   } = useContext(DraftContext);
   const [rounds, setRounds] = useState(1)
 
@@ -48,10 +49,7 @@ const FormFooter = (props) => {
         </LegendFooter>
         <Button 
           onClick={startDraft} 
-          disabled={
-            myTeams.length 
-            && draftNeeds ? false : true 
-            && draftOrder? true : false 
+          disabled={(!myTeams.length || !draftNeeds || !draftOrder || !NFLPicks) ? true : false
           }
         >Começar Draft</Button>
       </Container>

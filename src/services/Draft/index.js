@@ -235,3 +235,74 @@ export const changePicksOwners = (offer, season, teams, picks) => {
     });
     return [newAllPicks, newFuturePicks]
 }
+
+const pickSkeleton = (simulatorPick, NFLPick) => {
+    if(!NFLPick) {
+        return {
+            round: simulatorPick.round,
+            pick: simulatorPick.pick,
+            season: simulatorPick.season,
+            original_team_id: simulatorPick.original_team_id,
+            current_team_id: simulatorPick.current_team_id,
+            pick_id: simulatorPick.pick_id,
+        }
+    }
+    return {
+        round: simulatorPick.round,
+        pick: simulatorPick.pick,
+        season: simulatorPick.season,
+        original_team_id: NFLPick.prev_team_id ? NFLPick.prev_team_id : simulatorPick.original_team_id,
+        current_team_id: NFLPick.current_team_id,
+        pick_id: simulatorPick.pick_id,
+    }
+}
+
+export const syncSimulatorPicksWithNFLPicks = (simulatorPicks, NFLPicks) => {
+    const currentPicks = simulatorPicks;
+    const newNFLPicks = [
+        ...NFLPicks[1], 
+        ...NFLPicks[2], 
+        ...NFLPicks[3],
+        ...NFLPicks[4],
+        ...NFLPicks[5],
+        ...NFLPicks[6],
+        ...NFLPicks[7]
+    ]
+    
+    const newCurrentPicks = {
+        "1": currentPicks[1].map((pick, index) => {
+            return pickSkeleton(pick, newNFLPicks.find(p => p.round == pick.round && p.current_team_id == pick.current_team_id))
+        }),
+        "2": currentPicks[2].map((pick, index) => {
+            return pickSkeleton(pick, newNFLPicks.find(p => p.round == pick.round && p.current_team_id == pick.current_team_id))
+        }),
+        "3": currentPicks[3].map((pick, index) => {
+            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
+        }),
+        "4": currentPicks[4].map((pick, index) => {
+            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
+        }),
+        "5": currentPicks[5].map((pick, index) => {
+            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
+        }),
+        "6": currentPicks[6].map((pick, index) => {
+            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
+        }),
+        "7": currentPicks[7].map((pick, index) => {
+            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
+        }),
+    }
+    //console.log(newCurrentPicks);
+
+    return newCurrentPicks
+
+    /*{
+            round: pick.round,
+            pick: pick.pick,
+            season: pick.season,
+            original_team_id: newNFLPicks[index].prev_team_id > 0? newNFLPicks[index].prev_team_id : pick.original_team_id,
+            current_team_id: newNFLPicks[index].current_team_id,
+            pick_id: pick.pick_id,
+        }
+    */
+}

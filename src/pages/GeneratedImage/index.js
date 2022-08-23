@@ -60,7 +60,9 @@ const GeneratedImage = () => {
                 ctx.drawImage(logo, 0, 0, logo.width , logo.height, x + 10 , y - 34, 50, 50);
                 downloadRef.current.href = canvas.toDataURL("image/png");
 
-                if(index = 32 - 1) setIsLoading(false)
+                if(index = 32 - 1) {
+                    setTimeout(() => setIsLoading(false), 3000)
+                }
             })
             
         })

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../constants/DaftSimulatorAPI";
 //import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
-import { changePicksOwners, changePlayersOwners, chosePlayerToDraft, getFuturePicks, getPicks, hasToGoToSecondRound, scrollToPick } from "../../services/Draft";
+import { changePicksOwners, changePlayersOwners, chosePlayerToDraft, getFuturePicks, getPicks, hasToGoToSecondRound, scrollToPick, syncSimulatorPicksWithNFLPicks } from "../../services/Draft";
 import { compareOfferValue } from "../../services/Trade";
 
 export const DraftContext = createContext();
@@ -28,6 +28,7 @@ export const DraftContextProvider = ({children}) => {
     const [futurePicks, setFuturePicks] = useState(null);
     const [tradablePlayers, setTradablePlayers] = useState(null);
     const [draftNeeds, setDraftNeeds] = useState(null);
+    const [NFLPicks, setNFLPicks] = useState(null);
     const [tradeHistory, setTradeHistory] = useState([]);
     const [isJumpingTo, setIsJumpingTo] = useState(false)
     
@@ -133,7 +134,8 @@ export const DraftContextProvider = ({children}) => {
         f_picks[NFLseason + 1] =  getFuturePicks(order, NFLseason + 1);
         f_picks[NFLseason + 2] =  getFuturePicks(order, NFLseason + 2);
 
-        setAllPicks(picks);
+        
+        setAllPicks(syncSimulatorPicksWithNFLPicks(picks, NFLPicks));
         setFuturePicks(f_picks);
         setTradablePlayers(data.tradable_players);
 
@@ -261,25 +263,30 @@ export const DraftContextProvider = ({children}) => {
 
             data.teams.sort((a, b) => data.draft_order.indexOf(a.id) - data.draft_order.indexOf(b.id));
 
-            setDraftOrder(data.teams);
+            getNFLPicks(data.teams);
+            //setDraftOrder(data.teams);
         })
         .catch(err => {
             console.log('Error', err);
         })
     }
 
+    // Get all the NFL Picks to identify the real draft order and if one of these picks was traded
+    const getNFLPicks = async(teams) => {
+        fetch(`${API_BASE_URL}/picks`)
+        .then(response => response.json())
+        .then(data => {
+
+            setNFLPicks(data);
+            setDraftOrder(teams);
+        })
+    }
+
     useEffect(() => {
         getDraftNeeds();
         getDataPicks();
+        //getNFLPicks();
     },[])
-
-    /*if(!data) {
-        return (
-            <div>
-                Loading...
-            </div>
-        )
-    }*/
 
     return ( 
         <DraftContext.Provider value={{
@@ -311,7 +318,8 @@ export const DraftContextProvider = ({children}) => {
             handleMyNextPick,
             handleOfferTrade,
             getPicksFromTeam,
-            data
+            data,
+            NFLPicks
             }}>
             {children}
         </DraftContext.Provider>

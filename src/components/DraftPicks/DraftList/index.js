@@ -61,8 +61,7 @@ const DraftList = (props) => {
                 <Team>
                     <Logo src={`/${currentTeam.nflData.team_abbr}.png`} />
                     <Status className="pick-status" otc={currentPick==pick.pick}>
-                    {currentPick==pick.pick ? 'On the Clock' : pick.player_picked ? `${pick.player_picked.name} - ${pick.player_picked.position}` : 'Aguardando...'}
-                    
+                        {currentPick==pick.pick ? 'On the Clock' : pick.player_picked ? `${pick.player_picked.name} - ${pick.player_picked.position}` : 'Aguardando...'}
                     </Status>
                     
                     {/*<div className="watch-cotainer">
@@ -80,6 +79,9 @@ const DraftList = (props) => {
                         }
                     </div>*/}
                 </Team>
+                {pick.original_team_id != pick.current_team_id &&
+                    <div className="via-pick">VIA {allTeams.find(item => item.id == pick.original_team_id).nflData.team_abbr}</div>
+                }
             </PickItemContainer>
         )
     }
@@ -194,6 +196,10 @@ const PickItemContainer = styled.div((props) => css`
     .pick-container {
         border-color: ${props.otc? 'white' : BORDER_GRAY};
     }
+    .via-pick {
+    font-size: .7rem;
+    margin-right: 1rem;
+    }
 `)
 const Status = styled.span((props) => css`
     margin-left: .5rem;
@@ -205,6 +211,8 @@ const Pick = styled.div`
     flex: 1;
     border-right: 1px solid ${BORDER_GRAY};
     margin-right: .5rem;
+    max-width: 5rem;
+    min-width: 5rem;
 `
 const Team = styled.div`
     flex: 4;
