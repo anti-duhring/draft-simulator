@@ -7,6 +7,7 @@ import Button from "../../../Button";
 import PicksAvaliable from "../../PicksAvaliable";
 import TeamInfo from "../../TeamInfo";
 import TradeScreen from '../../TradeScreen'
+import { isMobile } from "react-device-detect";
 
 const ActionScreenDesktop = () => {
     const {
@@ -30,6 +31,21 @@ const ActionScreenDesktop = () => {
     useEffect(() => {
         setTabToShow(isMyPick() ? 'pick' : 'trade')
     },[isMyPick])
+
+    if(currentPick == 0) {
+        return (
+            <Container>
+            <Header isMyPick={true}>Draft finalizado!</Header>
+            <Content>
+                    <DraftFinishedScreen>
+                        <p className="finished-screen--text">
+                            Aguarde...
+                        </p>
+                    </DraftFinishedScreen>
+            </Content>
+        </Container>
+        )
+    }
 
     return ( 
         <Container>
@@ -80,11 +96,6 @@ const ActionScreenDesktop = () => {
                     {tabToShow == 'trade' && currentPick > 0 && <TradeScreen />}
                     {tabToShow == 'team' && currentPick > 0 && <TeamInfo />}
                     {tabToShow == 'pick' && currentPick > 0 && <PicksAvaliable toggleShowScreen={toggleShowScreen} />}
-                    {currentPick == 0 && 
-                        <div>
-                            Draft finalizado!!
-                        </div>
-                    }
             </Content>
         </Container>
      );
@@ -98,6 +109,18 @@ const Container = styled.div`
     height: fit-content;
     position: sticky;
     top: 5px;
+`
+const DraftFinishedScreen = styled.div`
+    padding: 0.5rem;
+    width: ${isMobile? '100vw' : '100%'};
+    overflow:  ${isMobile ? 'auto' : 'none'};
+    height: ${isMobile ? '100%' : 'auto'};
+    display: flex;
+    flex-direction: column;
+
+    .finished-screen--text {
+        text-align: center;
+    }
 `
 const Header = styled.div((props) =>  css`
     background-color: ${props.isMyPick? ORANGE : DARK_BLACK};

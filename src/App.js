@@ -8,18 +8,18 @@ import {DraftContextProvider} from './Context/DraftContext'
 
 function App() {
   return (
-    <div className="App">
-      <DraftContextProvider>
+    <div className="App">   
       <Body>
         <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<DraftOrder />} />
-            <Route path='/draft' element={<DraftPicks />} />
-            <Route path='/myDraft' element={<GeneratedImage />} />
-          </Routes>
+          <DraftContextProvider>
+            <Routes>
+              <Route path='/' element={<DraftOrder />} />
+              <Route path='/draft' element={<DraftPicks />} />
+              <Route path='/myDraft' element={<GeneratedImage />} />
+            </Routes>
+          </DraftContextProvider>
         </BrowserRouter>
-      </Body>
-      </DraftContextProvider>
+      </Body> 
     </div>
   );
 }

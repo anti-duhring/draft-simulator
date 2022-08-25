@@ -26,6 +26,7 @@ const GeneratedImage = () => {
         const halfTeamsLength = 17;
 
         allPicks[1].map((pick, index) => {
+
             const playerPick = dataPlayers.players.find(item => item.id == picksPlayers[index]);
             const team = teams?.find(i => i.id == pick.current_team_id);
             const teamVia = pick.original_team_id != pick.current_team_id ? teams?.find(i => i.id == pick.original_team_id) : null;
@@ -59,12 +60,9 @@ const GeneratedImage = () => {
             logo.addEventListener("load", () => {
                 ctx.drawImage(logo, 0, 0, logo.width , logo.height, x + 10 , y - 34, 50, 50);
                 downloadRef.current.href = canvas.toDataURL("image/png");
-
-                if(index = 32 - 1) {
-                    setTimeout(() => setIsLoading(false), 3000)
-                }
+                
             })
-            
+            setTimeout(() => setIsLoading(false), 4000)
         })
     }
 
@@ -102,6 +100,7 @@ const GeneratedImage = () => {
         if(!allPicks){
             navigate('/');
         }
+        //console.log(allPicks[1]);
     },[])
 
     if(!allPicks) {
@@ -114,9 +113,9 @@ const GeneratedImage = () => {
 
     return ( 
         <div>
-            <div>
+            {!isLoading && <div>
                 Clique na imagem para baixar
-            </div>
+            </div>}
             <div>
                 <a ref={downloadRef} href="/" download={true}>
                     <Canvas isLoading={isLoading} ref={canvasRef} id="canvas"></Canvas>

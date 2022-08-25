@@ -3,22 +3,15 @@ import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../constants/DaftSimulatorAPI";
 //import data from '../../data/draft_picks.json'
 import dataPlayers from '../../data/players.json'
-import { changePicksOwners, changePlayersOwners, chosePlayerToDraft, getFuturePicks, getPicks, hasToGoToSecondRound, scrollToPick, syncSimulatorPicksWithNFLPicks } from "../../services/Draft";
+import { changePicksOwners, changePlayersOwners, chosePlayerToDraft, getFuturePicks, getPicks, hasToEndDraft, hasToGoToSecondRound, moveOnDraft, scrollToPick, syncSimulatorPicksWithNFLPicks } from "../../services/Draft";
 import { compareOfferValue } from "../../services/Trade";
+import {useNavigate} from 'react-router-dom'
 
 export const DraftContext = createContext();
 
 export const DraftContextProvider = ({children}) => {
     const NFLseason = 2023;
     const [data, setData] = useState(null);
-
-    const [waitToPick, setWaitToPick] = useState(1000)
-    const [step, setStep] = useState('order');
-    const [rounds, setRounds] = useState(1);
-    const [totalPicksToDraft, setTotalPicksToDraft] = useState(32 * rounds);
-    const picksPerRound = 32;
-    const [draftOrder, setDraftOrder] = useState(null);
-    const [myTeams, setMyTeams] = useState([]);
 
     const [currentPick, setCurrentPick] = useState(1);
     const [currentRound, setCurrentRound] = useState(1);
@@ -31,6 +24,16 @@ export const DraftContextProvider = ({children}) => {
     const [NFLPicks, setNFLPicks] = useState(null);
     const [tradeHistory, setTradeHistory] = useState([]);
     const [isJumpingTo, setIsJumpingTo] = useState(false)
+
+    const [waitToPick, setWaitToPick] = useState(1000)
+    const [step, setStep] = useState('order');
+    const [rounds, setRounds] = useState(1);
+    const [totalPicksToDraft, setTotalPicksToDraft] = useState(32 * rounds);
+    const picksPerRound = 32;
+    const [draftOrder, setDraftOrder] = useState(null);
+    const [myTeams, setMyTeams] = useState([]);
+
+    let navigate = useNavigate();
     
     const MyPicks = () => {
         const myPicks = [];
@@ -118,7 +121,6 @@ export const DraftContextProvider = ({children}) => {
         setDraftOrder(order);
         setMyTeams(myTeams);
         setRounds(config.rounds);
-        setTotalPicksToDraft(picksPerRound * config.rounds);
 
         const picks = {
             "1": getPicks(order, 1, NFLseason),
@@ -133,11 +135,12 @@ export const DraftContextProvider = ({children}) => {
         const f_picks = {}
         f_picks[NFLseason + 1] =  getFuturePicks(order, NFLseason + 1);
         f_picks[NFLseason + 2] =  getFuturePicks(order, NFLseason + 2);
-
+        const newAllPicks = syncSimulatorPicksWithNFLPicks(config = {order: order, season: NFLseason}, NFLPicks);
         
-        setAllPicks(syncSimulatorPicksWithNFLPicks(picks, NFLPicks));
+        setAllPicks(newAllPicks);
         setFuturePicks(f_picks);
         setTradablePlayers(data.tradable_players);
+        setTotalPicksToDraft(config.rounds == 1 ? newAllPicks[1].length : [...newAllPicks[1],...newAllPicks[2]].length);
 
       }
 
@@ -155,16 +158,19 @@ export const DraftContextProvider = ({children}) => {
     }
 
     const handleDraftPlayer = (player) => {
-        hasToGoToSecondRound(currentPick, setCurrentRound, totalPicksToDraft)
-
-        setCurrentPick(prevPick => prevPick == totalPicksToDraft ? 0 : prevPick + 1);
+        moveOnDraft(setCurrentPick, allPicks, totalPicksToDraft, currentRound);
         pickPlayer(player)
+
+        // Function that detect if the next pick is in the next round to change the pagination
+        hasToGoToSecondRound(currentPick, setCurrentRound, totalPicksToDraft)
+        // Function that detect if the current pick is the last pick, to finish the draft
+        console.log(currentPick, totalPicksToDraft);
+        hasToEndDraft(currentPick >= totalPicksToDraft ? 0 : currentPick, navigate)
     }
 
     const handleNextPick = () => {
-        hasToGoToSecondRound(currentPick, setCurrentRound, totalPicksToDraft)
-        setCurrentPick(prevPick => prevPick == totalPicksToDraft ? 0 : prevPick + 1);
-        
+        moveOnDraft(setCurrentPick, allPicks, totalPicksToDraft, currentRound);
+
         const needsObject = {
             setDraftNeeds: setDraftNeeds,
             draftNeeds: draftNeeds
@@ -178,6 +184,11 @@ export const DraftContextProvider = ({children}) => {
 
         pickPlayer(playerToPick);
 
+        // Function that detect if the next pick is in the next round to change the pagination
+        hasToGoToSecondRound(currentPick, setCurrentRound, totalPicksToDraft)
+        // Function that detect if the current pick is the last pick, to finish the draft
+
+        hasToEndDraft(currentPick >= totalPicksToDraft ? 0 : currentPick, navigate)
     }
 
     const handleMyNextPick = () => {
@@ -195,7 +206,7 @@ export const DraftContextProvider = ({children}) => {
 
             if(i < loopUntil) {
                 setCurrentPick(i);
-
+                
                 const needsObject = {
                     setDraftNeeds: setDraftNeeds,
                     draftNeeds: draftNeeds
@@ -221,6 +232,8 @@ export const DraftContextProvider = ({children}) => {
                 // if it was the last pick the draft must finish
                 if(!MyNextPick) {
                     setCurrentPick(0);
+                    // Function that detect if the current pick is the last pick, to finish the draft
+                    hasToEndDraft(0, navigate)
                 } else {
                     setCurrentPick(MyNextPick.pick);
                 }

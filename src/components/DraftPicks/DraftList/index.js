@@ -6,9 +6,9 @@ import { isMobile } from "react-device-detect"
 import {DraftContext} from '../../../Context/DraftContext';
 import {useIntersection} from '../../../hooks/useIntersection'
 import {useAllTeams} from '../../../hooks/useAllTeams'
-import { Watch } from "react-loader-spinner"
-import { BulletList } from "react-content-loader";
 import ContentLoader from 'react-content-loader'
+import { IconContext } from "react-icons";
+import { FaExchangeAlt } from "react-icons/fa";
 
 const DraftList = (props) => {
     const {
@@ -63,24 +63,17 @@ const DraftList = (props) => {
                     <Status className="pick-status" otc={currentPick==pick.pick}>
                         {currentPick==pick.pick ? 'On the Clock' : pick.player_picked ? `${pick.player_picked.name} - ${pick.player_picked.position}` : 'Aguardando...'}
                     </Status>
-                    
-                    {/*<div className="watch-cotainer">
-                        {currentPick==pick.pick &&
-                        <Watch
-                            height="25"
-                            width="25"
-                            radius="48"
-                            color='white'
-                            ariaLabel="watch-loading"
-                            wrapperStyle={{}}
-                            wrapperClassName=""
-                            visible={true}
-                        />
-                        }
-                    </div>*/}
                 </Team>
                 {pick.original_team_id != pick.current_team_id &&
-                    <div className="via-pick">VIA {allTeams.find(item => item.id == pick.original_team_id).nflData.team_abbr}</div>
+                    <div className="via-pick">
+                        <IconContext.Provider value={{
+                             color: currentPick==pick.pick ? 'white' : GRAY, 
+                             className: "icon-exchange" 
+                        }}>
+                            <FaExchangeAlt />
+                        </IconContext.Provider>
+                         {allTeams.find(item => item.id == pick.original_team_id).nflData.team_abbr}
+                    </div>
                 }
             </PickItemContainer>
         )
@@ -197,8 +190,14 @@ const PickItemContainer = styled.div((props) => css`
         border-color: ${props.otc? 'white' : BORDER_GRAY};
     }
     .via-pick {
-    font-size: .7rem;
-    margin-right: 1rem;
+        font-size: .7rem;
+        margin-right: 1rem;
+        display: flex;
+        align-content: center;
+        align-items: center;
+    }
+    .icon-exchange {
+        margin-right: 0.3rem;
     }
 `)
 const Status = styled.span((props) => css`

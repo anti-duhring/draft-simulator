@@ -1,4 +1,5 @@
 import data from '../../data/draft_picks.json'
+//import dataPicks from '../../data/picks.json'
 
 export const getFuturePicks = (order, season) => {
     let rounds = {
@@ -197,6 +198,14 @@ export const hasToGoToSecondRound = (currentPick, setCurrentRound, totalPicksToD
     if(currentPick==33) setCurrentRound(2)
 }
 
+export const hasToEndDraft = (currentPick, navigate) => {
+    if(currentPick == 0) {
+        setTimeout(() => navigate('/myDraft'), 1000)
+    }
+    
+    return currentPick == 0 ? true : false
+}
+
 export const changePlayersOwners = (offer,teams, tradablePlayers) => {
     let newTradablePlayers = [...tradablePlayers];
 
@@ -236,29 +245,34 @@ export const changePicksOwners = (offer, season, teams, picks) => {
     return [newAllPicks, newFuturePicks]
 }
 
-const pickSkeleton = (simulatorPick, NFLPick) => {
+const pickSkeleton = ( NFLPick, season, pick) => {
     if(!NFLPick) {
-        return {
+        return null
+        /*return {
             round: simulatorPick.round,
             pick: simulatorPick.pick,
             season: simulatorPick.season,
             original_team_id: simulatorPick.original_team_id,
             current_team_id: simulatorPick.current_team_id,
             pick_id: simulatorPick.pick_id,
-        }
+        }*/
     }
+
     return {
-        round: simulatorPick.round,
-        pick: simulatorPick.pick,
-        season: simulatorPick.season,
-        original_team_id: NFLPick.prev_team_id ? NFLPick.prev_team_id : simulatorPick.original_team_id,
+        round: NFLPick.round,
+        pick: pick,
+        season: season,
+        original_team_id: NFLPick.prev_team_id > 0 ? NFLPick.prev_team_id : NFLPick.current_team_id,
         current_team_id: NFLPick.current_team_id,
-        pick_id: simulatorPick.pick_id,
+        pick_id: 1,
     }
 }
 
-export const syncSimulatorPicksWithNFLPicks = (simulatorPicks, NFLPicks) => {
-    const currentPicks = simulatorPicks;
+export const syncSimulatorPicksWithNFLPicks = (config, NFLPicks) => {
+    //const currentPicks = simulatorPicks;
+    //const NFLPicks = dataPicks;
+    const order = config.order;
+    const season = config.season;
     const newNFLPicks = [
         ...NFLPicks[1], 
         ...NFLPicks[2], 
@@ -270,27 +284,62 @@ export const syncSimulatorPicksWithNFLPicks = (simulatorPicks, NFLPicks) => {
     ]
     
     const newCurrentPicks = {
-        "1": currentPicks[1].map((pick, index) => {
-            return pickSkeleton(pick, newNFLPicks.find(p => p.round == pick.round && p.current_team_id == pick.current_team_id))
-        }),
-        "2": currentPicks[2].map((pick, index) => {
-            return pickSkeleton(pick, newNFLPicks.find(p => p.round == pick.round && p.current_team_id == pick.current_team_id))
-        }),
-        "3": currentPicks[3].map((pick, index) => {
-            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
-        }),
-        "4": currentPicks[4].map((pick, index) => {
-            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
-        }),
-        "5": currentPicks[5].map((pick, index) => {
-            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
-        }),
-        "6": currentPicks[6].map((pick, index) => {
-            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
-        }),
-        "7": currentPicks[7].map((pick, index) => {
-            return pickSkeleton(pick, newNFLPicks.find(p => p.pick == pick.pick))
-        }),
+        "1": order.filter(i => NFLPicks[1].map(t => t.prev_team_id).indexOf(i.id) != -1).map((team, index) => {
+            return pickSkeleton(newNFLPicks.find(p => p.round == 1 && p.prev_team_id == team.id), season, index + 1)
+        }).filter(i => i) ,
+        "2": order.filter(i => NFLPicks[2].map(t => t.prev_team_id).indexOf(i.id) != -1).map((team, index) => {
+            return pickSkeleton(newNFLPicks.find(p => p.round == 2 && p.prev_team_id == team.id), season, (index + 1) + NFLPicks[1].map(i => i.prev_team_id).filter(i => i > 0).length)
+        }).filter(i => i),
+        "3": NFLPicks[3].map((pick, index) => {
+            return {
+                round: pick.round,
+                pick: pick.pick,
+                season: season,
+                original_team_id: pick.prev_team_id > 0 ? pick.prev_team_id : pick.current_team_id,
+                current_team_id: pick.current_team_id,
+                pick_id: newNFLPicks.indexOf(pick),
+            }
+        }).filter(i => i),
+        "4": NFLPicks[4].map((pick, index) => {
+            return {
+                round: pick.round,
+                pick: pick.pick,
+                season: season,
+                original_team_id: pick.prev_team_id > 0 ? pick.prev_team_id : pick.current_team_id,
+                current_team_id: pick.current_team_id,
+                pick_id: newNFLPicks.indexOf(pick),
+            }
+        }).filter(i => i),
+        "5": NFLPicks[5].map((pick, index) => {
+            return {
+                round: pick.round,
+                pick: pick.pick,
+                season: season,
+                original_team_id: pick.prev_team_id > 0 ? pick.prev_team_id : pick.current_team_id,
+                current_team_id: pick.current_team_id,
+                pick_id: newNFLPicks.indexOf(pick),
+            }
+        }).filter(i => i),
+        "6": NFLPicks[6].map((pick, index) => {
+            return {
+                round: pick.round,
+                pick: pick.pick,
+                season: season,
+                original_team_id: pick.prev_team_id > 0 ? pick.prev_team_id : pick.current_team_id,
+                current_team_id: pick.current_team_id,
+                pick_id: newNFLPicks.indexOf(pick),
+            }
+        }).filter(i => i),
+        "7": NFLPicks[7].map((pick, index) => {
+            return {
+                round: pick.round,
+                pick: pick.pick,
+                season: season,
+                original_team_id: pick.prev_team_id > 0 ? pick.prev_team_id : pick.current_team_id,
+                current_team_id: pick.current_team_id,
+                pick_id: newNFLPicks.indexOf(pick),
+            }
+        }).filter(i => i),
     }
     //console.log(newCurrentPicks);
 
@@ -305,4 +354,15 @@ export const syncSimulatorPicksWithNFLPicks = (simulatorPicks, NFLPicks) => {
             pick_id: pick.pick_id,
         }
     */
+}
+
+export const moveOnDraft = (setCurrentPick, allPicks, totalPicksToDraft, currentRound) => {
+    setCurrentPick(prevPick => 
+        prevPick == totalPicksToDraft ? 
+            0 : 
+            // This piece is to detect if the next pick is really the next cronological pick or if there was any pick between them that   the NFL excluded 
+            /* allPicks[currentRound][prevPick].pick > prevPick + 1 ? 
+            prevPick + 2 : prevPick + 1 */
+            prevPick + 1
+    );
 }

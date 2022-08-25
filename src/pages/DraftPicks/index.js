@@ -47,9 +47,9 @@ const DraftPicks = (props) => {
                 {!isMobile && <ActionScreenDesktop />}
             </Flex>
             <Footer>
-                <Button disabled={currentPick != 0} onClick={() => navigate('/myDraft')}>
+                {/*<Button disabled={currentPick != 0} onClick={() => navigate('/myDraft')}>
                     Finalizar Draft
-                </Button>
+                </Button>*/}
             </Footer>
             {currentPick != 0 && isMobile && 
             <>

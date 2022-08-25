@@ -409,13 +409,13 @@ const TeamPicksContainer = styled.div`
     display: flex;
     flex-direction: column;
     background-color: white;
-    border: 1px solid ${BORDER_GRAY};
+    //border: 1px solid ${BORDER_GRAY};
     //box-shadow: 0 1px 3px rgb(22 24 26 / 10%), 0 5px 10px -3px rgb(22 24 26 / 5%);
     border-radius: 5px;
     align-items: center;
     color: ${GRAY};
-    padding: .3rem;
-    padding-bottom: .5rem;
+    //padding: .3rem;
+    //padding-bottom: .5rem;
     margin-top: .5rem;
 `
 const Grid = styled.div`
@@ -427,12 +427,19 @@ const Grid = styled.div`
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
+    padding: 0.3rem;
+    border: 1px solid ${BORDER_GRAY};
+    border-top: none;
+    border-radius: 0 0 5px 5px;
 `
 const Title = styled.div`
     flex: 1;
     width: 100%;
     text-align: center;
-    margin-bottom: .3rem;
+    background-color: ${BORDER_GRAY};
+    border-radius: 5px 5px 0 0;
+    color: black;
+    border: 1px solid ${BORDER_GRAY};
 `
 const PickItemContainer = styled.div((props) => css`
     border: 1px solid ${props.isAvaliable ? props.selected ? ORANGE : BORDER_GRAY : 'hsl(0, 0%, 90%)'};
@@ -442,6 +449,9 @@ const PickItemContainer = styled.div((props) => css`
     margin-right: .5rem;
     margin-bottom: .5rem;
     display: flex;
+    height: 4rem;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     background-color: ${props.isAvaliable ? 'transparent' : 'hsl(0, 0%, 95%)'};
     color: ${props.isAvaliable ? BLACK : 'hsl(0, 0%, 60%)'};

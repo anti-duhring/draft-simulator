@@ -15,13 +15,15 @@ option: (provided, state) => ({
     /*borderBottom: '1px dotted pink',
     color: state.isSelected ? 'red' : 'blue',
     padding: 20,*/
-    fontSize: '.8rem'
+    fontSize: '.8rem',
+    cursor: 'pointer'
 }),
 control: (base) => ({
     // none of react-select's styles are passed to <Control />
     ...base,
     boxShadow: 'none',
-    fontSize: '.8rem'
+    fontSize: '.8rem',
+    cursor: 'pointer'
 }),
 singleValue: (provided, state) => {
     const opacity = state.isDisabled ? 0.5 : 1;
