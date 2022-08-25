@@ -5,7 +5,9 @@ const Body = ({children}) => {
     return (
         <div className="wrap">
             <Header />
-            {children}
+            <div className="content">
+                {children}
+            </div>
         </div>
     )
 }

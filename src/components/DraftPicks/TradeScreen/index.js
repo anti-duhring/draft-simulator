@@ -438,7 +438,7 @@ const Title = styled.div`
     text-align: center;
     background-color: ${BORDER_GRAY};
     border-radius: 5px 5px 0 0;
-    color: black;
+    color: ${GRAY};
     border: 1px solid ${BORDER_GRAY};
 `
 const PickItemContainer = styled.div((props) => css`

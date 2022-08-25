@@ -92,7 +92,7 @@ const SlideScreenMobile = (props) => {
                         Time
                     </TabLink>
                 </TabLinkContainer>
-                {showScreen? <SwipeContainer style={{width: `${isMyPick() ? '300' : '200'}vw`,transform:`translateX(-${activeIndex * (isMyPick() ? 33.33 : 50)}%)`}}>
+                <SwipeContainer style={{width: `${isMyPick() ? '300' : '200'}vw`,transform:`translateX(-${activeIndex * (isMyPick() ? 33.33 : 50)}%)`}}>
                     {isMyPick() && 
                     <Inner>
                         <PicksAvaliable toggleShowScreen={toggleShowScreen} />
@@ -101,11 +101,10 @@ const SlideScreenMobile = (props) => {
                         <TradeScreen />
                     </Inner>
                     <Inner>
-                        <TeamInfo />
+                        <TeamInfo isShow={activeIndex == (isMyPick() ? 2 : 1)} />
                     </Inner>
                     
-                </SwipeContainer> :
-                <div>Loading...</div>}
+                </SwipeContainer>
             </ContentTab>
         </Container>
      );

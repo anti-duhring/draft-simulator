@@ -7,7 +7,7 @@ import { GoSync, GoArrowBoth } from 'react-icons/go'
 import ContentLoader from 'react-content-loader'
 import { isMobile } from 'react-device-detect';
 
-const TeamInfo = () => {
+const TeamInfo = ({isShow}) => {
     const [currentTeam, allOtherTeams] = useCurrentTeam(1);
 
     const Slice = () => {
@@ -33,8 +33,9 @@ const TeamInfo = () => {
         return (
             <PlayerList>
                 <Title>{position}</Title>
-                {
-                    currentTeam.tradablePlayers.filter(i => i.position==position).map((player, index) => {
+                { 
+                    currentTeam.tradablePlayers.filter((item, index) => item.position==position && currentTeam.tradablePlayers.map(p => p.player_name).indexOf(item.player_name)==index).map((player, index) => {
+
                         return (
                             <Player key={index} player={player} />
                         )
@@ -117,8 +118,11 @@ const TeamInfo = () => {
     return ( 
         <Container>
             <Header>
-                {/*<Logo src={currentTeam.nflData.team_logo_espn} />
-                <WordMark src={currentTeam.nflData.team_wordmark} />*/}
+                {isShow && 
+                <>
+                    <Logo src={currentTeam.nflData.team_logo_espn} />
+                    <WordMark src={currentTeam.nflData.team_wordmark} />
+                </>}
 
             </Header>
             <Needs>

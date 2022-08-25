@@ -94,7 +94,7 @@ const ActionScreenDesktop = () => {
                 </TabActions>
             </TabLinkContainer>
                     {tabToShow == 'trade' && currentPick > 0 && <TradeScreen />}
-                    {tabToShow == 'team' && currentPick > 0 && <TeamInfo />}
+                    {tabToShow == 'team' && currentPick > 0 && <TeamInfo isShow={true} />}
                     {tabToShow == 'pick' && currentPick > 0 && <PicksAvaliable toggleShowScreen={toggleShowScreen} />}
             </Content>
         </Container>

@@ -24,6 +24,7 @@ import FormHeader from '../../components/DraftOrder/FormHeader';
 import FormFooter from '../../components/DraftOrder/FormFooter';
 import { DraftContext } from '../../Context/DraftContext'
 import SortableItemPlaceholder from '../../components/DraftOrder/SortableItemPlaceholder';
+import { DARK_BLACK } from '../../constants/Colors';
 
 const DraftOrder = (props) => {
   const {
@@ -71,43 +72,46 @@ const DraftOrder = (props) => {
 
   return (
   <Container>
-    <FormHeader checkbox={checkbox} checkAll={checkAll} />
-  <DndContext
-    sensors={sensors}
-    collisionDetection={closestCenter}
-    onDragEnd={handleDragEnd}
-  >
+    <Title>Simulador de Draft</Title>
+    <Body>
+      <FormHeader checkbox={checkbox} checkAll={checkAll} />
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
 
-    <SortableContext 
-        items={draftOrder ?? new Array(32).fill(0)}
-        strategy={rectSortingStrategy}
-    >
-      <Grid>
-      { draftOrder?
-        draftOrder.map((team,index) => {
-          return (
-            <SortableItem 
-              key={team.franchise_id} 
-              id={team.franchise_id} 
-              team={team} 
-              index={index} 
-              setCheckbox={setCheckbox} 
-            />
-          )
-        }) :
-        new Array(32).fill(0).map((i, index) => {
-          return (
-            <SortableItemPlaceholder
-              key={index}
-              index={index}
-            />
-          )
-        })
-      }
-      </Grid>
-    </SortableContext>
-  </DndContext>
+          <SortableContext 
+              items={draftOrder ?? new Array(32).fill(0)}
+              strategy={rectSortingStrategy}
+          >
+            <Grid>
+            { draftOrder?
+              draftOrder.map((team,index) => {
+                return (
+                  <SortableItem 
+                    key={team.franchise_id} 
+                    id={team.franchise_id} 
+                    team={team} 
+                    index={index} 
+                    setCheckbox={setCheckbox} 
+                  />
+                )
+              }) :
+              new Array(32).fill(0).map((i, index) => {
+                return (
+                  <SortableItemPlaceholder
+                    key={index}
+                    index={index}
+                  />
+                )
+              })
+            }
+            </Grid>
+          </SortableContext>
+        </DndContext>
       <FormFooter />
+    </Body>
   </Container>
 )}
 
@@ -121,10 +125,18 @@ const Grid = styled.div`
   grid-auto-flow: column dense;
 `
 const Container = styled.div`
+  margin-bottom: 10px;
+`
+const Body = styled.div`
   box-shadow: 0 1px 3px rgb(22 24 26 / 20%), 0 5px 10px -3px rgb(22 24 26 / 10%);
   border: 1px solid #dce0e5;
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  border-radius: 0 0 5px 5px;
+`
+const Title = styled.div`
+  background-color: ${DARK_BLACK};
+  color: white;
+  border-radius: 5px 5px 0 0;
+  padding: .3rem 0 .3rem 0;
 `
