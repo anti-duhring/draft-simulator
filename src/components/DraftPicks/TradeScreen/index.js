@@ -440,6 +440,7 @@ const Title = styled.div`
     border-radius: 5px 5px 0 0;
     color: ${GRAY};
     border: 1px solid ${BORDER_GRAY};
+    padding: 0.3rem;
 `
 const PickItemContainer = styled.div((props) => css`
     border: 1px solid ${props.isAvaliable ? props.selected ? ORANGE : BORDER_GRAY : 'hsl(0, 0%, 90%)'};

@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, useRef } from 'react';
 import Select from 'react-select'
 import data from '../../../data/players.json'
 import styled from "styled-components";
-import { BLACK, BORDER_GRAY, GRAY } from '../../../constants/Colors';
+import { BLACK, BORDER_GRAY, DARK_BLACK, GRAY } from '../../../constants/Colors';
 import { DraftContext } from '../../../Context/DraftContext';
 import { isMobile } from 'react-device-detect';
 import { defaultStyles, SelectTheme } from '../../../constants/SelectStyles';
@@ -192,7 +192,13 @@ const SearchInput = styled.input`
     outline: none;
     height: 38px;
     width: 100%;
+    padding: 0.8rem;
+    text-align: center;
     &::placeholder {
         text-align: center;
+    }
+
+    &:focus {
+        border: 1px solid ${DARK_BLACK};
     }
 `

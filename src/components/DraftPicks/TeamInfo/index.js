@@ -33,14 +33,16 @@ const TeamInfo = ({isShow}) => {
         return (
             <PlayerList>
                 <Title>{position}</Title>
-                { 
-                    currentTeam.tradablePlayers.filter((item, index) => item.position==position && currentTeam.tradablePlayers.map(p => p.player_name).indexOf(item.player_name)==index).map((player, index) => {
+                <div className="position-body">
+                    { 
+                        currentTeam.tradablePlayers.filter((item, index) => item.position==position && currentTeam.tradablePlayers.map(p => p.player_name).indexOf(item.player_name)==index).map((player, index) => {
 
-                        return (
-                            <Player key={index} player={player} />
-                        )
-                    })
-                }
+                            return (
+                                <Player key={index} player={player} />
+                            )
+                        })
+                    }
+                </div>
             </PlayerList>
         )
     }
@@ -48,7 +50,7 @@ const TeamInfo = ({isShow}) => {
     const TradeMove = (props) => {
         return (
             <TradeMoveContainer>
-                <Title>{props.title}</Title>
+                <TradeMoveTitle>{props.title}</TradeMoveTitle>
                 {props.move.map((item, index) => {
                     if(item.player_id) {
                         return (<div key={index}>
@@ -71,10 +73,11 @@ const TeamInfo = ({isShow}) => {
         const received = trade.assets_received_1.current_owner == currentTeam.id ? trade.assets_received_1.assets : trade.assets_received_2.assets;
         const given = trade.assets_received_1.prev_owner == currentTeam.id ? trade.assets_received_1.assets : trade.assets_received_2.assets;
         const otherTeam = [currentTeam,...allOtherTeams].find(team => team.id==trade.teams_involved.find(i => i!=currentTeam.id));
+        //console.log(otherTeam);
 
         return (
             <TradeHistoryContainer> 
-                <Title>Troca com {otherTeam.team_name}</Title>
+                <Title>Troca com {otherTeam.nflData.team_name}</Title>
                 <TradeMoves>
                     <TradeMove move={received} title='Recebido' />
                     <Slice />
@@ -94,18 +97,18 @@ const TeamInfo = ({isShow}) => {
             foregroundColor="#ecebeb"
             style={{float: 'left'}}
           >
-            <rect x="7" y="101" rx="5" ry="5" width="100" height="20" /> 
-            <rect x="40" y="131" rx="5" ry="5" width="220" height="20" /> 
-            <rect x="7" y="161" rx="5" ry="5" width="200" height="20" /> 
-            <rect x="40" y={191} rx="5" ry="5" width="70" height="20" /> 
-            <rect x="40" y="221" rx="5" ry="5" width="200" height="20" /> 
-            <rect x="40" y="251" rx="5" ry="5" width="200" height="20" /> 
-            <rect x="40" y="281" rx="5" ry="5" width="200" height="20" /> 
-            <rect x="40" y={311} rx="5" ry="5" width="70" height="20" /> 
-            <rect x="40" y="341" rx="5" ry="5" width="200" height="20" /> 
-            <rect x="40" y="371" rx="5" ry="5" width="200" height="20" /> 
-            <rect x="40" y="401" rx="5" ry="5" width="200" height="20" /> 
-            <rect x="150" y="6" rx="6" ry="6" width="275" height="82" />
+                <rect x="7" y="101" rx="5" ry="5" width="100" height="20" /> 
+                <rect x="40" y="131" rx="5" ry="5" width="220" height="20" /> 
+                <rect x="7" y="161" rx="5" ry="5" width="200" height="20" /> 
+                <rect x="40" y={191} rx="5" ry="5" width="70" height="20" /> 
+                <rect x="40" y="221" rx="5" ry="5" width="200" height="20" /> 
+                <rect x="40" y="251" rx="5" ry="5" width="200" height="20" /> 
+                <rect x="40" y="281" rx="5" ry="5" width="200" height="20" /> 
+                <rect x="40" y={311} rx="5" ry="5" width="70" height="20" /> 
+                <rect x="40" y="341" rx="5" ry="5" width="200" height="20" /> 
+                <rect x="40" y="371" rx="5" ry="5" width="200" height="20" /> 
+                <rect x="40" y="401" rx="5" ry="5" width="200" height="20" /> 
+                <rect x="150" y="6" rx="6" ry="6" width="275" height="82" />
           </ContentLoader>
         )
     }
@@ -126,9 +129,9 @@ const TeamInfo = ({isShow}) => {
 
             </Header>
             <Needs>
-                <Title>
-                    Needs <div className='length'>{currentTeam.draftNeeds?.length}</div>
-                </Title>
+                <TitlePrimary>
+                    Needs - {currentTeam.draftNeeds?.length}
+                </TitlePrimary>
                 <div className="needs-list">
                     {
                         currentTeam.draftNeeds?.map(item => item).join(', ')
@@ -136,30 +139,32 @@ const TeamInfo = ({isShow}) => {
                 </div>
             </Needs>
             <Players>
-                <Title>
-                    Jogadores trocáveis <div className='length'>{currentTeam.tradablePlayers.length}</div>
-                </Title>
-                {
-                    currentTeam.tradablePlayers.map(p => p.position).filter((p, i) => currentTeam.tradablePlayers.map(p => p.position).indexOf(p)==i).map((position, index) => {
-                        return (
-                            <PlayerListByPosition position={position} key={index} />
-                        )
-                    })
-                }
+                <TitlePrimary>
+                    Jogadores trocáveis - {currentTeam.tradablePlayers.length}
+                </TitlePrimary>
+                <div className="players-body">
+                    {
+                        currentTeam.tradablePlayers.map(p => p.position).filter((p, i) => currentTeam.tradablePlayers.map(p => p.position).indexOf(p)==i).map((position, index) => {
+                            return (
+                                <PlayerListByPosition position={position} key={index} />
+                            )
+                        })
+                    }
+                </div>
             </Players>
             <History>
-                <Title>
+                <TitlePrimary>
                     Histórico de trocas
-                </Title>
-                {
-                    currentTeam.tradeHistory.length > 0 ?
-                    currentTeam.tradeHistory.map((trade, index) => {
-                        return (
-                            <TradeHistory key={index} trade={trade} />
-                        )
-                    }) :
-                    <div style={{textAlign:'left'}}>Nenhuma troca</div>
-                }
+                </TitlePrimary>
+                    {
+                        currentTeam.tradeHistory.length > 0 ?
+                        currentTeam.tradeHistory.map((trade, index) => {
+                            return (
+                                <TradeHistory key={index} trade={trade} />
+                            )
+                        }) :
+                        <TradeMoves>Nenhuma troca</TradeMoves>
+                    }
             </History>
         </Container>
      );
@@ -171,6 +176,7 @@ const Container = styled.div`
     width: ${isMobile? '100vw' : '100%'};
     padding-top: .5rem;
     overflow: auto;
+    padding-bottom: 0.5rem;
     height: ${isMobile ? 'auto' : '82vh'};
     /*&::-webkit-scrollbar-track {
         box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -205,11 +211,27 @@ const Players = styled.div`
     padding: 0 .5rem 0 .5rem;
     align-items: flex-start;
     margin-top: .5rem;
+
+    .players-body {
+        border: 1px solid ${BORDER_GRAY};
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0 0 5px 5px;    
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        gap: .5rem;
+    }
 `
-const Title = styled.div`
-    font-weight: bold;
+const TitlePrimary = styled.div`
+    //font-weight: bold;
     display: flex;
     align-items: center;
+    background-color: ${DARK_BLACK};
+    color: white;
+    width: 100%;
+    justify-content: center;
+    padding: 0.3rem;
+    border-radius: 5px 5px 0 0;
     & .length {
         font-size: .7rem;
         display: flex;
@@ -220,17 +242,47 @@ const Title = styled.div`
         padding: 3px 5px;
         border-radius: 50%;
         margin: 0 0 0 .5rem;
+        color: ${DARK_BLACK};
+    }
+`
+const Title = styled.div`
+    //font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-color: ${BORDER_GRAY};
+    color: ${GRAY};
+    width: 100%;
+    justify-content: center;
+    padding: 0.3rem;
+    border-radius: 5px 5px 0 0;
+    & .length {
+        font-size: .7rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: normal;
+        background-color: ${BORDER_GRAY};
+        padding: 3px 5px;
+        border-radius: 50%;
+        margin: 0 0 0 .5rem;
+        color: ${DARK_BLACK};
     }
 `
 const PlayerList = styled.div`
     margin-top: .5rem;
+    .position-body {
+        border: 1px solid ${BORDER_GRAY};
+        padding: 0.5rem;
+        border-radius: 0 0 5px 5px;
+    }
 `
 const PlayerContainer = styled.div`
     display: flex;
     flex-direction: row;
 `
 const PlayerName = styled.div`
-    text-indent: 1rem;
+    text-align: center;
+    width: 100%;
 `
 const PlayerPosition = styled.div`
 
@@ -250,7 +302,6 @@ const TradeHistoryContainer = styled.div`
     padding: .5rem;
     align-items: flex-start;
     border: 1px solid ${BORDER_GRAY};
-    box-shadow: 0 1px 3px rgb(22 24 26 / 10%), 0 5px 10px -3px rgb(22 24 26 / 5%);
     border-radius: 5px;
     
 `
@@ -261,7 +312,10 @@ const TradeMoves = styled.div`
     align-items: stretch;
     //align-items: flex-start;
     width: 100%;
-    margin-top: .5rem;
+    border: 1px solid ${BORDER_GRAY};
+    border-top: none;
+    padding: 0.5rem;
+    border-radius: 0 0 5px 5px;
 `
 const TradeMoveContainer = styled.div`
     flex: 4;
@@ -270,6 +324,10 @@ const TradeMoveContainer = styled.div`
     justify-content: flex-start;
     align-items: center;
     margin: 0 .5rem 0 0;
+`
+const TradeMoveTitle = styled.span`
+    padding: 0.3rem;
+    font-weight: bold;
 `
 const SliceContainer = styled.div`
     position: relative;
@@ -289,9 +347,12 @@ const Line = styled.div`
 const Needs = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 0 .5rem 0 .5rem;
+    margin: 0 .5rem 0 .5rem;
     align-items: flex-start;
     .needs-list {
-        text-indent: 1rem;
+        border: 1px solid ${BORDER_GRAY};
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0 0 5px 5px;
     }
 `
