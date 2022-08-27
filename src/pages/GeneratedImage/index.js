@@ -6,14 +6,16 @@ import {useAllTeams} from '../../hooks/useAllTeams'
 import styled, {css} from "styled-components";
 import { isMobile } from "react-device-detect";
 import {useNavigate} from 'react-router-dom'
-import {GRAY, ORANGE} from '../../constants/Colors'
+import {BORDER_GRAY, GRAY, ORANGE} from '../../constants/Colors'
 import { ThreeCircles } from "react-loader-spinner";
+import Container from "../../components/GeneratedImage/Container";
 
 const GeneratedImage = () => {
     const navigate = useNavigate();
     const {
         allPicks,
-        picksPlayers
+        picksPlayers,
+        rounds
     } = useContext(DraftContext);
     const teams = useAllTeams();
     const canvasRef = useRef();
@@ -110,16 +112,18 @@ const GeneratedImage = () => {
             </div>
         )
     }
-
-    return ( 
-        <div>
-            {!isLoading && <div>
-                Clique na imagem para baixar
-            </div>}
+    if(!teams) {
+        return (
             <div>
-                <a ref={downloadRef} href="/" download={true}>
-                    <Canvas isLoading={isLoading} ref={canvasRef} id="canvas"></Canvas>
-                    <Loading isLoading={isLoading}>
+                Carregando...
+            </div>
+        )
+    }
+
+    const LoadingComponent = () => {
+        return (
+            <div>
+                <Loading isLoading={isLoading}>
                     <ThreeCircles
                         height="100"
                         width="100"
@@ -132,9 +136,27 @@ const GeneratedImage = () => {
                         innerCircleColor=""
                         middleCircleColor=""
                     />
-                    </Loading>
-                </a>
+                </Loading>
             </div>
+        )
+    }
+
+    return ( 
+        <div>
+            <Container 
+                title={`Resultado do draft`} 
+                isLoading={isLoading}
+                allPicks={allPicks}
+                rounds={rounds}
+                allTeams={teams}
+            >
+                <div>
+                    <a ref={downloadRef} href="/" download={true}>
+                        <Canvas isLoading={isLoading} ref={canvasRef} id="canvas"></Canvas>
+                    </a>
+                </div>
+                {isLoading && <LoadingComponent />}
+            </Container>
         </div>
      );
 }
@@ -143,8 +165,9 @@ export default GeneratedImage;
 
 const Canvas = styled.canvas((props) => css`
     width: ${isMobile ? '90vw' : '40vw'};
-    filter: drop-shadow(2px 4px 6px black);
+    //filter: drop-shadow(2px 4px 6px black);
     display: ${props.isLoading ? 'none' : 'auto'};
+    border: 1px solid ${BORDER_GRAY};
 `)
 const Loading = styled.div((props) => css`
     display: ${props.isLoading ? 'flex' : 'none'};

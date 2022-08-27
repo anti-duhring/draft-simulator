@@ -116,11 +116,11 @@ export const DraftContextProvider = ({children}) => {
         return myPicks
     }
 
-    const handleDraftOrder = (order, myTeams, config) => {
+    const handleDraftOrder = (order, myTeams, DraftConfig) => {
         setStep('picks');
         setDraftOrder(order);
         setMyTeams(myTeams);
-        setRounds(config.rounds);
+        setRounds(DraftConfig.rounds);
 
         const picks = {
             "1": getPicks(order, 1, NFLseason),
@@ -135,13 +135,12 @@ export const DraftContextProvider = ({children}) => {
         const f_picks = {}
         f_picks[NFLseason + 1] =  getFuturePicks(order, NFLseason + 1);
         f_picks[NFLseason + 2] =  getFuturePicks(order, NFLseason + 2);
-        const newAllPicks = syncSimulatorPicksWithNFLPicks(config = {order: order, season: NFLseason}, NFLPicks);
+        const newAllPicks = syncSimulatorPicksWithNFLPicks({order: order, season: NFLseason}, NFLPicks);
         
         setAllPicks(newAllPicks);
         setFuturePicks(f_picks);
         setTradablePlayers(data.tradable_players);
-        setTotalPicksToDraft(config.rounds == 1 ? newAllPicks[1].length : [...newAllPicks[1],...newAllPicks[2]].length);
-
+        setTotalPicksToDraft(DraftConfig.rounds == 1 ? newAllPicks[1].length : [...newAllPicks[1],...newAllPicks[2]].length);
       }
 
     const pickPlayer = (player, _current_pick) => {
@@ -164,7 +163,7 @@ export const DraftContextProvider = ({children}) => {
         // Function that detect if the next pick is in the next round to change the pagination
         hasToGoToSecondRound(currentPick, setCurrentRound, totalPicksToDraft)
         // Function that detect if the current pick is the last pick, to finish the draft
-        console.log(currentPick, totalPicksToDraft);
+        //console.log(currentPick, totalPicksToDraft);
         hasToEndDraft(currentPick >= totalPicksToDraft ? 0 : currentPick, navigate)
     }
 
