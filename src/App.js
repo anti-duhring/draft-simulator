@@ -5,11 +5,14 @@ import DraftPicks from './pages/DraftPicks';
 import GeneratedImage from './pages/GeneratedImage';
 import { BrowserRouter, Switch, Route, Routes } from 'react-router-dom';
 import {DraftContextProvider} from './Context/DraftContext'
+import Footer from './components/Footer';
+import Adsense from './components/Adsense';
 
 function App() {
   return (
-    <div className="App">   
+    <div className="App"> 
       <Body>
+      <Adsense />
         <BrowserRouter>
           <DraftContextProvider>
             <Routes>
@@ -20,6 +23,7 @@ function App() {
           </DraftContextProvider>
         </BrowserRouter>
       </Body> 
+      <Footer />
     </div>
   );
 }
