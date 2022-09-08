@@ -1,1360 +1,1360 @@
 {
-    "1": [
-      {
-        "current_team_id": 2,
-        "pick": 1,
-        "prev_team_id": 2,
-        "round": 1
-      },
-      {
-        "current_team_id": 13,
-        "pick": 2,
-        "prev_team_id": 13,
-        "round": 1
-      },
-      {
-        "current_team_id": 29,
-        "pick": 3,
-        "prev_team_id": 29,
-        "round": 1
-      },
-      {
-        "current_team_id": 6,
-        "pick": 4,
-        "prev_team_id": 6,
-        "round": 1
-      },
-      {
-        "current_team_id": 22,
-        "pick": 5,
-        "prev_team_id": 22,
-        "round": 1
-      },
-      {
-        "current_team_id": 11,
-        "pick": 6,
-        "prev_team_id": 11,
-        "round": 1
-      },
-      {
-        "current_team_id": 15,
-        "pick": 7,
-        "prev_team_id": 15,
-        "round": 1
-      },
-      {
-        "current_team_id": 5,
-        "pick": 8,
-        "prev_team_id": 5,
-        "round": 1
-      },
-      {
-        "current_team_id": 21,
-        "pick": 9,
-        "prev_team_id": 21,
-        "round": 1
-      },
-      {
-        "current_team_id": 32,
-        "pick": 10,
-        "prev_team_id": 32,
-        "round": 1
-      },
-      {
-        "current_team_id": 25,
-        "pick": 11,
-        "prev_team_id": 25,
-        "round": 1
-      },
-      {
-        "current_team_id": 24,
-        "pick": 12,
-        "prev_team_id": 20,
-        "round": 1
-      },
-      {
-        "current_team_id": 18,
-        "pick": 13,
-        "prev_team_id": 18,
-        "round": 1
-      },
-      {
-        "current_team_id": 13,
-        "pick": 14,
-        "prev_team_id": 8,
-        "round": 1
-      },
-      {
-        "current_team_id": 23,
-        "pick": 15,
-        "prev_team_id": 23,
-        "round": 1
-      },
-      {
-        "current_team_id": 17,
-        "pick": 16,
-        "prev_team_id": 0,
-        "round": 1
-      },
-      {
-        "current_team_id": 19,
-        "pick": 17,
-        "prev_team_id": 19,
-        "round": 1
-      },
-      {
-        "current_team_id": 31,
-        "pick": 18,
-        "prev_team_id": 31,
-        "round": 1
-      },
-      {
-        "current_team_id": 24,
-        "pick": 19,
-        "prev_team_id": 24,
-        "round": 1
-      },
-      {
-        "current_team_id": 3,
-        "pick": 20,
-        "prev_team_id": 3,
-        "round": 1
-      },
-      {
-        "current_team_id": 1,
-        "pick": 21,
-        "prev_team_id": 1,
-        "round": 1
-      },
-      {
-        "current_team_id": 29,
-        "pick": 22,
-        "prev_team_id": 10,
-        "round": 1
-      },
-      {
-        "current_team_id": 27,
-        "pick": 23,
-        "prev_team_id": 27,
-        "round": 1
-      },
-      {
-        "current_team_id": 17,
-        "pick": 24,
-        "prev_team_id": 28,
-        "round": 1
-      },
-      {
-        "current_team_id": 14,
-        "pick": 25,
-        "prev_team_id": 14,
-        "round": 1
-      },
-      {
-        "current_team_id": 9,
-        "pick": 26,
-        "prev_team_id": 9,
-        "round": 1
-      },
-      {
-        "current_team_id": 7,
-        "pick": 27,
-        "prev_team_id": 7,
-        "round": 1
-      },
-      {
-        "current_team_id": 11,
-        "pick": 28,
-        "prev_team_id": 26,
-        "round": 1
-      },
-      {
-        "current_team_id": 12,
-        "pick": 29,
-        "prev_team_id": 12,
-        "round": 1
-      },
-      {
-        "current_team_id": 16,
-        "pick": 30,
-        "prev_team_id": 16,
-        "round": 1
-      },
-      {
-        "current_team_id": 30,
-        "pick": 31,
-        "prev_team_id": 30,
-        "round": 1
-      },
-      {
-        "current_team_id": 4,
-        "pick": 32,
-        "prev_team_id": 4,
-        "round": 1
-      }
-    ],
-    "2": [
-      {
-        "current_team_id": 2,
-        "pick": 33,
-        "prev_team_id": 2,
-        "round": 2
-      },
-      {
-        "current_team_id": 13,
-        "pick": 34,
-        "prev_team_id": 13,
-        "round": 2
-      },
-      {
-        "current_team_id": 29,
-        "pick": 35,
-        "prev_team_id": 29,
-        "round": 2
-      },
-      {
-        "current_team_id": 6,
-        "pick": 36,
-        "prev_team_id": 6,
-        "round": 2
-      },
-      {
-        "current_team_id": 22,
-        "pick": 37,
-        "prev_team_id": 22,
-        "round": 2
-      },
-      {
-        "current_team_id": 11,
-        "pick": 38,
-        "prev_team_id": 11,
-        "round": 2
-      },
-      {
-        "current_team_id": 15,
-        "pick": 39,
-        "prev_team_id": 15,
-        "round": 2
-      },
-      {
-        "current_team_id": 5,
-        "pick": 40,
-        "prev_team_id": 5,
-        "round": 2
-      },
-      {
-        "current_team_id": 21,
-        "pick": 41,
-        "prev_team_id": 21,
-        "round": 2
-      },
-      {
-        "current_team_id": 32,
-        "pick": 42,
-        "prev_team_id": 32,
-        "round": 2
-      },
-      {
-        "current_team_id": 25,
-        "pick": 43,
-        "prev_team_id": 25,
-        "round": 2
-      },
-      {
-        "current_team_id": 20,
-        "pick": 44,
-        "prev_team_id": 20,
-        "round": 2
-      },
-      {
-        "current_team_id": 18,
-        "pick": 45,
-        "prev_team_id": 18,
-        "round": 2
-      },
-      {
-        "current_team_id": 8,
-        "pick": 46,
-        "prev_team_id": 8,
-        "round": 2
-      },
-      {
-        "current_team_id": 23,
-        "pick": 47,
-        "prev_team_id": 23,
-        "round": 2
-      },
-      {
-        "current_team_id": 17,
-        "pick": 48,
-        "prev_team_id": 17,
-        "round": 2
-      },
-      {
-        "current_team_id": 19,
-        "pick": 49,
-        "prev_team_id": 19,
-        "round": 2
-      },
-      {
-        "current_team_id": 31,
-        "pick": 50,
-        "prev_team_id": 31,
-        "round": 2
-      },
-      {
-        "current_team_id": 24,
-        "pick": 51,
-        "prev_team_id": 24,
-        "round": 2
-      },
-      {
-        "current_team_id": 3,
-        "pick": 52,
-        "prev_team_id": 3,
-        "round": 2
-      },
-      {
-        "current_team_id": 1,
-        "pick": 53,
-        "prev_team_id": 1,
-        "round": 2
-      },
-      {
-        "current_team_id": 29,
-        "pick": 54,
-        "prev_team_id": 10,
-        "round": 2
-      },
-      {
-        "current_team_id": 27,
-        "pick": 55,
-        "prev_team_id": 27,
-        "round": 2
-      },
-      {
-        "current_team_id": 28,
-        "pick": 56,
-        "prev_team_id": 28,
-        "round": 2
-      },
-      {
-        "current_team_id": 14,
-        "pick": 57,
-        "prev_team_id": 14,
-        "round": 2
-      },
-      {
-        "current_team_id": 9,
-        "pick": 58,
-        "prev_team_id": 9,
-        "round": 2
-      },
-      {
-        "current_team_id": 7,
-        "pick": 59,
-        "prev_team_id": 7,
-        "round": 2
-      },
-      {
-        "current_team_id": 26,
-        "pick": 60,
-        "prev_team_id": 26,
-        "round": 2
-      },
-      {
-        "current_team_id": 12,
-        "pick": 61,
-        "prev_team_id": 12,
-        "round": 2
-      },
-      {
-        "current_team_id": 16,
-        "pick": 62,
-        "prev_team_id": 16,
-        "round": 2
-      },
-      {
-        "current_team_id": 30,
-        "pick": 63,
-        "prev_team_id": 30,
-        "round": 2
-      },
-      {
-        "current_team_id": 4,
-        "pick": 64,
-        "prev_team_id": 4,
-        "round": 2
-      }
-    ],
-    "3": [
-      {
-        "current_team_id": 2,
-        "pick": 65,
-        "prev_team_id": 2,
-        "round": 3
-      },
-      {
-        "current_team_id": 13,
-        "pick": 66,
-        "prev_team_id": 13,
-        "round": 3
-      },
-      {
-        "current_team_id": 29,
-        "pick": 67,
-        "prev_team_id": 29,
-        "round": 3
-      },
-      {
-        "current_team_id": 6,
-        "pick": 68,
-        "prev_team_id": 6,
-        "round": 3
-      },
-      {
-        "current_team_id": 22,
-        "pick": 69,
-        "prev_team_id": 22,
-        "round": 3
-      },
-      {
-        "current_team_id": 11,
-        "pick": 70,
-        "prev_team_id": 11,
-        "round": 3
-      },
-      {
-        "current_team_id": 15,
-        "pick": 71,
-        "prev_team_id": 15,
-        "round": 3
-      },
-      {
-        "current_team_id": 19,
-        "pick": 72,
-        "prev_team_id": 5,
-        "round": 3
-      },
-      {
-        "current_team_id": 21,
-        "pick": 73,
-        "prev_team_id": 21,
-        "round": 3
-      },
-      {
-        "current_team_id": 14,
-        "pick": 74,
-        "prev_team_id": 32,
-        "round": 3
-      },
-      {
-        "current_team_id": 25,
-        "pick": 75,
-        "prev_team_id": 25,
-        "round": 3
-      },
-      {
-        "current_team_id": 20,
-        "pick": 76,
-        "prev_team_id": 20,
-        "round": 3
-      },
-      {
-        "current_team_id": 18,
-        "pick": 77,
-        "prev_team_id": 18,
-        "round": 3
-      },
-      {
-        "current_team_id": 13,
-        "pick": 78,
-        "prev_team_id": 8,
-        "round": 3
-      },
-      {
-        "current_team_id": 23,
-        "pick": 79,
-        "prev_team_id": 23,
-        "round": 3
-      },
-      {
-        "current_team_id": 17,
-        "pick": 80,
-        "prev_team_id": 17,
-        "round": 3
-      },
-      {
-        "current_team_id": 17,
-        "pick": 81,
-        "prev_team_id": 19,
-        "round": 3
-      },
-      {
-        "current_team_id": 31,
-        "pick": 82,
-        "prev_team_id": 31,
-        "round": 3
-      },
-      {
-        "current_team_id": 24,
-        "pick": 83,
-        "prev_team_id": 24,
-        "round": 3
-      },
-      {
-        "current_team_id": 3,
-        "pick": 84,
-        "prev_team_id": 3,
-        "round": 3
-      },
-      {
-        "current_team_id": 1,
-        "pick": 85,
-        "prev_team_id": 1,
-        "round": 3
-      },
-      {
-        "current_team_id": 10,
-        "pick": 86,
-        "prev_team_id": 10,
-        "round": 3
-      },
-      {
-        "current_team_id": 27,
-        "pick": 87,
-        "prev_team_id": 27,
-        "round": 3
-      },
-      {
-        "current_team_id": 28,
-        "pick": 88,
-        "prev_team_id": 28,
-        "round": 3
-      },
-      {
-        "current_team_id": 10,
-        "pick": 89,
-        "prev_team_id": 14,
-        "round": 3
-      },
-      {
-        "current_team_id": 9,
-        "pick": 90,
-        "prev_team_id": 9,
-        "round": 3
-      },
-      {
-        "current_team_id": 7,
-        "pick": 91,
-        "prev_team_id": 7,
-        "round": 3
-      },
-      {
-        "current_team_id": 26,
-        "pick": 92,
-        "prev_team_id": 26,
-        "round": 3
-      },
-      {
-        "current_team_id": 12,
-        "pick": 93,
-        "prev_team_id": 12,
-        "round": 3
-      },
-      {
-        "current_team_id": 16,
-        "pick": 94,
-        "prev_team_id": 16,
-        "round": 3
-      },
-      {
-        "current_team_id": 30,
-        "pick": 95,
-        "prev_team_id": 30,
-        "round": 3
-      },
-      {
-        "current_team_id": 4,
-        "pick": 96,
-        "prev_team_id": 4,
-        "round": 3
-      }
-    ],
-    "4": [
-      {
-        "current_team_id": 2,
-        "pick": 97,
-        "prev_team_id": 2,
-        "round": 4
-      },
-      {
-        "current_team_id": 13,
-        "pick": 98,
-        "prev_team_id": 13,
-        "round": 4
-      },
-      {
-        "current_team_id": 29,
-        "pick": 99,
-        "prev_team_id": 29,
-        "round": 4
-      },
-      {
-        "current_team_id": 6,
-        "pick": 100,
-        "prev_team_id": 6,
-        "round": 4
-      },
-      {
-        "current_team_id": 22,
-        "pick": 101,
-        "prev_team_id": 22,
-        "round": 4
-      },
-      {
-        "current_team_id": 11,
-        "pick": 102,
-        "prev_team_id": 11,
-        "round": 4
-      },
-      {
-        "current_team_id": 15,
-        "pick": 103,
-        "prev_team_id": 15,
-        "round": 4
-      },
-      {
-        "current_team_id": 5,
-        "pick": 104,
-        "prev_team_id": 5,
-        "round": 4
-      },
-      {
-        "current_team_id": 21,
-        "pick": 105,
-        "prev_team_id": 21,
-        "round": 4
-      },
-      {
-        "current_team_id": 32,
-        "pick": 106,
-        "prev_team_id": 32,
-        "round": 4
-      },
-      {
-        "current_team_id": 25,
-        "pick": 107,
-        "prev_team_id": 25,
-        "round": 4
-      },
-      {
-        "current_team_id": 20,
-        "pick": 108,
-        "prev_team_id": 20,
-        "round": 4
-      },
-      {
-        "current_team_id": 8,
-        "pick": 109,
-        "prev_team_id": 18,
-        "round": 4
-      },
-      {
-        "current_team_id": 8,
-        "pick": 110,
-        "prev_team_id": 8,
-        "round": 4
-      },
-      {
-        "current_team_id": 23,
-        "pick": 111,
-        "prev_team_id": 23,
-        "round": 4
-      },
-      {
-        "current_team_id": 16,
-        "pick": 112,
-        "prev_team_id": 17,
-        "round": 4
-      },
-      {
-        "current_team_id": 19,
-        "pick": 113,
-        "prev_team_id": 19,
-        "round": 4
-      },
-      {
-        "current_team_id": 2,
-        "pick": 114,
-        "prev_team_id": 31,
-        "round": 4
-      },
-      {
-        "current_team_id": 24,
-        "pick": 115,
-        "prev_team_id": 24,
-        "round": 4
-      },
-      {
-        "current_team_id": 3,
-        "pick": 116,
-        "prev_team_id": 3,
-        "round": 4
-      },
-      {
-        "current_team_id": 1,
-        "pick": 117,
-        "prev_team_id": 1,
-        "round": 4
-      },
-      {
-        "current_team_id": 10,
-        "pick": 118,
-        "prev_team_id": 10,
-        "round": 4
-      },
-      {
-        "current_team_id": 27,
-        "pick": 119,
-        "prev_team_id": 27,
-        "round": 4
-      },
-      {
-        "current_team_id": 28,
-        "pick": 120,
-        "prev_team_id": 28,
-        "round": 4
-      },
-      {
-        "current_team_id": 14,
-        "pick": 121,
-        "prev_team_id": 14,
-        "round": 4
-      },
-      {
-        "current_team_id": 9,
-        "pick": 122,
-        "prev_team_id": 9,
-        "round": 4
-      },
-      {
-        "current_team_id": 7,
-        "pick": 123,
-        "prev_team_id": 7,
-        "round": 4
-      },
-      {
-        "current_team_id": 19,
-        "pick": 124,
-        "prev_team_id": 26,
-        "round": 4
-      },
-      {
-        "current_team_id": 12,
-        "pick": 125,
-        "prev_team_id": 12,
-        "round": 4
-      },
-      {
-        "current_team_id": 16,
-        "pick": 126,
-        "prev_team_id": 16,
-        "round": 4
-      },
-      {
-        "current_team_id": 15,
-        "pick": 127,
-        "prev_team_id": 30,
-        "round": 4
-      },
-      {
-        "current_team_id": 4,
-        "pick": 128,
-        "prev_team_id": 4,
-        "round": 4
-      }
-    ],
-    "5": [
-      {
-        "current_team_id": 2,
-        "pick": 129,
-        "prev_team_id": 2,
-        "round": 5
-      },
-      {
-        "current_team_id": 13,
-        "pick": 130,
-        "prev_team_id": 13,
-        "round": 5
-      },
-      {
-        "current_team_id": 29,
-        "pick": 131,
-        "prev_team_id": 29,
-        "round": 5
-      },
-      {
-        "current_team_id": 6,
-        "pick": 132,
-        "prev_team_id": 6,
-        "round": 5
-      },
-      {
-        "current_team_id": 22,
-        "pick": 133,
-        "prev_team_id": 22,
-        "round": 5
-      },
-      {
-        "current_team_id": 11,
-        "pick": 134,
-        "prev_team_id": 11,
-        "round": 5
-      },
-      {
-        "current_team_id": 15,
-        "pick": 135,
-        "prev_team_id": 15,
-        "round": 5
-      },
-      {
-        "current_team_id": 5,
-        "pick": 136,
-        "prev_team_id": 5,
-        "round": 5
-      },
-      {
-        "current_team_id": 21,
-        "pick": 137,
-        "prev_team_id": 21,
-        "round": 5
-      },
-      {
-        "current_team_id": 32,
-        "pick": 138,
-        "prev_team_id": 32,
-        "round": 5
-      },
-      {
-        "current_team_id": 29,
-        "pick": 139,
-        "prev_team_id": 25,
-        "round": 5
-      },
-      {
-        "current_team_id": 20,
-        "pick": 140,
-        "prev_team_id": 20,
-        "round": 5
-      },
-      {
-        "current_team_id": 18,
-        "pick": 141,
-        "prev_team_id": 18,
-        "round": 5
-      },
-      {
-        "current_team_id": 8,
-        "pick": 142,
-        "prev_team_id": 8,
-        "round": 5
-      },
-      {
-        "current_team_id": 23,
-        "pick": 143,
-        "prev_team_id": 23,
-        "round": 5
-      },
-      {
-        "current_team_id": 17,
-        "pick": 144,
-        "prev_team_id": 17,
-        "round": 5
-      },
-      {
-        "current_team_id": 3,
-        "pick": 145,
-        "prev_team_id": 19,
-        "round": 5
-      },
-      {
-        "current_team_id": 31,
-        "pick": 146,
-        "prev_team_id": 31,
-        "round": 5
-      },
-      {
-        "current_team_id": 24,
-        "pick": 147,
-        "prev_team_id": 24,
-        "round": 5
-      },
-      {
-        "current_team_id": 3,
-        "pick": 148,
-        "prev_team_id": 3,
-        "round": 5
-      },
-      {
-        "current_team_id": 1,
-        "pick": 149,
-        "prev_team_id": 1,
-        "round": 5
-      },
-      {
-        "current_team_id": 10,
-        "pick": 150,
-        "prev_team_id": 10,
-        "round": 5
-      },
-      {
-        "current_team_id": 27,
-        "pick": 151,
-        "prev_team_id": 27,
-        "round": 5
-      },
-      {
-        "current_team_id": 28,
-        "pick": 152,
-        "prev_team_id": 28,
-        "round": 5
-      },
-      {
-        "current_team_id": 14,
-        "pick": 153,
-        "prev_team_id": 14,
-        "round": 5
-      },
-      {
-        "current_team_id": 9,
-        "pick": 154,
-        "prev_team_id": 9,
-        "round": 5
-      },
-      {
-        "current_team_id": 7,
-        "pick": 155,
-        "prev_team_id": 7,
-        "round": 5
-      },
-      {
-        "current_team_id": 26,
-        "pick": 156,
-        "prev_team_id": 26,
-        "round": 5
-      },
-      {
-        "current_team_id": 12,
-        "pick": 157,
-        "prev_team_id": 12,
-        "round": 5
-      },
-      {
-        "current_team_id": 16,
-        "pick": 158,
-        "prev_team_id": 16,
-        "round": 5
-      },
-      {
-        "current_team_id": 30,
-        "pick": 159,
-        "prev_team_id": 30,
-        "round": 5
-      },
-      {
-        "current_team_id": 4,
-        "pick": 160,
-        "prev_team_id": 4,
-        "round": 5
-      }
-    ],
-    "6": [
-      {
-        "current_team_id": 31,
-        "pick": 161,
-        "prev_team_id": 2,
-        "round": 6
-      },
-      {
-        "current_team_id": 22,
-        "pick": 162,
-        "prev_team_id": 13,
-        "round": 6
-      },
-      {
-        "current_team_id": 29,
-        "pick": 163,
-        "prev_team_id": 29,
-        "round": 6
-      },
-      {
-        "current_team_id": 17,
-        "pick": 164,
-        "prev_team_id": 6,
-        "round": 6
-      },
-      {
-        "current_team_id": 22,
-        "pick": 165,
-        "prev_team_id": 22,
-        "round": 6
-      },
-      {
-        "current_team_id": 11,
-        "pick": 166,
-        "prev_team_id": 11,
-        "round": 6
-      },
-      {
-        "current_team_id": 15,
-        "pick": 167,
-        "prev_team_id": 15,
-        "round": 6
-      },
-      {
-        "current_team_id": 19,
-        "pick": 168,
-        "prev_team_id": 5,
-        "round": 6
-      },
-      {
-        "current_team_id": 13,
-        "pick": 169,
-        "prev_team_id": 21,
-        "round": 6
-      },
-      {
-        "current_team_id": 32,
-        "pick": 170,
-        "prev_team_id": 32,
-        "round": 6
-      },
-      {
-        "current_team_id": 25,
-        "pick": 171,
-        "prev_team_id": 25,
-        "round": 6
-      },
-      {
-        "current_team_id": 13,
-        "pick": 172,
-        "prev_team_id": 20,
-        "round": 6
-      },
-      {
-        "current_team_id": 18,
-        "pick": 173,
-        "prev_team_id": 18,
-        "round": 6
-      },
-      {
-        "current_team_id": 8,
-        "pick": 174,
-        "prev_team_id": 8,
-        "round": 6
-      },
-      {
-        "current_team_id": 23,
-        "pick": 175,
-        "prev_team_id": 23,
-        "round": 6
-      },
-      {
-        "current_team_id": 16,
-        "pick": 176,
-        "prev_team_id": 17,
-        "round": 6
-      },
-      {
-        "current_team_id": 19,
-        "pick": 177,
-        "prev_team_id": 19,
-        "round": 6
-      },
-      {
-        "current_team_id": 26,
-        "pick": 178,
-        "prev_team_id": 31,
-        "round": 6
-      },
-      {
-        "current_team_id": 15,
-        "pick": 179,
-        "prev_team_id": 24,
-        "round": 6
-      },
-      {
-        "current_team_id": 3,
-        "pick": 180,
-        "prev_team_id": 3,
-        "round": 6
-      },
-      {
-        "current_team_id": 1,
-        "pick": 181,
-        "prev_team_id": 1,
-        "round": 6
-      },
-      {
-        "current_team_id": 11,
-        "pick": 182,
-        "prev_team_id": 10,
-        "round": 6
-      },
-      {
-        "current_team_id": 27,
-        "pick": 183,
-        "prev_team_id": 27,
-        "round": 6
-      },
-      {
-        "current_team_id": 13,
-        "pick": 184,
-        "prev_team_id": 28,
-        "round": 6
-      },
-      {
-        "current_team_id": 14,
-        "pick": 185,
-        "prev_team_id": 14,
-        "round": 6
-      },
-      {
-        "current_team_id": 9,
-        "pick": 186,
-        "prev_team_id": 9,
-        "round": 6
-      },
-      {
-        "current_team_id": 7,
-        "pick": 187,
-        "prev_team_id": 7,
-        "round": 6
-      },
-      {
-        "current_team_id": 26,
-        "pick": 188,
-        "prev_team_id": 26,
-        "round": 6
-      },
-      {
-        "current_team_id": 26,
-        "pick": 189,
-        "prev_team_id": 12,
-        "round": 6
-      },
-      {
-        "current_team_id": 16,
-        "pick": 190,
-        "prev_team_id": 16,
-        "round": 6
-      },
-      {
-        "current_team_id": 30,
-        "pick": 191,
-        "prev_team_id": 30,
-        "round": 6
-      },
-      {
-        "current_team_id": 4,
-        "pick": 192,
-        "prev_team_id": 4,
-        "round": 6
-      }
-    ],
-    "7": [
-      {
-        "current_team_id": 2,
-        "pick": 193,
-        "prev_team_id": 2,
-        "round": 7
-      },
-      {
-        "current_team_id": 13,
-        "pick": 194,
-        "prev_team_id": 13,
-        "round": 7
-      },
-      {
-        "current_team_id": 13,
-        "pick": 195,
-        "prev_team_id": 29,
-        "round": 7
-      },
-      {
-        "current_team_id": 6,
-        "pick": 196,
-        "prev_team_id": 6,
-        "round": 7
-      },
-      {
-        "current_team_id": 30,
-        "pick": 197,
-        "prev_team_id": 22,
-        "round": 7
-      },
-      {
-        "current_team_id": 12,
-        "pick": 198,
-        "prev_team_id": 11,
-        "round": 7
-      },
-      {
-        "current_team_id": 15,
-        "pick": 199,
-        "prev_team_id": 15,
-        "round": 7
-      },
-      {
-        "current_team_id": 5,
-        "pick": 200,
-        "prev_team_id": 5,
-        "round": 7
-      },
-      {
-        "current_team_id": 21,
-        "pick": 201,
-        "prev_team_id": 21,
-        "round": 7
-      },
-      {
-        "current_team_id": 32,
-        "pick": 202,
-        "prev_team_id": 32,
-        "round": 7
-      },
-      {
-        "current_team_id": 25,
-        "pick": 203,
-        "prev_team_id": 25,
-        "round": 7
-      },
-      {
-        "current_team_id": 20,
-        "pick": 204,
-        "prev_team_id": 20,
-        "round": 7
-      },
-      {
-        "current_team_id": 10,
-        "pick": 205,
-        "prev_team_id": 18,
-        "round": 7
-      },
-      {
-        "current_team_id": 8,
-        "pick": 206,
-        "prev_team_id": 8,
-        "round": 7
-      },
-      {
-        "current_team_id": 23,
-        "pick": 207,
-        "prev_team_id": 23,
-        "round": 7
-      },
-      {
-        "current_team_id": 17,
-        "pick": 208,
-        "prev_team_id": 17,
-        "round": 7
-      },
-      {
-        "current_team_id": 19,
-        "pick": 209,
-        "prev_team_id": 19,
-        "round": 7
-      },
-      {
-        "current_team_id": 31,
-        "pick": 210,
-        "prev_team_id": 31,
-        "round": 7
-      },
-      {
-        "current_team_id": 24,
-        "pick": 211,
-        "prev_team_id": 24,
-        "round": 7
-      },
-      {
-        "current_team_id": 21,
-        "pick": 212,
-        "prev_team_id": 3,
-        "round": 7
-      },
-      {
-        "current_team_id": 1,
-        "pick": 213,
-        "prev_team_id": 1,
-        "round": 7
-      },
-      {
-        "current_team_id": 28,
-        "pick": 214,
-        "prev_team_id": 10,
-        "round": 7
-      },
-      {
-        "current_team_id": 27,
-        "pick": 215,
-        "prev_team_id": 27,
-        "round": 7
-      },
-      {
-        "current_team_id": 28,
-        "pick": 216,
-        "prev_team_id": 28,
-        "round": 7
-      },
-      {
-        "current_team_id": 14,
-        "pick": 217,
-        "prev_team_id": 14,
-        "round": 7
-      },
-      {
-        "current_team_id": 9,
-        "pick": 218,
-        "prev_team_id": 9,
-        "round": 7
-      },
-      {
-        "current_team_id": 7,
-        "pick": 219,
-        "prev_team_id": 7,
-        "round": 7
-      },
-      {
-        "current_team_id": 26,
-        "pick": 220,
-        "prev_team_id": 26,
-        "round": 7
-      },
-      {
-        "current_team_id": 12,
-        "pick": 221,
-        "prev_team_id": 12,
-        "round": 7
-      },
-      {
-        "current_team_id": 16,
-        "pick": 222,
-        "prev_team_id": 16,
-        "round": 7
-      },
-      {
-        "current_team_id": 30,
-        "pick": 223,
-        "prev_team_id": 30,
-        "round": 7
-      },
-      {
-        "current_team_id": 4,
-        "pick": 224,
-        "prev_team_id": 4,
-        "round": 7
-      }
-    ]
-  }
+  "1": [
+    {
+      "current_team_id": 2,
+      "pick": 1,
+      "prev_team_id": 2,
+      "round": 1
+    },
+    {
+      "current_team_id": 13,
+      "pick": 2,
+      "prev_team_id": 13,
+      "round": 1
+    },
+    {
+      "current_team_id": 29,
+      "pick": 3,
+      "prev_team_id": 29,
+      "round": 1
+    },
+    {
+      "current_team_id": 6,
+      "pick": 4,
+      "prev_team_id": 6,
+      "round": 1
+    },
+    {
+      "current_team_id": 22,
+      "pick": 5,
+      "prev_team_id": 22,
+      "round": 1
+    },
+    {
+      "current_team_id": 11,
+      "pick": 6,
+      "prev_team_id": 11,
+      "round": 1
+    },
+    {
+      "current_team_id": 15,
+      "pick": 7,
+      "prev_team_id": 15,
+      "round": 1
+    },
+    {
+      "current_team_id": 5,
+      "pick": 8,
+      "prev_team_id": 5,
+      "round": 1
+    },
+    {
+      "current_team_id": 21,
+      "pick": 9,
+      "prev_team_id": 21,
+      "round": 1
+    },
+    {
+      "current_team_id": 32,
+      "pick": 10,
+      "prev_team_id": 32,
+      "round": 1
+    },
+    {
+      "current_team_id": 25,
+      "pick": 11,
+      "prev_team_id": 25,
+      "round": 1
+    },
+    {
+      "current_team_id": 24,
+      "pick": 12,
+      "prev_team_id": 20,
+      "round": 1
+    },
+    {
+      "current_team_id": 18,
+      "pick": 13,
+      "prev_team_id": 18,
+      "round": 1
+    },
+    {
+      "current_team_id": 13,
+      "pick": 14,
+      "prev_team_id": 8,
+      "round": 1
+    },
+    {
+      "current_team_id": 23,
+      "pick": 15,
+      "prev_team_id": 23,
+      "round": 1
+    },
+    {
+      "current_team_id": 17,
+      "pick": 16,
+      "prev_team_id": 0,
+      "round": 1
+    },
+    {
+      "current_team_id": 19,
+      "pick": 17,
+      "prev_team_id": 19,
+      "round": 1
+    },
+    {
+      "current_team_id": 31,
+      "pick": 18,
+      "prev_team_id": 31,
+      "round": 1
+    },
+    {
+      "current_team_id": 24,
+      "pick": 19,
+      "prev_team_id": 24,
+      "round": 1
+    },
+    {
+      "current_team_id": 3,
+      "pick": 20,
+      "prev_team_id": 3,
+      "round": 1
+    },
+    {
+      "current_team_id": 1,
+      "pick": 21,
+      "prev_team_id": 1,
+      "round": 1
+    },
+    {
+      "current_team_id": 29,
+      "pick": 22,
+      "prev_team_id": 10,
+      "round": 1
+    },
+    {
+      "current_team_id": 27,
+      "pick": 23,
+      "prev_team_id": 27,
+      "round": 1
+    },
+    {
+      "current_team_id": 17,
+      "pick": 24,
+      "prev_team_id": 28,
+      "round": 1
+    },
+    {
+      "current_team_id": 14,
+      "pick": 25,
+      "prev_team_id": 14,
+      "round": 1
+    },
+    {
+      "current_team_id": 9,
+      "pick": 26,
+      "prev_team_id": 9,
+      "round": 1
+    },
+    {
+      "current_team_id": 7,
+      "pick": 27,
+      "prev_team_id": 7,
+      "round": 1
+    },
+    {
+      "current_team_id": 11,
+      "pick": 28,
+      "prev_team_id": 26,
+      "round": 1
+    },
+    {
+      "current_team_id": 12,
+      "pick": 29,
+      "prev_team_id": 12,
+      "round": 1
+    },
+    {
+      "current_team_id": 16,
+      "pick": 30,
+      "prev_team_id": 16,
+      "round": 1
+    },
+    {
+      "current_team_id": 30,
+      "pick": 31,
+      "prev_team_id": 30,
+      "round": 1
+    },
+    {
+      "current_team_id": 4,
+      "pick": 32,
+      "prev_team_id": 4,
+      "round": 1
+    }
+  ],
+  "2": [
+    {
+      "current_team_id": 2,
+      "pick": 33,
+      "prev_team_id": 2,
+      "round": 2
+    },
+    {
+      "current_team_id": 13,
+      "pick": 34,
+      "prev_team_id": 13,
+      "round": 2
+    },
+    {
+      "current_team_id": 29,
+      "pick": 35,
+      "prev_team_id": 29,
+      "round": 2
+    },
+    {
+      "current_team_id": 6,
+      "pick": 36,
+      "prev_team_id": 6,
+      "round": 2
+    },
+    {
+      "current_team_id": 22,
+      "pick": 37,
+      "prev_team_id": 22,
+      "round": 2
+    },
+    {
+      "current_team_id": 11,
+      "pick": 38,
+      "prev_team_id": 11,
+      "round": 2
+    },
+    {
+      "current_team_id": 15,
+      "pick": 39,
+      "prev_team_id": 15,
+      "round": 2
+    },
+    {
+      "current_team_id": 5,
+      "pick": 40,
+      "prev_team_id": 5,
+      "round": 2
+    },
+    {
+      "current_team_id": 21,
+      "pick": 41,
+      "prev_team_id": 21,
+      "round": 2
+    },
+    {
+      "current_team_id": 32,
+      "pick": 42,
+      "prev_team_id": 32,
+      "round": 2
+    },
+    {
+      "current_team_id": 25,
+      "pick": 43,
+      "prev_team_id": 25,
+      "round": 2
+    },
+    {
+      "current_team_id": 20,
+      "pick": 44,
+      "prev_team_id": 20,
+      "round": 2
+    },
+    {
+      "current_team_id": 18,
+      "pick": 45,
+      "prev_team_id": 18,
+      "round": 2
+    },
+    {
+      "current_team_id": 8,
+      "pick": 46,
+      "prev_team_id": 8,
+      "round": 2
+    },
+    {
+      "current_team_id": 23,
+      "pick": 47,
+      "prev_team_id": 23,
+      "round": 2
+    },
+    {
+      "current_team_id": 17,
+      "pick": 48,
+      "prev_team_id": 17,
+      "round": 2
+    },
+    {
+      "current_team_id": 19,
+      "pick": 49,
+      "prev_team_id": 19,
+      "round": 2
+    },
+    {
+      "current_team_id": 31,
+      "pick": 50,
+      "prev_team_id": 31,
+      "round": 2
+    },
+    {
+      "current_team_id": 24,
+      "pick": 51,
+      "prev_team_id": 24,
+      "round": 2
+    },
+    {
+      "current_team_id": 3,
+      "pick": 52,
+      "prev_team_id": 3,
+      "round": 2
+    },
+    {
+      "current_team_id": 1,
+      "pick": 53,
+      "prev_team_id": 1,
+      "round": 2
+    },
+    {
+      "current_team_id": 29,
+      "pick": 54,
+      "prev_team_id": 10,
+      "round": 2
+    },
+    {
+      "current_team_id": 27,
+      "pick": 55,
+      "prev_team_id": 27,
+      "round": 2
+    },
+    {
+      "current_team_id": 28,
+      "pick": 56,
+      "prev_team_id": 28,
+      "round": 2
+    },
+    {
+      "current_team_id": 14,
+      "pick": 57,
+      "prev_team_id": 14,
+      "round": 2
+    },
+    {
+      "current_team_id": 9,
+      "pick": 58,
+      "prev_team_id": 9,
+      "round": 2
+    },
+    {
+      "current_team_id": 7,
+      "pick": 59,
+      "prev_team_id": 7,
+      "round": 2
+    },
+    {
+      "current_team_id": 26,
+      "pick": 60,
+      "prev_team_id": 26,
+      "round": 2
+    },
+    {
+      "current_team_id": 12,
+      "pick": 61,
+      "prev_team_id": 12,
+      "round": 2
+    },
+    {
+      "current_team_id": 16,
+      "pick": 62,
+      "prev_team_id": 16,
+      "round": 2
+    },
+    {
+      "current_team_id": 30,
+      "pick": 63,
+      "prev_team_id": 30,
+      "round": 2
+    },
+    {
+      "current_team_id": 4,
+      "pick": 64,
+      "prev_team_id": 4,
+      "round": 2
+    }
+  ],
+  "3": [
+    {
+      "current_team_id": 2,
+      "pick": 65,
+      "prev_team_id": 2,
+      "round": 3
+    },
+    {
+      "current_team_id": 13,
+      "pick": 66,
+      "prev_team_id": 13,
+      "round": 3
+    },
+    {
+      "current_team_id": 29,
+      "pick": 67,
+      "prev_team_id": 29,
+      "round": 3
+    },
+    {
+      "current_team_id": 6,
+      "pick": 68,
+      "prev_team_id": 6,
+      "round": 3
+    },
+    {
+      "current_team_id": 22,
+      "pick": 69,
+      "prev_team_id": 22,
+      "round": 3
+    },
+    {
+      "current_team_id": 11,
+      "pick": 70,
+      "prev_team_id": 11,
+      "round": 3
+    },
+    {
+      "current_team_id": 15,
+      "pick": 71,
+      "prev_team_id": 15,
+      "round": 3
+    },
+    {
+      "current_team_id": 19,
+      "pick": 72,
+      "prev_team_id": 5,
+      "round": 3
+    },
+    {
+      "current_team_id": 21,
+      "pick": 73,
+      "prev_team_id": 21,
+      "round": 3
+    },
+    {
+      "current_team_id": 14,
+      "pick": 74,
+      "prev_team_id": 32,
+      "round": 3
+    },
+    {
+      "current_team_id": 25,
+      "pick": 75,
+      "prev_team_id": 25,
+      "round": 3
+    },
+    {
+      "current_team_id": 20,
+      "pick": 76,
+      "prev_team_id": 20,
+      "round": 3
+    },
+    {
+      "current_team_id": 18,
+      "pick": 77,
+      "prev_team_id": 18,
+      "round": 3
+    },
+    {
+      "current_team_id": 13,
+      "pick": 78,
+      "prev_team_id": 8,
+      "round": 3
+    },
+    {
+      "current_team_id": 23,
+      "pick": 79,
+      "prev_team_id": 23,
+      "round": 3
+    },
+    {
+      "current_team_id": 17,
+      "pick": 80,
+      "prev_team_id": 17,
+      "round": 3
+    },
+    {
+      "current_team_id": 17,
+      "pick": 81,
+      "prev_team_id": 19,
+      "round": 3
+    },
+    {
+      "current_team_id": 31,
+      "pick": 82,
+      "prev_team_id": 31,
+      "round": 3
+    },
+    {
+      "current_team_id": 24,
+      "pick": 83,
+      "prev_team_id": 24,
+      "round": 3
+    },
+    {
+      "current_team_id": 3,
+      "pick": 84,
+      "prev_team_id": 3,
+      "round": 3
+    },
+    {
+      "current_team_id": 1,
+      "pick": 85,
+      "prev_team_id": 1,
+      "round": 3
+    },
+    {
+      "current_team_id": 10,
+      "pick": 86,
+      "prev_team_id": 10,
+      "round": 3
+    },
+    {
+      "current_team_id": 27,
+      "pick": 87,
+      "prev_team_id": 27,
+      "round": 3
+    },
+    {
+      "current_team_id": 28,
+      "pick": 88,
+      "prev_team_id": 28,
+      "round": 3
+    },
+    {
+      "current_team_id": 10,
+      "pick": 89,
+      "prev_team_id": 14,
+      "round": 3
+    },
+    {
+      "current_team_id": 9,
+      "pick": 90,
+      "prev_team_id": 9,
+      "round": 3
+    },
+    {
+      "current_team_id": 7,
+      "pick": 91,
+      "prev_team_id": 7,
+      "round": 3
+    },
+    {
+      "current_team_id": 26,
+      "pick": 92,
+      "prev_team_id": 26,
+      "round": 3
+    },
+    {
+      "current_team_id": 12,
+      "pick": 93,
+      "prev_team_id": 12,
+      "round": 3
+    },
+    {
+      "current_team_id": 16,
+      "pick": 94,
+      "prev_team_id": 16,
+      "round": 3
+    },
+    {
+      "current_team_id": 30,
+      "pick": 95,
+      "prev_team_id": 30,
+      "round": 3
+    },
+    {
+      "current_team_id": 4,
+      "pick": 96,
+      "prev_team_id": 4,
+      "round": 3
+    }
+  ],
+  "4": [
+    {
+      "current_team_id": 2,
+      "pick": 97,
+      "prev_team_id": 2,
+      "round": 4
+    },
+    {
+      "current_team_id": 13,
+      "pick": 98,
+      "prev_team_id": 13,
+      "round": 4
+    },
+    {
+      "current_team_id": 29,
+      "pick": 99,
+      "prev_team_id": 29,
+      "round": 4
+    },
+    {
+      "current_team_id": 6,
+      "pick": 100,
+      "prev_team_id": 6,
+      "round": 4
+    },
+    {
+      "current_team_id": 22,
+      "pick": 101,
+      "prev_team_id": 22,
+      "round": 4
+    },
+    {
+      "current_team_id": 11,
+      "pick": 102,
+      "prev_team_id": 11,
+      "round": 4
+    },
+    {
+      "current_team_id": 15,
+      "pick": 103,
+      "prev_team_id": 15,
+      "round": 4
+    },
+    {
+      "current_team_id": 5,
+      "pick": 104,
+      "prev_team_id": 5,
+      "round": 4
+    },
+    {
+      "current_team_id": 21,
+      "pick": 105,
+      "prev_team_id": 21,
+      "round": 4
+    },
+    {
+      "current_team_id": 32,
+      "pick": 106,
+      "prev_team_id": 32,
+      "round": 4
+    },
+    {
+      "current_team_id": 25,
+      "pick": 107,
+      "prev_team_id": 25,
+      "round": 4
+    },
+    {
+      "current_team_id": 20,
+      "pick": 108,
+      "prev_team_id": 20,
+      "round": 4
+    },
+    {
+      "current_team_id": 8,
+      "pick": 109,
+      "prev_team_id": 18,
+      "round": 4
+    },
+    {
+      "current_team_id": 8,
+      "pick": 110,
+      "prev_team_id": 8,
+      "round": 4
+    },
+    {
+      "current_team_id": 23,
+      "pick": 111,
+      "prev_team_id": 23,
+      "round": 4
+    },
+    {
+      "current_team_id": 16,
+      "pick": 112,
+      "prev_team_id": 17,
+      "round": 4
+    },
+    {
+      "current_team_id": 19,
+      "pick": 113,
+      "prev_team_id": 19,
+      "round": 4
+    },
+    {
+      "current_team_id": 2,
+      "pick": 114,
+      "prev_team_id": 31,
+      "round": 4
+    },
+    {
+      "current_team_id": 24,
+      "pick": 115,
+      "prev_team_id": 24,
+      "round": 4
+    },
+    {
+      "current_team_id": 3,
+      "pick": 116,
+      "prev_team_id": 3,
+      "round": 4
+    },
+    {
+      "current_team_id": 1,
+      "pick": 117,
+      "prev_team_id": 1,
+      "round": 4
+    },
+    {
+      "current_team_id": 10,
+      "pick": 118,
+      "prev_team_id": 10,
+      "round": 4
+    },
+    {
+      "current_team_id": 27,
+      "pick": 119,
+      "prev_team_id": 27,
+      "round": 4
+    },
+    {
+      "current_team_id": 28,
+      "pick": 120,
+      "prev_team_id": 28,
+      "round": 4
+    },
+    {
+      "current_team_id": 14,
+      "pick": 121,
+      "prev_team_id": 14,
+      "round": 4
+    },
+    {
+      "current_team_id": 9,
+      "pick": 122,
+      "prev_team_id": 9,
+      "round": 4
+    },
+    {
+      "current_team_id": 7,
+      "pick": 123,
+      "prev_team_id": 7,
+      "round": 4
+    },
+    {
+      "current_team_id": 19,
+      "pick": 124,
+      "prev_team_id": 26,
+      "round": 4
+    },
+    {
+      "current_team_id": 12,
+      "pick": 125,
+      "prev_team_id": 12,
+      "round": 4
+    },
+    {
+      "current_team_id": 16,
+      "pick": 126,
+      "prev_team_id": 16,
+      "round": 4
+    },
+    {
+      "current_team_id": 15,
+      "pick": 127,
+      "prev_team_id": 30,
+      "round": 4
+    },
+    {
+      "current_team_id": 4,
+      "pick": 128,
+      "prev_team_id": 4,
+      "round": 4
+    }
+  ],
+  "5": [
+    {
+      "current_team_id": 2,
+      "pick": 129,
+      "prev_team_id": 2,
+      "round": 5
+    },
+    {
+      "current_team_id": 13,
+      "pick": 130,
+      "prev_team_id": 13,
+      "round": 5
+    },
+    {
+      "current_team_id": 29,
+      "pick": 131,
+      "prev_team_id": 29,
+      "round": 5
+    },
+    {
+      "current_team_id": 6,
+      "pick": 132,
+      "prev_team_id": 6,
+      "round": 5
+    },
+    {
+      "current_team_id": 22,
+      "pick": 133,
+      "prev_team_id": 22,
+      "round": 5
+    },
+    {
+      "current_team_id": 11,
+      "pick": 134,
+      "prev_team_id": 11,
+      "round": 5
+    },
+    {
+      "current_team_id": 15,
+      "pick": 135,
+      "prev_team_id": 15,
+      "round": 5
+    },
+    {
+      "current_team_id": 5,
+      "pick": 136,
+      "prev_team_id": 5,
+      "round": 5
+    },
+    {
+      "current_team_id": 21,
+      "pick": 137,
+      "prev_team_id": 21,
+      "round": 5
+    },
+    {
+      "current_team_id": 32,
+      "pick": 138,
+      "prev_team_id": 32,
+      "round": 5
+    },
+    {
+      "current_team_id": 29,
+      "pick": 139,
+      "prev_team_id": 25,
+      "round": 5
+    },
+    {
+      "current_team_id": 20,
+      "pick": 140,
+      "prev_team_id": 20,
+      "round": 5
+    },
+    {
+      "current_team_id": 18,
+      "pick": 141,
+      "prev_team_id": 18,
+      "round": 5
+    },
+    {
+      "current_team_id": 8,
+      "pick": 142,
+      "prev_team_id": 8,
+      "round": 5
+    },
+    {
+      "current_team_id": 23,
+      "pick": 143,
+      "prev_team_id": 23,
+      "round": 5
+    },
+    {
+      "current_team_id": 17,
+      "pick": 144,
+      "prev_team_id": 17,
+      "round": 5
+    },
+    {
+      "current_team_id": 3,
+      "pick": 145,
+      "prev_team_id": 19,
+      "round": 5
+    },
+    {
+      "current_team_id": 31,
+      "pick": 146,
+      "prev_team_id": 31,
+      "round": 5
+    },
+    {
+      "current_team_id": 24,
+      "pick": 147,
+      "prev_team_id": 24,
+      "round": 5
+    },
+    {
+      "current_team_id": 3,
+      "pick": 148,
+      "prev_team_id": 3,
+      "round": 5
+    },
+    {
+      "current_team_id": 1,
+      "pick": 149,
+      "prev_team_id": 1,
+      "round": 5
+    },
+    {
+      "current_team_id": 10,
+      "pick": 150,
+      "prev_team_id": 10,
+      "round": 5
+    },
+    {
+      "current_team_id": 27,
+      "pick": 151,
+      "prev_team_id": 27,
+      "round": 5
+    },
+    {
+      "current_team_id": 28,
+      "pick": 152,
+      "prev_team_id": 28,
+      "round": 5
+    },
+    {
+      "current_team_id": 14,
+      "pick": 153,
+      "prev_team_id": 14,
+      "round": 5
+    },
+    {
+      "current_team_id": 9,
+      "pick": 154,
+      "prev_team_id": 9,
+      "round": 5
+    },
+    {
+      "current_team_id": 7,
+      "pick": 155,
+      "prev_team_id": 7,
+      "round": 5
+    },
+    {
+      "current_team_id": 26,
+      "pick": 156,
+      "prev_team_id": 26,
+      "round": 5
+    },
+    {
+      "current_team_id": 12,
+      "pick": 157,
+      "prev_team_id": 12,
+      "round": 5
+    },
+    {
+      "current_team_id": 16,
+      "pick": 158,
+      "prev_team_id": 16,
+      "round": 5
+    },
+    {
+      "current_team_id": 30,
+      "pick": 159,
+      "prev_team_id": 30,
+      "round": 5
+    },
+    {
+      "current_team_id": 4,
+      "pick": 160,
+      "prev_team_id": 4,
+      "round": 5
+    }
+  ],
+  "6": [
+    {
+      "current_team_id": 31,
+      "pick": 161,
+      "prev_team_id": 2,
+      "round": 6
+    },
+    {
+      "current_team_id": 22,
+      "pick": 162,
+      "prev_team_id": 13,
+      "round": 6
+    },
+    {
+      "current_team_id": 29,
+      "pick": 163,
+      "prev_team_id": 29,
+      "round": 6
+    },
+    {
+      "current_team_id": 17,
+      "pick": 164,
+      "prev_team_id": 6,
+      "round": 6
+    },
+    {
+      "current_team_id": 22,
+      "pick": 165,
+      "prev_team_id": 22,
+      "round": 6
+    },
+    {
+      "current_team_id": 11,
+      "pick": 166,
+      "prev_team_id": 11,
+      "round": 6
+    },
+    {
+      "current_team_id": 15,
+      "pick": 167,
+      "prev_team_id": 15,
+      "round": 6
+    },
+    {
+      "current_team_id": 19,
+      "pick": 168,
+      "prev_team_id": 5,
+      "round": 6
+    },
+    {
+      "current_team_id": 13,
+      "pick": 169,
+      "prev_team_id": 21,
+      "round": 6
+    },
+    {
+      "current_team_id": 32,
+      "pick": 170,
+      "prev_team_id": 32,
+      "round": 6
+    },
+    {
+      "current_team_id": 25,
+      "pick": 171,
+      "prev_team_id": 25,
+      "round": 6
+    },
+    {
+      "current_team_id": 13,
+      "pick": 172,
+      "prev_team_id": 20,
+      "round": 6
+    },
+    {
+      "current_team_id": 18,
+      "pick": 173,
+      "prev_team_id": 18,
+      "round": 6
+    },
+    {
+      "current_team_id": 8,
+      "pick": 174,
+      "prev_team_id": 8,
+      "round": 6
+    },
+    {
+      "current_team_id": 23,
+      "pick": 175,
+      "prev_team_id": 23,
+      "round": 6
+    },
+    {
+      "current_team_id": 16,
+      "pick": 176,
+      "prev_team_id": 17,
+      "round": 6
+    },
+    {
+      "current_team_id": 19,
+      "pick": 177,
+      "prev_team_id": 19,
+      "round": 6
+    },
+    {
+      "current_team_id": 26,
+      "pick": 178,
+      "prev_team_id": 31,
+      "round": 6
+    },
+    {
+      "current_team_id": 15,
+      "pick": 179,
+      "prev_team_id": 24,
+      "round": 6
+    },
+    {
+      "current_team_id": 3,
+      "pick": 180,
+      "prev_team_id": 3,
+      "round": 6
+    },
+    {
+      "current_team_id": 1,
+      "pick": 181,
+      "prev_team_id": 1,
+      "round": 6
+    },
+    {
+      "current_team_id": 11,
+      "pick": 182,
+      "prev_team_id": 10,
+      "round": 6
+    },
+    {
+      "current_team_id": 27,
+      "pick": 183,
+      "prev_team_id": 27,
+      "round": 6
+    },
+    {
+      "current_team_id": 13,
+      "pick": 184,
+      "prev_team_id": 28,
+      "round": 6
+    },
+    {
+      "current_team_id": 14,
+      "pick": 185,
+      "prev_team_id": 14,
+      "round": 6
+    },
+    {
+      "current_team_id": 9,
+      "pick": 186,
+      "prev_team_id": 9,
+      "round": 6
+    },
+    {
+      "current_team_id": 7,
+      "pick": 187,
+      "prev_team_id": 7,
+      "round": 6
+    },
+    {
+      "current_team_id": 26,
+      "pick": 188,
+      "prev_team_id": 26,
+      "round": 6
+    },
+    {
+      "current_team_id": 26,
+      "pick": 189,
+      "prev_team_id": 12,
+      "round": 6
+    },
+    {
+      "current_team_id": 16,
+      "pick": 190,
+      "prev_team_id": 16,
+      "round": 6
+    },
+    {
+      "current_team_id": 30,
+      "pick": 191,
+      "prev_team_id": 30,
+      "round": 6
+    },
+    {
+      "current_team_id": 4,
+      "pick": 192,
+      "prev_team_id": 4,
+      "round": 6
+    }
+  ],
+  "7": [
+    {
+      "current_team_id": 2,
+      "pick": 193,
+      "prev_team_id": 2,
+      "round": 7
+    },
+    {
+      "current_team_id": 13,
+      "pick": 194,
+      "prev_team_id": 13,
+      "round": 7
+    },
+    {
+      "current_team_id": 13,
+      "pick": 195,
+      "prev_team_id": 29,
+      "round": 7
+    },
+    {
+      "current_team_id": 6,
+      "pick": 196,
+      "prev_team_id": 6,
+      "round": 7
+    },
+    {
+      "current_team_id": 30,
+      "pick": 197,
+      "prev_team_id": 22,
+      "round": 7
+    },
+    {
+      "current_team_id": 12,
+      "pick": 198,
+      "prev_team_id": 11,
+      "round": 7
+    },
+    {
+      "current_team_id": 15,
+      "pick": 199,
+      "prev_team_id": 15,
+      "round": 7
+    },
+    {
+      "current_team_id": 5,
+      "pick": 200,
+      "prev_team_id": 5,
+      "round": 7
+    },
+    {
+      "current_team_id": 21,
+      "pick": 201,
+      "prev_team_id": 21,
+      "round": 7
+    },
+    {
+      "current_team_id": 32,
+      "pick": 202,
+      "prev_team_id": 32,
+      "round": 7
+    },
+    {
+      "current_team_id": 25,
+      "pick": 203,
+      "prev_team_id": 25,
+      "round": 7
+    },
+    {
+      "current_team_id": 20,
+      "pick": 204,
+      "prev_team_id": 20,
+      "round": 7
+    },
+    {
+      "current_team_id": 10,
+      "pick": 205,
+      "prev_team_id": 18,
+      "round": 7
+    },
+    {
+      "current_team_id": 8,
+      "pick": 206,
+      "prev_team_id": 8,
+      "round": 7
+    },
+    {
+      "current_team_id": 23,
+      "pick": 207,
+      "prev_team_id": 23,
+      "round": 7
+    },
+    {
+      "current_team_id": 17,
+      "pick": 208,
+      "prev_team_id": 17,
+      "round": 7
+    },
+    {
+      "current_team_id": 19,
+      "pick": 209,
+      "prev_team_id": 19,
+      "round": 7
+    },
+    {
+      "current_team_id": 31,
+      "pick": 210,
+      "prev_team_id": 31,
+      "round": 7
+    },
+    {
+      "current_team_id": 24,
+      "pick": 211,
+      "prev_team_id": 24,
+      "round": 7
+    },
+    {
+      "current_team_id": 21,
+      "pick": 212,
+      "prev_team_id": 3,
+      "round": 7
+    },
+    {
+      "current_team_id": 1,
+      "pick": 213,
+      "prev_team_id": 1,
+      "round": 7
+    },
+    {
+      "current_team_id": 28,
+      "pick": 214,
+      "prev_team_id": 10,
+      "round": 7
+    },
+    {
+      "current_team_id": 27,
+      "pick": 215,
+      "prev_team_id": 27,
+      "round": 7
+    },
+    {
+      "current_team_id": 28,
+      "pick": 216,
+      "prev_team_id": 28,
+      "round": 7
+    },
+    {
+      "current_team_id": 14,
+      "pick": 217,
+      "prev_team_id": 14,
+      "round": 7
+    },
+    {
+      "current_team_id": 9,
+      "pick": 218,
+      "prev_team_id": 9,
+      "round": 7
+    },
+    {
+      "current_team_id": 7,
+      "pick": 219,
+      "prev_team_id": 7,
+      "round": 7
+    },
+    {
+      "current_team_id": 26,
+      "pick": 220,
+      "prev_team_id": 26,
+      "round": 7
+    },
+    {
+      "current_team_id": 12,
+      "pick": 221,
+      "prev_team_id": 12,
+      "round": 7
+    },
+    {
+      "current_team_id": 16,
+      "pick": 222,
+      "prev_team_id": 16,
+      "round": 7
+    },
+    {
+      "current_team_id": 30,
+      "pick": 223,
+      "prev_team_id": 30,
+      "round": 7
+    },
+    {
+      "current_team_id": 4,
+      "pick": 224,
+      "prev_team_id": 4,
+      "round": 7
+    }
+  ]
+}

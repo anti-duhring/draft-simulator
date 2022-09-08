@@ -6,6 +6,9 @@ import dataPlayers from '../../data/players.json'
 import { changePicksOwners, changePlayersOwners, chosePlayerToDraft, getFuturePicks, getPicks, hasToEndDraft, hasToGoToSecondRound, moveOnDraft, scrollToPick, syncSimulatorPicksWithNFLPicks } from "../../services/Draft";
 import { compareOfferValue } from "../../services/Trade";
 import {useNavigate} from 'react-router-dom'
+import dataPicks from '../../data/picks.json'
+import dataNeeds from '../../data/needs.json'
+import dataDraft from '../../data/draft_picks.json'
 
 export const DraftContext = createContext();
 
@@ -256,6 +259,7 @@ export const DraftContextProvider = ({children}) => {
         .then(data => setDraftNeeds(data))
         .catch(error => {
             console.log('Error:',error)
+            setDraftNeeds(dataNeeds)
             //document.location.reload(true)
         })
     }
@@ -280,6 +284,18 @@ export const DraftContextProvider = ({children}) => {
         })
         .catch(err => {
             console.log('Error', err);
+
+            // Each team has to have an id property 
+            let newTeamsArray = dataDraft.teams.map(team => {
+                return {...team,id: team.franchise_id}
+            })
+            dataDraft.teams = newTeamsArray;
+
+            setData(dataDraft);
+
+            dataDraft.teams.sort((a, b) => dataDraft.draft_order.indexOf(a.id) - dataDraft.draft_order.indexOf(b.id));
+
+            getNFLPicks(dataDraft.teams);
         })
     }
 
@@ -290,6 +306,11 @@ export const DraftContextProvider = ({children}) => {
         .then(data => {
 
             setNFLPicks(data);
+            setDraftOrder(teams);
+        })
+        .catch(e => {
+            console.log('Error:',e);
+            setNFLPicks(dataPicks);
             setDraftOrder(teams);
         })
     }
